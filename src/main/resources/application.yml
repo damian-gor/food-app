@@ -1,0 +1,8 @@
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        type: trace
+
+spoonacular:
+  apiKey: 81f81ed2617548ee9b23fbf3eb50a445

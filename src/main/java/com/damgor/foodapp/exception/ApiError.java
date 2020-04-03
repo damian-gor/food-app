@@ -1,8 +1,12 @@
 package com.damgor.foodapp.exception;
 
+//import com.damgor.foodapp.config.LowerCaseClassNameResolver;
+import com.damgor.foodapp.config.LowerCaseClassNameResolver;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 //import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
+import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 import lombok.Data;
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.HttpStatus;
@@ -16,8 +20,10 @@ import java.util.List;
 import java.util.Set;
 
 @Data
+//Poniższe sprawia, że response jest zamkniete w formie wrappera - obiektu ApiError
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.CUSTOM, property = "error", visible = true)
-//@JsonTypeIdResolver(LowerCaseClassNameResolver.class)
+@JsonTypeIdResolver(LowerCaseClassNameResolver.class)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public
 class ApiError {
 
@@ -33,7 +39,7 @@ class ApiError {
     }
 
     public ApiError(HttpStatus status) {
-        this();
+        this(); //this(); przywołuje konstruktor, ktory nie posiada parametrów => ten z timestamp
         this.status = status;
     }
 

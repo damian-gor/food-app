@@ -2,15 +2,11 @@ package com.damgor.foodapp.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.RepresentationModel;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -23,8 +19,11 @@ import java.util.List;
 public class Profile extends RepresentationModel<Profile> {
 
     @Id
+    @Column(updatable=false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+    @NotBlank
+    @Column(unique=true)
     private String name;
     private Cuisine cuisine;
     private Diet diet;

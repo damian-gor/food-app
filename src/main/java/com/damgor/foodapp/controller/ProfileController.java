@@ -43,6 +43,13 @@ public class ProfileController {
         return ResponseEntity.ok().body(profileService.updateProfile(profile));
     }
 
+    @PatchMapping("/{profileId}")
+    public ResponseEntity<Profile> partialUpdateProfile(@PathVariable("profileId") long profileId, @RequestBody Profile profile) {
+        profile.setId(profileId);
+        return ResponseEntity.ok().body(profileService.partialUpdateProfile(profile));
+    }
+
+
     @DeleteMapping("/{profileId}")
     public ResponseEntity<Message> removeProfile(@PathVariable("profileId") long profileId) {
         return ResponseEntity.ok().body(profileService.removeProfile(profileId));

@@ -9,9 +9,10 @@ import java.util.List;
 public interface ProfileService {
 
     List<Profile> getAllProfiles();
-    Profile getProfile(long profileId);
+    Profile getProfile(Long profileId);
     Profile updateProfile(Profile profile);
+    Profile partialUpdateProfile(Profile profile);
     Profile addProfile(Profile profile);
-    Message removeProfile(long profileId);
+    Message removeProfile(Long profileId);
 
 }

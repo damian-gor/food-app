@@ -24,7 +24,7 @@ public class Initializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Profile profile1 = new Profile();
-        profile1.setId(1);
+        profile1.setId(1L);
         profile1.setName("Damian");
         profile1.setCuisine(Cuisine.Greek);
         profile1.setDiet(Diet.Vegetarian);
@@ -36,7 +36,7 @@ public class Initializer implements CommandLineRunner {
         list.add(4567);
 
         Profile profile2 = new Profile();
-        profile2.setId(2);
+        profile2.setId(2L);
         profile2.setName("Konrad");
         profile2.setCuisine(Cuisine.European);
         profile2.setDiet(Diet.Paleo);

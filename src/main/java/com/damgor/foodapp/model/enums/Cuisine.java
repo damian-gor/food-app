@@ -1,4 +1,4 @@
-package com.damgor.foodapp.model;
+package com.damgor.foodapp.model.enums;
 
 // https://spoonacular.com/food-api/docs#Cuisines
 public enum Cuisine {

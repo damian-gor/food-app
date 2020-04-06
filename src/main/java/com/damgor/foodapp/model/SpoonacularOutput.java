@@ -1,18 +1,14 @@
 package com.damgor.foodapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SpoonacularOutput {
     private List<Recipe> recipes;
+    private List<ShortRecipe> results;
+    private List<ShortProduct> products;
 }

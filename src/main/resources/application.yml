@@ -6,3 +6,21 @@
 
 spoonacular:
   apiKey: 81f81ed2617548ee9b23fbf3eb50a445
+
+edamam:
+  app_id: b20fad02
+  app_key: 22dac3a0e0885328a6a320875a6eef93
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/food?createDatabaseIfNotExist=true&useUnicode=true&amp&useJDBCCompliantTimezoneShift=true&amp&useLegacyDatetimeCode=false&amp&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    initialization-mode: always
+    continue-on-error: true
+  jpa:
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl

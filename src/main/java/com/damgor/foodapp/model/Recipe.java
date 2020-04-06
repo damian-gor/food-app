@@ -1,5 +1,4 @@
 package com.damgor.foodapp.model;
-//
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -18,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Recipe {
+public class Recipe implements Diarable {
 
     @Id
     private int id;

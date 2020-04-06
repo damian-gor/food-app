@@ -1,11 +1,9 @@
 package com.damgor.foodapp.exception;
 
-//import com.damgor.foodapp.config.LowerCaseClassNameResolver;
 import com.damgor.foodapp.config.LowerCaseClassNameResolver;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-//import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 import lombok.Data;
 import org.hibernate.validator.internal.engine.path.PathImpl;
@@ -20,7 +18,6 @@ import java.util.List;
 import java.util.Set;
 
 @Data
-//Poniższe sprawia, że response jest zamkniete w formie wrappera - obiektu ApiError
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.CUSTOM, property = "error", visible = true)
 @JsonTypeIdResolver(LowerCaseClassNameResolver.class)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -39,7 +36,7 @@ class ApiError {
     }
 
     public ApiError(HttpStatus status) {
-        this(); //this(); przywołuje konstruktor, ktory nie posiada parametrów => ten z timestamp
+        this();
         this.status = status;
     }
 
@@ -94,11 +91,6 @@ class ApiError {
         globalErrors.forEach(this::addValidationError);
     }
 
-    /**
-     * Utility method for adding error of ConstraintViolation. Usually when a @Validated validation fails.
-     *
-     * @param cv the ConstraintViolation
-     */
     private void addValidationError(ConstraintViolation<?> cv) {
         this.addValidationError(
                 cv.getRootBeanClass().getSimpleName(),

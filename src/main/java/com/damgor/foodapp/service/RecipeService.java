@@ -11,5 +11,6 @@ public interface RecipeService {
     Recipe getRecipeById(int id);
     List<ShortRecipe> getRecipesByIngredients(String ingredients);
     List<ShortRecipe> getRecipesByText(String text);
-    List<ShortRecipe> getMostSuitableRecipes(long profileId);
+    List<ShortRecipe> getMostSuitableRecipes(long profileId, int number, int offset);
+    List<ShortRecipe> getCompromiseRecipes(String profileIds, int number, int offset);
 }

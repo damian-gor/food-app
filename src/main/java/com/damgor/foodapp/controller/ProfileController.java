@@ -4,23 +4,18 @@ import com.damgor.foodapp.model.Message;
 import com.damgor.foodapp.model.Profile;
 import com.damgor.foodapp.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
 @RequestMapping("/profiles")
 public class ProfileController {
 
     @Autowired
-    ProfileService profileService;
+    private ProfileService profileService;
 
     @GetMapping
     public ResponseEntity<List<Profile>> getAllProfiles() {
@@ -49,16 +44,22 @@ public class ProfileController {
         return ResponseEntity.ok().body(profileService.partialUpdateProfile(profile));
     }
 
-
     @DeleteMapping("/{profileId}")
     public ResponseEntity<Message> removeProfile(@PathVariable("profileId") long profileId) {
         return ResponseEntity.ok().body(profileService.removeProfile(profileId));
     }
 
-//    @DeleteMapping("/{profileId}")
-//    public HttpStatus removeProfile(@PathVariable("profileId") long profileId) {
-//        profileService.removeProfile(profileId);
-//        return HttpStatus.OK;
-//    }
+    @PutMapping("/{profileId}/favourites")
+    public ResponseEntity<Message> addToFavourites(@PathVariable long profileId,
+                                      @RequestParam(defaultValue = "0") String recipesIds,
+                                      @RequestParam(defaultValue = "0") String productsIds) {
+        return ResponseEntity.ok().body(profileService.addToFavourites(profileId, recipesIds, productsIds));
+    }
 
+    @DeleteMapping("/{profileId}/favourites")
+    public ResponseEntity<Message> removeFromFavourites(@PathVariable long profileId,
+                                                   @RequestParam(defaultValue = "0") String recipesIds,
+                                                   @RequestParam(defaultValue = "0") String productsIds) {
+        return ResponseEntity.ok().body(profileService.removeFromFavourites(profileId, recipesIds, productsIds));
+    }
 }

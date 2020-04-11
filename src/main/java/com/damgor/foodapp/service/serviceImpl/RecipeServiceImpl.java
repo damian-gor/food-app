@@ -1,12 +1,17 @@
 package com.damgor.foodapp.service.serviceImpl;
 
+import com.damgor.foodapp.controller.ProfileController;
+import com.damgor.foodapp.controller.RecipeController;
 import com.damgor.foodapp.exception.EntityNotFoundException;
 import com.damgor.foodapp.model.*;
 import com.damgor.foodapp.service.ProfileService;
 import com.damgor.foodapp.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,7 +20,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @Service
+@CacheConfig(cacheNames={"cacheRecipes"})
 public class RecipeServiceImpl implements RecipeService {
 
 //    wyrzucic exception dla wszystkich: {
@@ -24,6 +33,7 @@ public class RecipeServiceImpl implements RecipeService {
 //    "message": "Your daily points limit of 150 has been reached. Please upgrade your plan to continue using the API."
 //} status: 402 Payment Required
 
+    private List<Recipe> cacheRecipes = new ArrayList<>();
 
     @Autowired
     private RestTemplate restTemplate;
@@ -34,7 +44,6 @@ public class RecipeServiceImpl implements RecipeService {
     @Value("${spoonacular.apiKey}")
     private String apiKey;
 
-
     @Override
     public Recipe getRandomRecipe() {
         SpoonacularOutput output = restTemplate.getForObject(
@@ -42,6 +51,11 @@ public class RecipeServiceImpl implements RecipeService {
                         + "apiKey=" + apiKey,
                 SpoonacularOutput.class);
         Recipe recipe = output.getRecipes().get(0);
+
+        recipe.add(
+                linkTo(methodOn(RecipeController.class).getRecipeById(recipe.getId())).withSelfRel(),
+                linkTo(methodOn(ProfileController.class).addToFavourites(999999999, recipe.getId().toString(), null))
+                        .withRel("Add(/remove) recipe to favourites (insert profileId)"));
         return recipe;
     }
 
@@ -53,13 +67,17 @@ public class RecipeServiceImpl implements RecipeService {
                         + "&ingredients=" + ingredients
                         + "&apiKey=" + apiKey,
                 ShortRecipe[].class);
-        System.out.println(output.toString());
         List<ShortRecipe> recipes = Arrays.asList(output);
+        recipes.forEach(r -> r.add(
+                linkTo(methodOn(RecipeController.class).getRecipeById(r.getId())).withRel("Get recipe details")
+        ));
+
         return recipes;
     }
 
     //    Potem ogarnać error handling dla 404
     @Override
+    @Cacheable
     public Recipe getRecipeById(int id) {
         try {
             Recipe recipe = restTemplate.getForObject(
@@ -68,6 +86,10 @@ public class RecipeServiceImpl implements RecipeService {
                             + "/information?"
                             + "apiKey=" + apiKey,
                     Recipe.class);
+            recipe.add(
+                    linkTo(methodOn(RecipeController.class).getRecipeById(recipe.getId())).withSelfRel(),
+                    linkTo(methodOn(ProfileController.class).addToFavourites(999999999, recipe.getId().toString(), null))
+                            .withRel("Add(/remove) recipe to favourites (insert profileId)"));
             return recipe;
         } catch (HttpClientErrorException.NotFound e) {
             throw new EntityNotFoundException(Recipe.class, "id", String.valueOf(id));
@@ -84,8 +106,12 @@ public class RecipeServiceImpl implements RecipeService {
                         + "&apiKey=" + apiKey,
                 SpoonacularOutput.class);
         recipes.addAll(output.getResults());
-        if (!recipes.isEmpty()) return recipes;
-        else throw new EntityNotFoundException(ShortRecipe.class, "query", text);
+        if (!recipes.isEmpty()) {
+            recipes.forEach(r -> r.add(
+                    linkTo(methodOn(RecipeController.class).getRecipeById(r.getId())).withRel("Get recipe details")
+            ));
+            return recipes;
+        } else throw new EntityNotFoundException(ShortRecipe.class, "query", text);
     }
 
     @Override
@@ -108,6 +134,9 @@ public class RecipeServiceImpl implements RecipeService {
                         + "&apiKey=" + apiKey,
                 SpoonacularOutput.class);
         recipes.addAll(output.getResults());
+        recipes.forEach(r -> r.add(
+                linkTo(methodOn(RecipeController.class).getRecipeById(r.getId())).withRel("Get recipe details")
+        ));
 
         return recipes;
     }
@@ -159,6 +188,9 @@ public class RecipeServiceImpl implements RecipeService {
                         + "&apiKey=" + apiKey,
                 SpoonacularOutput.class);
         recipes.addAll(output.getResults());
+        recipes.forEach(r -> r.add(
+                linkTo(methodOn(RecipeController.class).getRecipeById(r.getId())).withRel("Get recipe details")
+        ));
 
         return recipes;
     }

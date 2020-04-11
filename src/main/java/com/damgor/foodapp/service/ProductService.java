@@ -12,6 +12,5 @@ public interface ProductService {
     List<ShortProduct> getSpecificProducts(String productName, int number, int offset);
     Product getGeneralProducts(String productName);
     Product getProductById(String productId);
-    Message addToFavourites (String productId);
 
 }

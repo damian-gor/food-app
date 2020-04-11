@@ -23,7 +23,7 @@ public class ProfileDetails extends RepresentationModel<ProfileDetails> {
 //    ogarnac potem on cascade delete / ew na poziomie profileServiceImpl od razu uswac details
     @Id
     @Column(updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Min(100)
     @Max(250)

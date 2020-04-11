@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.Id;
 import java.util.ArrayList;
@@ -18,18 +19,18 @@ import java.util.List;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public class ShortRecipe {
+public class ShortRecipe extends RepresentationModel<ShortRecipe> {
     @Id
-    private int id;
+    private Integer id;
     @JsonAlias({"title"})
     private String recipeTitle;
-    private int likes;
-    private int usedIngredientCount;
+    private Integer likes;
+    private Integer usedIngredientCount;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<UsedIngredients> usedIngredients;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<String> usedIngredientsList;
-    private int readyInMinutes;
+    private Integer readyInMinutes;
 
 
     public List<UsedIngredients> getUsedIngredients() {

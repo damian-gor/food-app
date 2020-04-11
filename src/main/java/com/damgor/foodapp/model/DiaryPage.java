@@ -1,0 +1,59 @@
+package com.damgor.foodapp.model;
+
+import jdk.jfr.Timestamp;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.hateoas.RepresentationModel;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+@Data
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+public class DiaryPage extends RepresentationModel<DiaryPage> {
+
+    @EmbeddedId
+    private DiaryPageId id;
+    private Integer caloricIntakeGoal;
+    private Integer actualCaloricIntake;
+    private Integer caloricBalance;
+    private Double actualProteinIntake;
+    private Double actualCarbsIntake;
+    private Double actualFatIntake;
+//    @OneToMany
+//    private List<Meal> meals;
+
+
+    public DiaryPage(Long profileId, Date date, Integer caloricIntakeGoal, Integer actualCaloricIntake, Integer caloricBalance,
+                     Double actualProteinIntake, Double actualCarbsIntake, Double actualFatIntake) {
+        if (date==null) date = new java.sql.Date(System.currentTimeMillis());
+        this.id = new DiaryPageId(profileId,date);
+        this.caloricIntakeGoal = caloricIntakeGoal;
+        this.actualCaloricIntake = actualCaloricIntake;
+        this.caloricBalance = caloricBalance;
+        this.actualProteinIntake = actualProteinIntake;
+        this.actualCarbsIntake = actualCarbsIntake;
+        this.actualFatIntake = actualFatIntake;
+    }
+
+    public DiaryPage(Long profileId, Integer caloricIntakeGoal, Integer actualCaloricIntake, Integer caloricBalance,
+                     Double actualProteinIntake, Double actualCarbsIntake, Double actualFatIntake) {
+        this.id = new DiaryPageId(profileId,new java.sql.Date(System.currentTimeMillis()));
+        this.caloricIntakeGoal = caloricIntakeGoal;
+        this.actualCaloricIntake = actualCaloricIntake;
+        this.caloricBalance = caloricBalance;
+        this.actualProteinIntake = actualProteinIntake;
+        this.actualCarbsIntake = actualCarbsIntake;
+        this.actualFatIntake = actualFatIntake;
+    }
+}
+
+

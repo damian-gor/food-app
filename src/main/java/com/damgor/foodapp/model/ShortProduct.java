@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Data
-//@Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ShortProduct extends RepresentationModel<ShortProduct> {
     @Id

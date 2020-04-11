@@ -1,5 +1,6 @@
 package com.damgor.foodapp.service.serviceImpl;
 
+import com.damgor.foodapp.controller.FoodDiaryController;
 import com.damgor.foodapp.controller.ProfileController;
 import com.damgor.foodapp.controller.ProfileDetailsController;
 import com.damgor.foodapp.exception.EntityNotFoundException;
@@ -129,7 +130,8 @@ public class ProfileServiceImpl implements ProfileService {
         profile.add(
                 linkTo(ProfileController.class).withSelfRel().withRel("Get all profiles"),
                 linkTo(methodOn(ProfileController.class).getProfile(profile.getId())).withSelfRel(),
-                linkTo(methodOn(ProfileDetailsController.class).getProfileDetails(profile.getId())).withRel("Go to profile's delites")
+                linkTo(methodOn(ProfileDetailsController.class).getProfileDetails(profile.getId())).withRel("Go to profile's delites"),
+                linkTo(methodOn(FoodDiaryController.class).getFoodDiary(profile.getId())).withRel("Go to profile's food diary")
                 );
 
         return profile;

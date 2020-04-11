@@ -6,6 +6,8 @@ import com.damgor.foodapp.model.*;
 import com.damgor.foodapp.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,7 +19,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
+@CacheConfig(cacheNames = {"cacheProducts"})
 public class ProductServiceImpl implements ProductService {
+
+    private List<Product> cacheProducts = new ArrayList<>();
 
     @Autowired
     private RestTemplate restTemplate;
@@ -34,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ShortProduct> getSpecificProducts(String productName, int number, int offset) {
-        List <ShortProduct> products = new ArrayList<>();
+        List<ShortProduct> products = new ArrayList<>();
         SpoonacularOutput output = restTemplate.getForObject(
                 "https://api.spoonacular.com/food/products/search?query="
                         + productName
@@ -49,15 +54,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable
     public Product getGeneralProducts(String productName) {
         EdamamOutput output = restTemplate.getForObject(
                 "https://api.edamam.com/api/food-database/parser?ingr="
-                + productName
-                + "&app_id=" + edamamAppId
-                + "&app_key=" + edamamAppKey,
+                        + productName
+                        + "&app_id=" + edamamAppId
+                        + "&app_key=" + edamamAppKey,
                 EdamamOutput.class);
 
-        return new Product(
+        Product product = new Product(
                 output.getParsed().get(0).getFood().getFoodId(),
                 output.getParsed().get(0).getFood().getLabel(),
                 output.getParsed().get(0).getFood().getNutrients().getKcal(),
@@ -65,20 +71,26 @@ public class ProductServiceImpl implements ProductService {
                 output.getParsed().get(0).getFood().getNutrients().getCarbs(),
                 output.getParsed().get(0).getFood().getNutrients().getFat()
         );
+        product.add(
+                linkTo(methodOn(ProductController.class).getProductById(product.getId())).withSelfRel(),
+                linkTo(methodOn(ProfileController.class).addToFavourites(999999999, null, product.getId()))
+                        .withRel("Add(/remove) product to favourites (insert profileId)"));
+
+        return product;
     }
 
     @Override
+    @Cacheable
     public Product getProductById(String productId) {
-        if(productId.length()>10){
-            return null;
-        }
-        else {
+        if (productId.length() > 10) {
+            return getGeneralProducts(productId);
+        } else {
             SpecificProduct output = restTemplate.getForObject(
                     "https://api.spoonacular.com/food/products/"
                             + productId
                             + "?apiKey=" + spoonacularApiKey,
                     SpecificProduct.class);
-            return new Product(
+            Product product = new Product(
                     output.getId().toString(),
                     output.getProductName(),
                     output.getNutrition().getKcal(),
@@ -86,11 +98,12 @@ public class ProductServiceImpl implements ProductService {
                     output.getNutrition().getCarbs(),
                     output.getNutrition().getFat()
             );
+            product.add(linkTo(methodOn(ProductController.class).getProductById(productId)).withSelfRel(),
+                    linkTo(methodOn(ProfileController.class).addToFavourites(999999999, null, product.getId()))
+                            .withRel("Add(/remove) product to favourites (insert profileId)"));
+
+            return product;
         }
     }
 
-    @Override
-    public Message addToFavourites(String productId) {
-        return null;
-    }
 }

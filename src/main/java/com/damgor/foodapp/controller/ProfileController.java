@@ -49,7 +49,7 @@ public class ProfileController {
         return ResponseEntity.ok().body(profileService.removeProfile(profileId));
     }
 
-    @PutMapping("/{profileId}/favourites")
+    @PostMapping("/{profileId}/favourites")
     public ResponseEntity<Message> addToFavourites(@PathVariable long profileId,
                                       @RequestParam(defaultValue = "0") String recipesIds,
                                       @RequestParam(defaultValue = "0") String productsIds) {

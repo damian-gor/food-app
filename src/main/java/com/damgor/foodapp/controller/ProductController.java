@@ -25,15 +25,15 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.getSpecificProducts(productName, number, offset));
     }
 
-    @GetMapping("/specific-product/{productId}")
-    public ResponseEntity<Product> getProductById (@PathVariable String productId) {
-        return ResponseEntity.ok().body(productService.getProductById(productId));
-    }
-
-
     @GetMapping("/search-general/{productName}")
     public ResponseEntity<Product> getGeneralProducts (@PathVariable String productName) {
         return ResponseEntity.ok().body(productService.getGeneralProducts(productName));
     }
+
+    @GetMapping("/{productId}")
+    public ResponseEntity<Product> getProductById (@PathVariable String productId) {
+        return ResponseEntity.ok().body(productService.getProductById(productId));
+    }
+
 
 }

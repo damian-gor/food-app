@@ -8,6 +8,8 @@ import java.util.List;
 
 @Data
 public class EdamamOutput {
+
+    @JsonAlias({"parsed","hints"})
     private List<Parsed> parsed;
 
     @Data

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.Id;
 import java.net.URL;
@@ -17,10 +18,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Recipe implements Diarable {
+public class Recipe extends RepresentationModel<Recipe> implements Diarable {
 
     @Id
-    private int id;
+    private Integer id;
     @JsonAlias({"title"})
     private String recipeTitle;
     @JsonAlias({"aggregateLikes"})

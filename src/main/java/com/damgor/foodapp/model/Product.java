@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,7 +13,7 @@ import javax.persistence.Id;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product implements Diarable{
+public class Product extends RepresentationModel<Product> implements Diarable{
 
     @Id
     private String id;

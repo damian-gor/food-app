@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Recipe extends RepresentationModel<Recipe> implements Diarable {
+public class Recipe extends RepresentationModel<Recipe> {
 
     @Id
     private Integer id;

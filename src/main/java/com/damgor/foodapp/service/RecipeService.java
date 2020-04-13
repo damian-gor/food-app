@@ -6,7 +6,6 @@ import com.damgor.foodapp.model.ShortRecipe;
 import java.util.List;
 
 public interface RecipeService {
-
     Recipe getRandomRecipe();
     Recipe getRecipeById(int id);
     List<ShortRecipe> getRecipesByIngredients(String ingredients);

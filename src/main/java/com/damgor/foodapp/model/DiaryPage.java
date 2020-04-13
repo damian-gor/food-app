@@ -1,18 +1,12 @@
 package com.damgor.foodapp.model;
 
-import jdk.jfr.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.sql.Date;
 
 @Data
 @Entity
@@ -28,9 +22,6 @@ public class DiaryPage extends RepresentationModel<DiaryPage> {
     private Double actualProteinIntake;
     private Double actualCarbsIntake;
     private Double actualFatIntake;
-//    @OneToMany
-//    private List<Meal> meals;
-
 
     public DiaryPage(Long profileId, Date date, Integer caloricIntakeGoal, Integer actualCaloricIntake, Integer caloricBalance,
                      Double actualProteinIntake, Double actualCarbsIntake, Double actualFatIntake) {

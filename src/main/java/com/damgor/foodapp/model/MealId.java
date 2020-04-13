@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 @Embeddable
 @Data
@@ -14,11 +14,13 @@ import java.util.Date;
 @NoArgsConstructor
 public class MealId implements Serializable {
 
-
     private Long profileId;
-    @Temporal(TemporalType.DATE)
     private Date date;
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer mealNumber;
 
+    public MealId(Long profileId, Date date) {
+        this.profileId = profileId;
+        this.date = date;
+    }
 }

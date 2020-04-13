@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,12 +25,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Service
 @CacheConfig(cacheNames={"cacheRecipes"})
 public class RecipeServiceImpl implements RecipeService {
-
-//    wyrzucic exception dla wszystkich: {
-//    "status": "failure",
-//    "code": 402,
-//    "message": "Your daily points limit of 150 has been reached. Please upgrade your plan to continue using the API."
-//} status: 402 Payment Required
 
     private List<Recipe> cacheRecipes = new ArrayList<>();
 
@@ -75,7 +68,6 @@ public class RecipeServiceImpl implements RecipeService {
         return recipes;
     }
 
-    //    Potem ogarnać error handling dla 404
     @Override
     @Cacheable
     public Recipe getRecipeById(int id) {

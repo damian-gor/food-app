@@ -4,7 +4,6 @@ import com.damgor.foodapp.model.Message;
 import com.damgor.foodapp.model.ProfileDetails;
 
 public interface ProfileDetailsService {
-
     ProfileDetails getProfileDetails (Long profileId);
     ProfileDetails updateProfileDetails(ProfileDetails details);
     ProfileDetails partialUpdateProfileDetails(ProfileDetails details);

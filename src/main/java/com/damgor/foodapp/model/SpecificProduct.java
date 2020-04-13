@@ -1,13 +1,11 @@
 package com.damgor.foodapp.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.Id;
 
 @Data
-//@JsonIgnoreProperties(ignoreUnknown = true)
 public class SpecificProduct {
     @Id
     private Long id;
@@ -37,11 +35,5 @@ public class SpecificProduct {
             fat = fat.substring(0, fat.indexOf('g'));
             this.fat = Double.valueOf(fat);
         }
-
-        //        private Nutrients nutrients;
-//        @Data
-//        public static class Nutrients {
-//        }
     }
-
 }

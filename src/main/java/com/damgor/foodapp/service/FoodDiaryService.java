@@ -8,6 +8,4 @@ public interface FoodDiaryService {
     FoodDiary addFoodDiary (Long profileId);
     FoodDiary updateCaloricIntakeGoal (Long profileId, int newCaloricIntakeGoal);
     Message removeFoodDiary (Long profileId);
-
-
 }

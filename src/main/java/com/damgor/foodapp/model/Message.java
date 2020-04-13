@@ -7,5 +7,4 @@ import org.springframework.hateoas.Link;
 public class Message {
     private String message;
     private Link link;
-
 }

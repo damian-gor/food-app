@@ -2,17 +2,19 @@ package com.damgor.foodapp.database;
 
 import com.damgor.foodapp.model.*;
 import com.damgor.foodapp.model.enums.*;
-import com.damgor.foodapp.repository.*;
+import com.damgor.foodapp.repository.DiaryPageRepository;
+import com.damgor.foodapp.repository.FoodDiaryRepository;
+import com.damgor.foodapp.repository.ProfileDetailsRepository;
+import com.damgor.foodapp.repository.ProfileRepository;
+import com.damgor.foodapp.service.MealService;
+import com.damgor.foodapp.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.MonthDay;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class Initializer implements CommandLineRunner {
@@ -28,7 +30,11 @@ public class Initializer implements CommandLineRunner {
     @Autowired
     private DiaryPageRepository diaryPageRepository;
     @Autowired
-    private MealRepository mealRepository;
+    private MealService mealService;
+
+    @Autowired
+    private static ProductService productService;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -76,10 +82,6 @@ public class Initializer implements CommandLineRunner {
         profileDetailsRepository.save(details);
         profileDetailsRepository.save(details3);
 
-        long millis=System.currentTimeMillis();
-        java.sql.Date date=new java.sql.Date(millis);
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
         Map <Integer,Integer> map = new HashMap<>();
         map.put(3,4);
@@ -101,7 +103,7 @@ public class Initializer implements CommandLineRunner {
                 100.0);
         DiaryPage dp2 = new DiaryPage(
                 profile1.getId(),
-                formatter.parse("2020-04-06"),
+                new java.sql.Date(120, 3, 11),
                 profile1Details.getRecommendedCaloricIntake()+1000,
                 1500,
                 1400,
@@ -109,21 +111,51 @@ public class Initializer implements CommandLineRunner {
                 1300.0,
                 1100.0);
 
-        Meal m1 = new Meal(dp1,1, map, 10.0, 15.0, 20.0, 30.0);
-        Meal m2 = new Meal(dp1,2, map, 210.0, 215.0, 220.0, 230.0);
-        Meal m3 = new Meal(dp1,3, map, 310.0, 315.0, 320.0, 330.0);
-        Meal m4 = new Meal(dp2,1, map, 410.0, 415.0, 420.0, 430.0);
-        Meal m5 = new Meal(dp2,2, map, 510.0, 515.0, 520.0, 530.0);
+
+        Map<String, Integer> products1 = new HashMap<>();
+        products1.put("food_ay85fsfagbevt9brp5jnra6w3vp7", 50);
+        products1.put("101207", 80);
+        products1.put("126586", 120);
+        products1.put("food_bpumdjzb5rtqaeabb0kbgbcgr4t9", 165);
+
+        Map<String, Integer> products2 = new HashMap<>();
+        products2.put("food_beu36e7ao1sz5obzslxr5bu8tg9u", 350);
+        products2.put("101307", 70);
+        products2.put("126586", 14);
+        products2.put("food_bhppgmha1u27voagb8eptbp9g376", 165);
+        products2.put("food_aoceuc6bshdej1bbsdammbnj6l6o", 120);
+
+        Map<String, Integer> products3 = new HashMap<>();
+        products3.put("food_ai215e5b85pdh5ajd4aafa3w2zm8", 250);
+        products3.put("101347", 170);
+        products3.put("126536", 124);
+        products3.put("food_a6k79rrahp8fe2b26zussa3wtkqh", 465);
+
+        Map<String, Integer> products4 = new HashMap<>();
+        products4.put("food_ai215e5b85pdh5ajd4aafa3w2zm8", 250);
+        products4.put("food_a6k79rrahp8fe2b26zussa3wtkqh", 465);
+//        products4.put("food_bhppgmha1u27voagb8eptbp9g376", 165);
+//        products4.put("food_aoceuc6bshdej1bbsdammbnj6l6o", 120);
+//        products4.put("food_bpumdjzb5rtqaeabb0kbgbcgr4t9", 165);
+
+//        products4.put("101349", 170);
+
+
+        Meal m1 = new Meal(dp1,1, products1);
+        Meal m2 = new Meal(dp1,2, products2);
+        Meal m3 = new Meal(dp1,3, products3);
+        Meal m4 = new Meal(dp2,1, products4);
+
 
         foodDiaryRepository.save(fd);
         foodDiaryRepository.save(fd3);
         diaryPageRepository.save(dp1);
         diaryPageRepository.save(dp2);
-        mealRepository.save(m1);
-        mealRepository.save(m2);
-        mealRepository.save(m3);
-        mealRepository.save(m4);
-        mealRepository.save(m5);
+        mealService.addMeal(m1);
+        mealService.addMeal(m2);
+        mealService.addMeal(m3);
+        mealService.addMeal(m4);
+
     }
 
 }

@@ -6,19 +6,14 @@ import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 
 
 
-//potem przetestowac @Data zamiast tak wielu
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Entity
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Profile extends RepresentationModel<Profile> {

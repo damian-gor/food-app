@@ -5,10 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 @Embeddable
 @Data
@@ -16,6 +14,5 @@ import java.util.Date;
 @NoArgsConstructor
 public class DiaryPageId implements Serializable {
     private Long profileId;
-    @Temporal(TemporalType.DATE)
     private Date date;
 }

@@ -4,18 +4,15 @@ import com.damgor.foodapp.controller.ProfileController;
 import com.damgor.foodapp.controller.ProfileDetailsController;
 import com.damgor.foodapp.exception.EntityNotFoundException;
 import com.damgor.foodapp.model.Message;
-import com.damgor.foodapp.model.Profile;
 import com.damgor.foodapp.model.ProfileDetails;
 import com.damgor.foodapp.repository.ProfileDetailsRepository;
 import com.damgor.foodapp.repository.ProfileRepository;
 import com.damgor.foodapp.service.ProfileDetailsService;
 import com.damgor.foodapp.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;

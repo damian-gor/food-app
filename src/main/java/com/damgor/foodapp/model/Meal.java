@@ -1,53 +1,68 @@
 package com.damgor.foodapp.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import java.sql.Date;
+import java.util.List;
 import java.util.Map;
 
 @Data
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 public class Meal extends RepresentationModel<Meal> {
-
 
     @EmbeddedId
     private MealId id;
     @ElementCollection
-    private Map<Integer, Integer> elements;
-    //    private Map<Diarable,Integer> elements;
-    private Double kcal;
-    private Double protein;
-    private Double carbs;
-    private Double fat;
+//    @JsonIgnore
+    private Map<String, Integer> elements;
+    private Double mealKcal;
+    private Double mealProtein;
+    private Double mealCarbs;
+    private Double mealFat;
+    @Embedded
+    @ElementCollection
+    private List<MealProduct> products;
 
 
-    //    wszystkie parametry
-    public Meal(Long profileId, Date date, Integer mealNumber, Map<Integer, Integer> elements, Double kcal, Double protein, Double carbs, Double fat) {
-        this.id = new MealId(profileId, date, mealNumber);
-        this.elements = elements;
-        this.kcal = kcal;
-        this.protein = protein;
-        this.carbs = carbs;
-        this.fat = fat;
+    public Meal(Long profileId, Date date) {
+        this.id = new MealId(profileId, date);
     }
 
-    //    po id Diary page
-    public Meal(DiaryPage dp, Integer mealNumber, Map<Integer, Integer> elements, Double kcal, Double protein, Double carbs, Double fat) {
+
+    public Meal(DiaryPage dp, Integer mealNumber, Map<String, Integer> elements) {
         this.id = new MealId(dp.getId().getProfileId(), dp.getId().getDate(), mealNumber);
-        ;
         this.elements = elements;
-        this.kcal = kcal;
-        this.protein = protein;
-        this.carbs = carbs;
-        this.fat = fat;
     }
 
+    public void setProducts(List<MealProduct> products) {
+        this.products = products;
+        this.mealKcal = 0.0;
+        this.mealProtein = 0.0;
+        this.mealCarbs = 0.0;
+        this.mealFat = 0.0;
+
+        for (MealProduct product : products) {
+            mealKcal += product.getProductKcal();
+            mealProtein += round(product.getProductProtein());
+            mealCarbs += product.getProductProtein();
+            mealFat += product.getProductFat();
+        }
+
+        this.mealKcal = round(mealKcal);
+        this.mealProtein = round(mealProtein);
+        this.mealCarbs = round(mealCarbs);
+        this.mealFat = round(mealFat);
+    }
+
+    private Double round(Double d) {
+        return Math.round(d * 100.0) / 100.0;
+    }
 }
 

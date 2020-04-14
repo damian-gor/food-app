@@ -1,10 +1,14 @@
 package com.damgor.foodapp.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.hateoas.Link;
+import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
 @Data
-public class Message {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Message extends RepresentationModel<Message> {
     private String message;
-    private Link link;
+
 }

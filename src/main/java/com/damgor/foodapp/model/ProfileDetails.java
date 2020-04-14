@@ -19,10 +19,9 @@ import java.time.Year;
 @Entity
 public class ProfileDetails extends RepresentationModel<ProfileDetails> {
 
-
     @Id
     @Column(updatable = false)
-    private Long id;
+    private Long profileId;
     @Min(100)
     @Max(250)
     private Double height; // cm
@@ -49,10 +48,10 @@ public class ProfileDetails extends RepresentationModel<ProfileDetails> {
     @Setter(AccessLevel.NONE)
     private Integer bmr; // "rate of energy expenditure per day by endothermic animals at rest". Used Mifflin-St Jeor Equation
     @Setter(AccessLevel.NONE)
-    private Integer recommendedCaloricIntake;
+    private Double recommendedCaloricIntake;
 
-    public ProfileDetails(Long id, Double height, Double weight, Integer yearOfBirth, Sex sex, Aim aim, ActivityLevel activityLevel) {
-        this.id = id;
+    public ProfileDetails(Long profileId, Double height, Double weight, Integer yearOfBirth, Sex sex, Aim aim, ActivityLevel activityLevel) {
+        this.profileId = profileId;
         this.height = height;
         this.weight = weight;
         this.yearOfBirth = yearOfBirth;
@@ -65,7 +64,7 @@ public class ProfileDetails extends RepresentationModel<ProfileDetails> {
     }
 
     public ProfileDetails(ProfileDetails details) {
-        this.id = details.getId();
+        this.profileId = details.getProfileId();
         this.height = details.getHeight();
         this.weight = details.getWeight();
         this.yearOfBirth = details.getYearOfBirth();
@@ -145,7 +144,7 @@ public class ProfileDetails extends RepresentationModel<ProfileDetails> {
             if (aim == Aim.KEEP_WEIGHT) aimFactor = 1;
             if (aim == Aim.WEIGHT_GAIN) aimFactor = 1.05;
             if (aim == Aim.FAST_WEIGHT_GAIN) aimFactor = 1.1;
-            this.recommendedCaloricIntake = (int) (bmr * activityFactor * aimFactor);
-        } else this.recommendedCaloricIntake = 0;
+            this.recommendedCaloricIntake =  Math.round((bmr * activityFactor * aimFactor) * 100.0) / 100.0;
+        } else this.recommendedCaloricIntake = 0.0;
     }
 }

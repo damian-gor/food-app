@@ -6,6 +6,5 @@ import com.damgor.foodapp.model.Message;
 public interface FoodDiaryService {
     FoodDiary getFoodDiary (Long profileId);
     FoodDiary addFoodDiary (Long profileId);
-    FoodDiary updateCaloricIntakeGoal (Long profileId, int newCaloricIntakeGoal);
     Message removeFoodDiary (Long profileId);
 }

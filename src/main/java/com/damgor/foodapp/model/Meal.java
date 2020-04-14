@@ -30,14 +30,13 @@ public class Meal extends RepresentationModel<Meal> {
     @ElementCollection
     private List<MealProduct> products;
 
-
     public Meal(Long profileId, Date date) {
         this.id = new MealId(profileId, date);
     }
 
-
-    public Meal(DiaryPage dp, Integer mealNumber, Map<String, Integer> elements) {
-        this.id = new MealId(dp.getId().getProfileId(), dp.getId().getDate(), mealNumber);
+    public Meal(Long profileId, Date date, Integer mealNumber, Map<String, Integer> elements) {
+        if (date == null) date = new java.sql.Date(System.currentTimeMillis());
+        this.id = new MealId(profileId, date, mealNumber);
         this.elements = elements;
     }
 

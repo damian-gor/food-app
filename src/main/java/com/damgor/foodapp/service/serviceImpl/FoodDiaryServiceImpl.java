@@ -1,5 +1,6 @@
 package com.damgor.foodapp.service.serviceImpl;
 
+import com.damgor.foodapp.controller.DiaryPageController;
 import com.damgor.foodapp.controller.FoodDiaryController;
 import com.damgor.foodapp.controller.ProfileController;
 import com.damgor.foodapp.exception.EntityNotFoundException;
@@ -32,6 +33,8 @@ public class FoodDiaryServiceImpl implements FoodDiaryService {
     @Override
     public FoodDiary getFoodDiary(Long profileId) {
         FoodDiary foodDiary = getFoodDiaryIfExist(profileId);
+        actualizeCaloricIntakeGoal(foodDiary);
+        foodDiaryRepository.save(foodDiary);
         addBasicLinks(foodDiary);
         return foodDiary;
     }
@@ -41,7 +44,7 @@ public class FoodDiaryServiceImpl implements FoodDiaryService {
         getFoodDiaryIfExist(profileId);
         foodDiaryRepository.deleteById(profileId);
         Message message = new Message();
-        message.setLink(linkTo(methodOn(ProfileController.class).getProfile(profileId)).withRel("Back to profile."));
+        message.add(linkTo(methodOn(ProfileController.class).getProfile(profileId)).withRel("Back to profile."));
         message.setMessage("Your Diary has been removed successfully. To get back to profile click on the following link.");
         return message;
     }
@@ -49,26 +52,13 @@ public class FoodDiaryServiceImpl implements FoodDiaryService {
     @Override
     public FoodDiary addFoodDiary(Long profileId) {
         profileService.getProfile(profileId);
-        int caloricIntakeGoal = 0;
-        if (profileDetailsService.getProfileDetails(profileId).getRecommendedCaloricIntake() != null)
-            caloricIntakeGoal = profileDetailsService.getProfileDetails(profileId).getRecommendedCaloricIntake();
-
-        FoodDiary foodDiary = foodDiaryRepository.save(new FoodDiary(
-                profileId,
-                caloricIntakeGoal));
-
+        FoodDiary foodDiary = new FoodDiary(profileId);
+        actualizeCaloricIntakeGoal(foodDiary);
+        foodDiaryRepository.save(foodDiary);
         addBasicLinks(foodDiary);
         return foodDiary;
     }
 
-    @Override
-    public FoodDiary updateCaloricIntakeGoal(Long profileId, int newCaloricIntakeGoal) {
-        FoodDiary updatedFoodDiary = getFoodDiaryIfExist(profileId);
-        updatedFoodDiary.setCaloricIntakeGoal(newCaloricIntakeGoal);
-        foodDiaryRepository.save(updatedFoodDiary);
-        addBasicLinks(updatedFoodDiary);
-        return updatedFoodDiary;
-    }
 
 /////////////// SUPPORTING METHODS /////////////
 
@@ -83,9 +73,16 @@ public class FoodDiaryServiceImpl implements FoodDiaryService {
         }
     }
 
+    private void actualizeCaloricIntakeGoal (FoodDiary foodDiary) {
+        Double caloricIntakeGoal = profileDetailsService.getProfileDetails(foodDiary.getProfileId()).getRecommendedCaloricIntake();
+        if (caloricIntakeGoal==null) caloricIntakeGoal = 0.0;
+        foodDiary.setCaloricIntakeGoal(caloricIntakeGoal);
+    }
+
     private void addBasicLinks(FoodDiary foodDiary) {
         foodDiary.add(
                 linkTo(methodOn(FoodDiaryController.class).getFoodDiary(foodDiary.getProfileId())).withSelfRel(),
+                linkTo(methodOn(DiaryPageController.class).getAllDiaryPages(foodDiary.getProfileId())).withRel("Get all profile's diary pages"),
                 linkTo(methodOn(ProfileController.class).getProfile(foodDiary.getProfileId())).withRel("Back to profile.")
         );
     }

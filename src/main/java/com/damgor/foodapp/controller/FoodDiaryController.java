@@ -25,14 +25,6 @@ public class FoodDiaryController {
         return ResponseEntity.ok(foodDiaryService.addFoodDiary(profileId));
     }
 
-    @PatchMapping
-    public ResponseEntity<FoodDiary> updateCaloricIntakeGoal(@PathVariable Long profileId,
-                                                             @RequestBody(required = false) FoodDiary foodDiary) {
-        int newCaloricIntakeGoal = 0;
-        if(foodDiary.getCaloricIntakeGoal()!=null) newCaloricIntakeGoal = foodDiary.getCaloricIntakeGoal();
-        return ResponseEntity.ok(foodDiaryService.updateCaloricIntakeGoal(profileId,newCaloricIntakeGoal));
-    }
-
     @DeleteMapping
     public ResponseEntity<Message> removeFoodDiary(@PathVariable Long profileId) {
         return ResponseEntity.ok(foodDiaryService.removeFoodDiary(profileId));

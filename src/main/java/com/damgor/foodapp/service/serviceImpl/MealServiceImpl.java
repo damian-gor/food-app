@@ -82,7 +82,7 @@ public class MealServiceImpl implements MealService {
         getMealIfExist(profileId, stringDate, mealId);
         mealRepository.deleteById(new MealId(profileId, Date.valueOf(stringDate), mealId));
         Message message = new Message();
-        message.setLink(linkTo(methodOn(MealController.class).getAllMeals(profileId, stringDate)).withRel("Get other meals in the diary page"));
+        message.add(linkTo(methodOn(MealController.class).getAllMeals(profileId, stringDate)).withRel("Get other meals in the diary page"));
         message.setMessage("Meal has been removed successfully. To see other diary page's meals click on the following link.");
         return message;
     }
@@ -103,7 +103,7 @@ public class MealServiceImpl implements MealService {
         }
     }
 
-    private void createAndSetProductsList(Meal meal){
+    private void createAndSetProductsList(Meal meal) {
         List<MealProduct> mealProducts = new ArrayList<>();
         for (String element : meal.getElements().keySet()) {
             Integer amount = meal.getElements().get(element);
@@ -131,13 +131,15 @@ public class MealServiceImpl implements MealService {
     /////////////// LINKS  /////////////
 
     private void addBasicLinks(Meal meal) {
-        meal.add(
-                linkTo(methodOn(MealController.class).getMeal(meal.getId().getProfileId(), meal.getId().getDate().toString(), meal.getId().getMealNumber())).withSelfRel(),
-                linkTo(methodOn(MealController.class).getAllMeals(meal.getId().getProfileId(), meal.getId().getDate().toString())).withRel("Get all meals in that diary page"),
-                linkTo(methodOn(DiaryPageController.class).getDiaryPage(meal.getId().getProfileId(), meal.getId().getDate().toString())).withRel("Back to the diary page"),
-                linkTo(methodOn(ProfileController.class).getProfile(meal.getId().getProfileId())).withRel("Back to the profile")
-        );
-        addProductsLinks(meal);
+        if (meal.getLinks().isEmpty()) {
+            meal.add(
+                    linkTo(methodOn(MealController.class).getMeal(meal.getId().getProfileId(), meal.getId().getDate().toString(), meal.getId().getMealNumber())).withSelfRel(),
+                    linkTo(methodOn(MealController.class).getAllMeals(meal.getId().getProfileId(), meal.getId().getDate().toString())).withRel("Get all meals in that diary page"),
+                    linkTo(methodOn(DiaryPageController.class).getDiaryPage(meal.getId().getProfileId(), meal.getId().getDate().toString())).withRel("Back to the diary page"),
+                    linkTo(methodOn(ProfileController.class).getProfile(meal.getId().getProfileId())).withRel("Back to the profile")
+            );
+            addProductsLinks(meal);
+        }
     }
 
     private void addProductsLinks(Meal meal) {

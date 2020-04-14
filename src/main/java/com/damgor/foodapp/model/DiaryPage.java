@@ -5,7 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
 
-import javax.persistence.*;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 import java.sql.Date;
 
 @Data
@@ -16,34 +17,34 @@ public class DiaryPage extends RepresentationModel<DiaryPage> {
 
     @EmbeddedId
     private DiaryPageId id;
-    private Integer caloricIntakeGoal;
-    private Integer actualCaloricIntake;
-    private Integer caloricBalance;
-    private Double actualProteinIntake;
-    private Double actualCarbsIntake;
-    private Double actualFatIntake;
+    private Double caloricIntakeGoal = 0.0;
+    private Double actualKcalIntake  = 0.0;
+    private Double kcalLeft = 0.0;
+    private Double actualProteinIntake = 0.0;
+    private Double actualCarbsIntake = 0.0;
+    private Double actualFatIntake = 0.0;
 
-    public DiaryPage(Long profileId, Date date, Integer caloricIntakeGoal, Integer actualCaloricIntake, Integer caloricBalance,
-                     Double actualProteinIntake, Double actualCarbsIntake, Double actualFatIntake) {
-        if (date==null) date = new java.sql.Date(System.currentTimeMillis());
-        this.id = new DiaryPageId(profileId,date);
-        this.caloricIntakeGoal = caloricIntakeGoal;
-        this.actualCaloricIntake = actualCaloricIntake;
-        this.caloricBalance = caloricBalance;
-        this.actualProteinIntake = actualProteinIntake;
-        this.actualCarbsIntake = actualCarbsIntake;
-        this.actualFatIntake = actualFatIntake;
+
+    public DiaryPage(Long profileId, Date date) {
+        if (date == null) date = new java.sql.Date(System.currentTimeMillis());
+        this.id = new DiaryPageId(profileId, date);
     }
 
-    public DiaryPage(Long profileId, Integer caloricIntakeGoal, Integer actualCaloricIntake, Integer caloricBalance,
-                     Double actualProteinIntake, Double actualCarbsIntake, Double actualFatIntake) {
-        this.id = new DiaryPageId(profileId,new java.sql.Date(System.currentTimeMillis()));
-        this.caloricIntakeGoal = caloricIntakeGoal;
-        this.actualCaloricIntake = actualCaloricIntake;
-        this.caloricBalance = caloricBalance;
+    public DiaryPage(Long profileId) {
+        new DiaryPage(profileId, null);
+    }
+
+    public void setNutrients(Double actualKcalIntake, Double actualProteinIntake, Double actualCarbsIntake, Double actualFatIntake) {
+        this.actualKcalIntake = actualKcalIntake;
         this.actualProteinIntake = actualProteinIntake;
         this.actualCarbsIntake = actualCarbsIntake;
         this.actualFatIntake = actualFatIntake;
+        setKcalLeft(caloricIntakeGoal - actualKcalIntake);
+    }
+
+    public void setCaloricIntakeGoal(Double caloricIntakeGoal) {
+        this.caloricIntakeGoal = caloricIntakeGoal;
+        setKcalLeft(caloricIntakeGoal - actualKcalIntake);
     }
 }
 

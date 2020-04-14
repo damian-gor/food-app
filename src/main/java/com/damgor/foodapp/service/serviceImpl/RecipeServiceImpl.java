@@ -69,6 +69,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+
     @Cacheable
     public Recipe getRecipeById(int id) {
         try {

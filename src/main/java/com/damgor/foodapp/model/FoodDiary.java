@@ -1,24 +1,28 @@
 package com.damgor.foodapp.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Data
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 public class FoodDiary extends RepresentationModel<FoodDiary> {
 
     @Id
     @Column(updatable=false)
     private Long profileId;
-    private Integer caloricIntakeGoal;
+    private Double caloricIntakeGoal;
 
-//    @OneToMany
-//    private List<DiaryPage> diaryPages;
+    public FoodDiary(Long profileId) {
+        this.profileId = profileId;
+    }
 
+    public void setCaloricIntakeGoal(Double caloricIntakeGoal) {
+        this.caloricIntakeGoal = ((double)Math.round(caloricIntakeGoal/10))*10;
+    }
 }

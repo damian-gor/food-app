@@ -10,7 +10,7 @@ Currently available functionalities:
 - profile module (in addition to basic CRUD, the ability to add favorite recipes and products)
 - analysis of user parameters and determination of diet parameters
 - search for meals and products (in various ways)
-- food diary module (analitic part of module still under construction) 
+- food diary module
 
 Introduced among others:
 - exception handling

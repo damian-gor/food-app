@@ -23,19 +23,19 @@ public class ProfileDetailsController {
 
     @PostMapping
     public ResponseEntity<ProfileDetails> addProfileDetails(@PathVariable Long profileId, @RequestBody ProfileDetails details) {
-        details.setId(profileId);
+        details.setProfileId(profileId);
         return ResponseEntity.ok().body(detailsService.addProfileDetails(details));
     }
 
     @PutMapping
     public ResponseEntity<ProfileDetails> updateProfileDetails(@PathVariable Long profileId, @RequestBody ProfileDetails details) {
-        details.setId(profileId);
+        details.setProfileId(profileId);
         return ResponseEntity.ok().body(detailsService.updateProfileDetails(details));
     }
 
     @PatchMapping
     public ResponseEntity<ProfileDetails> partialUpdateProfileDetails(@PathVariable Long profileId, @RequestBody ProfileDetails details) {
-        details.setId(profileId);
+        details.setProfileId(profileId);
         return ResponseEntity.ok().body(detailsService.partialUpdateProfileDetails(details));
     }
 

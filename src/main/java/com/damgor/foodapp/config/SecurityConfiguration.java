@@ -25,17 +25,13 @@ import static org.springframework.http.HttpMethod.GET;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+        http.httpBasic()
+                .and().cors()
+                .and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(GET,"/", "/recipes/**","/products/**","/profiles","/profiles/*").permitAll()
                 .antMatchers("/", "/recipes/**","/products/**","/profiles/**").hasAnyRole("USER","ADMIN")
                 .antMatchers("/**").hasRole("ADMIN")
-//                .antMatchers(GET, "/profiles/**").hasAnyRole("USER","ADMIN")
-//                .antMatchers(POST, "/**").hasAnyRole("ADMIN")
-//                .antMatchers(POST, "/profiles/**").hasAnyRole("ADMIN")
                 .and().formLogin();
-//                .and().httpBasic();
-//                .and().any
-//                .csrf().disable();
     }
 }

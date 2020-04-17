@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<ShortProduct> getSpecificProducts(String productName, int number, int offset) {
+    public List<ShortProduct> getSpecificProducts(String productName, int number, int offset, long profileId) {
         List<ShortProduct> products = new ArrayList<>();
         SpoonacularOutput output = restTemplate.getForObject(
                 "https://api.spoonacular.com/food/products/search?query="
@@ -46,15 +46,14 @@ public class ProductServiceImpl implements ProductService {
                 SpoonacularOutput.class);
 
         products.addAll(output.getProducts());
-        products.stream().forEach(product -> product.add(
-                linkTo(methodOn(ProductController.class).getProductById(product.getId().toString())).withRel("Get product details")
-        ));
+
+        addBasicLinks(products,profileId);
         return products;
     }
 
     @Override
     @Cacheable
-    public Product getGeneralProducts(String productName) {
+    public Product getGeneralProducts(String productName, long userId) {
         EdamamOutput output = restTemplate.getForObject(
                 "https://api.edamam.com/api/food-database/parser?ingr="
                         + productName
@@ -70,19 +69,16 @@ public class ProductServiceImpl implements ProductService {
                 output.getParsed().get(0).getFood().getNutrients().getCarbs(),
                 output.getParsed().get(0).getFood().getNutrients().getFat()
         );
-        product.add(
-                linkTo(methodOn(ProductController.class).getProductById(product.getId())).withSelfRel(),
-                linkTo(methodOn(ProfileController.class).addToFavourites(999999999, null, product.getId()))
-                        .withRel("Add(/remove) product to favourites (insert profileId)"));
+        addBasicLinks(product,userId);
 
         return product;
     }
 
     @Override
     @Cacheable
-    public Product getProductById(String productId) {
+    public Product getProductById(String productId, long userId) {
         if (productId.length() > 10) {
-            return getGeneralProducts(productId);
+            return getGeneralProducts(productId, userId);
         } else {
             SpecificProduct output = restTemplate.getForObject(
                     "https://api.spoonacular.com/food/products/"
@@ -97,12 +93,28 @@ public class ProductServiceImpl implements ProductService {
                     output.getNutrition().getCarbs(),
                     output.getNutrition().getFat()
             );
-            product.add(linkTo(methodOn(ProductController.class).getProductById(productId)).withSelfRel(),
-                    linkTo(methodOn(ProfileController.class).addToFavourites(999999999, null, product.getId()))
-                            .withRel("Add(/remove) product to favourites (insert profileId)"));
+            addBasicLinks(product, userId);
 
             return product;
         }
     }
 
+    /////////////// LINKS  /////////////
+
+    private void addBasicLinks(Product product, long userId) {
+        product.add(linkTo(methodOn(ProductController.class).getProductById(product.getId(), null)).withSelfRel());
+
+        if (userId!=99999)
+            product.add(linkTo(methodOn(ProfileController.class).addToFavourites(userId, null, product.getId()))
+                            .withRel("Add(/remove) product to favourites"));
+    }
+
+    private void addBasicLinks(List<ShortProduct> products, long userId) {
+        products.forEach(p -> p.add(
+                linkTo(methodOn(ProductController.class).getProductById(p.getId().toString(), null)).withRel("Get product details")));
+
+        if (userId!=99999)
+            products.forEach(p -> p.add(linkTo(methodOn(ProfileController.class).addToFavourites(userId, null, p.getId().toString()))
+                            .withRel("Add(/remove) product to favourites")));
+    }
 }

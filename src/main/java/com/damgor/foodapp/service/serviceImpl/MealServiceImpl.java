@@ -107,7 +107,7 @@ public class MealServiceImpl implements MealService {
         List<MealProduct> mealProducts = new ArrayList<>();
         for (String element : meal.getElements().keySet()) {
             Integer amount = meal.getElements().get(element);
-            Product product = productService.getProductById(element);
+            Product product = productService.getProductById(element,99999);
             mealProducts.add(new MealProduct(product, amount));
         }
         meal.setProducts(mealProducts);
@@ -144,7 +144,7 @@ public class MealServiceImpl implements MealService {
 
     private void addProductsLinks(Meal meal) {
         meal.getProducts().forEach(mealProduct -> mealProduct.add(
-                linkTo(methodOn(ProductController.class).getProductById(mealProduct.getProductId())).withRel("Get product details")
+                linkTo(methodOn(ProductController.class).getProductById(mealProduct.getProductId(),null)).withRel("Get product details")
         ));
     }
 

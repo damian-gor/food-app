@@ -5,6 +5,7 @@ import com.damgor.foodapp.model.Profile;
 import com.damgor.foodapp.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,28 +28,33 @@ public class ProfileController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Profile> addProfile(@RequestBody Profile profile) {
         return ResponseEntity.ok().body(profileService.addProfile(profile));
     }
 
     @PutMapping("/{profileId}")
+    @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Profile> updateProfile(@PathVariable("profileId") long profileId, @RequestBody Profile profile) {
         profile.setId(profileId);
         return ResponseEntity.ok().body(profileService.updateProfile(profile));
     }
 
     @PatchMapping("/{profileId}")
+    @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Profile> partialUpdateProfile(@PathVariable("profileId") long profileId, @RequestBody Profile profile) {
         profile.setId(profileId);
         return ResponseEntity.ok().body(profileService.partialUpdateProfile(profile));
     }
 
     @DeleteMapping("/{profileId}")
+    @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Message> removeProfile(@PathVariable("profileId") long profileId) {
         return ResponseEntity.ok().body(profileService.removeProfile(profileId));
     }
 
     @PostMapping("/{profileId}/favourites")
+    @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Message> addToFavourites(@PathVariable long profileId,
                                       @RequestParam(defaultValue = "0") String recipesIds,
                                       @RequestParam(defaultValue = "0") String productsIds) {
@@ -56,6 +62,7 @@ public class ProfileController {
     }
 
     @DeleteMapping("/{profileId}/favourites")
+    @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Message> removeFromFavourites(@PathVariable long profileId,
                                                    @RequestParam(defaultValue = "0") String recipesIds,
                                                    @RequestParam(defaultValue = "0") String productsIds) {

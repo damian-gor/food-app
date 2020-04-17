@@ -5,6 +5,7 @@ import com.damgor.foodapp.model.Message;
 import com.damgor.foodapp.service.DiaryPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,12 +30,14 @@ public class DiaryPageController {
     }
 
     @PostMapping
+    @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
     public ResponseEntity<DiaryPage> addDiaryPage(@PathVariable Long profileId,
                                                   @RequestParam(required = false, name = "date") String stringDate) {
         return ResponseEntity.ok(diaryPageService.addDiaryPage(profileId, stringDate));
     }
 
     @DeleteMapping("/{stringDate}")
+    @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Message> removeDiaryPage(@PathVariable Long profileId,
                                                    @PathVariable String stringDate) {
         return ResponseEntity.ok(diaryPageService.removeDiaryPage(profileId, stringDate));

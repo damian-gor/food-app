@@ -5,19 +5,20 @@ import com.damgor.foodapp.model.ProfileDetails;
 import com.damgor.foodapp.service.ProfileDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/profiles/{profileId}/details")
+@PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
 public class ProfileDetailsController {
 
     @Autowired
     private ProfileDetailsService detailsService;
 
-
     @GetMapping
-    public ResponseEntity<ProfileDetails> getProfileDetails(@PathVariable Long profileId) {
+    public ResponseEntity<ProfileDetails> getProfileDetails(@PathVariable Long profileId/*, Principal principal*/) {
         return ResponseEntity.ok().body(detailsService.getProfileDetails(profileId));
     }
 

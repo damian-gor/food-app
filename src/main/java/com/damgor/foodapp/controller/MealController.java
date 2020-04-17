@@ -6,6 +6,7 @@ import com.damgor.foodapp.model.Message;
 import com.damgor.foodapp.service.MealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -32,8 +33,8 @@ public class MealController {
         return ResponseEntity.ok(mealService.getMeal(profileId, stringDate, mealId));
     }
 
-    //    In request body required only map: productId - grams.
     @PostMapping
+    @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Meal> addMeal(@PathVariable Long profileId,
                                         @PathVariable String stringDate,
                                         @RequestBody Map<String, Integer> elements) {
@@ -43,6 +44,7 @@ public class MealController {
     }
 
     @PutMapping("/{mealId}")
+    @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Meal> updateMeal(@PathVariable Long profileId,
                                            @PathVariable String stringDate,
                                            @PathVariable Integer mealId,
@@ -54,6 +56,7 @@ public class MealController {
     }
 
     @PatchMapping("/{mealId}")
+    @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Meal> pratialUpdateMeal(@PathVariable Long profileId,
                                                   @PathVariable String stringDate,
                                                   @PathVariable Integer mealId,
@@ -65,13 +68,12 @@ public class MealController {
     }
 
     @DeleteMapping("/{mealId}")
+    @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Message> removeMeal (@PathVariable Long profileId,
                                                @PathVariable String stringDate,
                                                @PathVariable Integer mealId) {
         return ResponseEntity.ok(mealService.removeMeal(profileId,stringDate,mealId));
     }
-
-
 }
 
 

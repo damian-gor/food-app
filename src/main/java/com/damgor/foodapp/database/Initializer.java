@@ -1,17 +1,20 @@
 package com.damgor.foodapp.database;
 
-import com.damgor.foodapp.model.*;
+import com.damgor.foodapp.model.DiaryPage;
+import com.damgor.foodapp.model.Meal;
+import com.damgor.foodapp.model.Profile;
+import com.damgor.foodapp.model.ProfileDetails;
 import com.damgor.foodapp.model.enums.*;
-import com.damgor.foodapp.repository.DiaryPageRepository;
-import com.damgor.foodapp.repository.FoodDiaryRepository;
 import com.damgor.foodapp.repository.ProfileDetailsRepository;
 import com.damgor.foodapp.repository.ProfileRepository;
+import com.damgor.foodapp.model.User;
+import com.damgor.foodapp.repository.UserRepository;
 import com.damgor.foodapp.service.DiaryPageService;
 import com.damgor.foodapp.service.FoodDiaryService;
 import com.damgor.foodapp.service.MealService;
-import com.damgor.foodapp.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
@@ -24,26 +27,18 @@ public class Initializer implements CommandLineRunner {
 
     @Autowired
     private ProfileRepository profileRepository;
-
     @Autowired
     private ProfileDetailsRepository profileDetailsRepository;
-
-    @Autowired
-    private FoodDiaryRepository foodDiaryRepository;
-    @Autowired
-    private DiaryPageRepository diaryPageRepository;
-
     @Autowired
     private DiaryPageService diaryPageService;
-
     @Autowired
     private FoodDiaryService foodDiaryService;
-
     @Autowired
     private MealService mealService;
-
     @Autowired
-    private static ProductService productService;
+    private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
@@ -51,8 +46,8 @@ public class Initializer implements CommandLineRunner {
 ///////////////    PROFILE    ///////////////////
 
         ArrayList<String> favouritesSample1 = new ArrayList<>();
-        favouritesSample1.add("1234afwfa");
-        favouritesSample1.add("aaaaa");
+        favouritesSample1.add("hard-coded-product1");
+        favouritesSample1.add("hard-coded-product2");
 
         Profile profile1 = new Profile();
         profile1.setId(1L);
@@ -105,6 +100,7 @@ public class Initializer implements CommandLineRunner {
 
         diaryPageService.addDiaryPage(profile1.getId(), null);
         diaryPageService.addDiaryPage(profile1.getId(), "2020-04-05");
+
         ///////////////    MEAL    ///////////////////
 
         Map<String, Integer> products1 = new HashMap<>();
@@ -142,6 +138,15 @@ public class Initializer implements CommandLineRunner {
         mealService.addMeal(m2);
         mealService.addMeal(m3);
         mealService.addMeal(m4);
+
+        ///////////////    USERS    ///////////////////
+
+        userRepository.save(new User(99999L,"admin", passwordEncoder.encode("pass"), true, "ROLE_ADMIN,ROLE_USER"));
+        userRepository.save(new User(profile1.getId(),"user1", passwordEncoder.encode("pass"), true, "ROLE_USER"));
+        userRepository.save(new User(profile2.getId(),"user2", passwordEncoder.encode("pass"), true, "ROLE_USER"));
+        userRepository.save(new User(profile3.getId(),"user3", passwordEncoder.encode("pass"), true, "ROLE_USER"));
+        userRepository.save(new User(4L,"user4", passwordEncoder.encode("pass"), false, "ROLE_USER"));
+
 
     }
 

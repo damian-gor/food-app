@@ -1,6 +1,7 @@
 package com.damgor.foodapp.controller;
 
-import com.damgor.foodapp.model.*;
+import com.damgor.foodapp.model.Product;
+import com.damgor.foodapp.model.ShortProduct;
 import com.damgor.foodapp.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

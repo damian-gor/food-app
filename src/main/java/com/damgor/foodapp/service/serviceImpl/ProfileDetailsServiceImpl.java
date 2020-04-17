@@ -45,8 +45,6 @@ public class ProfileDetailsServiceImpl implements ProfileDetailsService {
 
         detailsRepository.save(updatedDetails);
 
-//        updatedDetails = detailsRepository.findById(updatedDetails.getProfileId()).get();
-
         addBasicLinks(updatedDetails);
         return updatedDetails;
     }
@@ -63,8 +61,6 @@ public class ProfileDetailsServiceImpl implements ProfileDetailsService {
         if (details.getSex() != null) updatedDetails.setSex(details.getSex());
 
         detailsRepository.save(updatedDetails);
-
-//            updatedDetails = detailsRepository.findById(updatedDetails.getProfileId()).get();
 
         addBasicLinks(updatedDetails);
 

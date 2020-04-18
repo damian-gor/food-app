@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
@@ -14,6 +16,7 @@ import java.util.TimeZone;
 @Configuration
 @EnableCaching
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableSwagger2
 public class BeansConfiguration {
 
     @PostConstruct
@@ -31,4 +34,8 @@ public class BeansConfiguration {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public Docket getDocket () {
+        return new SwaggerConfiguration().getSwaggerConfiguration();
+    }
 }

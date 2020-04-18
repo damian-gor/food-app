@@ -7,7 +7,7 @@ the user.
 
 The application has been divided into the following modules:
 1) Product
-Search for food products by name or ID. General products like "milk", "eggs", be specific, like "Snickers Candy 
+Search for food products by name or ID. General products like "milk", "eggs", or specific, like "Snickers Candy 
 Bars". Products can also be saved as favorites for a given profile.
 
 2) Recipe
@@ -44,9 +44,9 @@ H2 (In-Memory Database). Starting data is initialized by the application automat
 Introduced among others:
 - Exception handling
 - HATEOAS Driven REST API concept (using Spring HATEOAS)
+- Swagger (URL: http://localhost:8080/swagger-ui.html)
 
 Other items to add:
-- Swagger
 - Tests
 
 #### credentials ###

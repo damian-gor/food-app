@@ -20,7 +20,6 @@ public class Meal extends RepresentationModel<Meal> {
     @EmbeddedId
     private MealId id;
     @ElementCollection
-//    @JsonIgnore
     private Map<String, Integer> elements;
     private Double mealKcal;
     private Double mealProtein;

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<h1>Food-app</h1>
+<p>This application is designed to facilitate diet by calculating basic indicators (e.g. BMI), determining caloric
+    demand, searching for recipes and products (from external databases), which can then be added to the nutrition
+    diary, which allows you to track currently consumed meals in relation to for the nutritional purposes set by
+    the user.</p>
+
+<h2>Sample app's features:</h2>
+<ul th:each="link: ${message.links}">
+    <li><a th:href="${link.getHref()}" th:text="${link.getRel()}"></a></li>
+</ul>
+
+</body>
+</html>

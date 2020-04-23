@@ -1,7 +1,5 @@
 package com.damgor.foodapp.service.serviceImpl;
 
-import com.damgor.foodapp.controller.ProfileController;
-import com.damgor.foodapp.controller.RecipeController;
 import com.damgor.foodapp.exception.EntityNotFoundException;
 import com.damgor.foodapp.model.Profile;
 import com.damgor.foodapp.model.Recipe;
@@ -22,18 +20,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 @Service
 @CacheConfig(cacheNames = {"cacheRecipes"})
 public class RecipeServiceImpl implements RecipeService {
 
     private List<Recipe> cacheRecipes = new ArrayList<>();
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private ProfileService profileService;
+    @Autowired
+    private LinkProvider linkProvider;
+
     @Value("${spoonacular.apiKey}")
     private String apiKey;
 
@@ -45,7 +44,7 @@ public class RecipeServiceImpl implements RecipeService {
                 SpoonacularOutput.class);
         Recipe recipe = output.getRecipes().get(0);
 
-        addBasicLinks(recipe, userId);
+        linkProvider.addRecipesLinks(recipe, userId);
         return recipe;
     }
 
@@ -58,7 +57,7 @@ public class RecipeServiceImpl implements RecipeService {
                         + "&apiKey=" + apiKey,
                 ShortRecipe[].class);
         List<ShortRecipe> recipes = Arrays.asList(output);
-        addBasicLinks(recipes, userId);
+        linkProvider.addRecipesLinks(recipes, userId);
         return recipes;
     }
 
@@ -72,7 +71,7 @@ public class RecipeServiceImpl implements RecipeService {
                             + "/information?"
                             + "apiKey=" + apiKey,
                     Recipe.class);
-            addBasicLinks(recipe, userId);
+            linkProvider.addRecipesLinks(recipe, userId);
             return recipe;
         } catch (HttpClientErrorException.NotFound e) {
             throw new EntityNotFoundException(Recipe.class, "id", String.valueOf(id));
@@ -90,7 +89,7 @@ public class RecipeServiceImpl implements RecipeService {
                 SpoonacularOutput.class);
         recipes.addAll(output.getResults());
         if (!recipes.isEmpty()) {
-            addBasicLinks(recipes, userId);
+            linkProvider.addRecipesLinks(recipes, userId);
             return recipes;
         }
         else throw new EntityNotFoundException(ShortRecipe.class, "query", text);
@@ -116,7 +115,7 @@ public class RecipeServiceImpl implements RecipeService {
                         + "&apiKey=" + apiKey,
                 SpoonacularOutput.class);
         recipes.addAll(output.getResults());
-        addBasicLinks(recipes,userId);
+        linkProvider.addRecipesLinks(recipes,userId);
 
         return recipes;
     }
@@ -168,29 +167,9 @@ public class RecipeServiceImpl implements RecipeService {
                         + "&apiKey=" + apiKey,
                 SpoonacularOutput.class);
         recipes.addAll(output.getResults());
-        addBasicLinks(recipes,userId);
-
+        linkProvider.addRecipesLinks(recipes,userId);
         return recipes;
     }
 
-
-    /////////////// LINKS  /////////////
-
-    private static void addBasicLinks(Recipe recipe, long userId) {
-        recipe.add(linkTo(methodOn(RecipeController.class).getRecipeById(recipe.getId(), null)).withSelfRel());
-
-        if (userId != 99999)
-            recipe.add(linkTo(methodOn(ProfileController.class).addToFavourites(userId, recipe.getId().toString(), null))
-                    .withRel("Add(/remove) recipe to favourites"));
-
-    }
-
-    private void addBasicLinks(List<ShortRecipe> recipes, long userId) {
-        recipes.forEach(r -> r.add(linkTo(methodOn(RecipeController.class).getRecipeById(r.getId(), null)).withRel("Get recipe details")));
-
-        if (userId != 99999)
-            recipes.forEach(r -> r.add(linkTo(methodOn(ProfileController.class).addToFavourites(userId, r.getId().toString(), null))
-                    .withRel("Add(/remove) recipe to favourites")));
-    }
 }
 

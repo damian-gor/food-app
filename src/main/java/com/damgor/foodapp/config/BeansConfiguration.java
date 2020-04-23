@@ -1,5 +1,6 @@
 package com.damgor.foodapp.config;
 
+import com.damgor.foodapp.service.serviceImpl.LinkProvider;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,19 +11,11 @@ import org.springframework.web.client.RestTemplate;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import javax.annotation.PostConstruct;
-import java.util.TimeZone;
-
 @Configuration
 @EnableCaching
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableSwagger2
 public class BeansConfiguration {
-
-    @PostConstruct
-    public void init() {
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-    }
 
     @Bean
     public RestTemplate getRestTemplate() {
@@ -38,4 +31,10 @@ public class BeansConfiguration {
     public Docket getDocket () {
         return new SwaggerConfiguration().getSwaggerConfiguration();
     }
+
+    @Bean
+    public LinkProvider getLinkBuilder () {
+        return new LinkProvider();
+    }
+
 }

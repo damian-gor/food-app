@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Data
 @Entity
@@ -21,10 +22,10 @@ public class Meal extends RepresentationModel<Meal> {
     private MealId id;
     @ElementCollection
     private Map<String, Integer> elements;
-    private Double mealKcal;
-    private Double mealProtein;
-    private Double mealCarbs;
-    private Double mealFat;
+    private Double mealKcal=0.0;
+    private Double mealProtein=0.0;
+    private Double mealCarbs=0.0;
+    private Double mealFat=0.0;
     @Embedded
     @ElementCollection
     private List<MealProduct> products;
@@ -57,6 +58,25 @@ public class Meal extends RepresentationModel<Meal> {
         this.mealProtein = round(mealProtein);
         this.mealCarbs = round(mealCarbs);
         this.mealFat = round(mealFat);
+    }
+
+    public Double getNutrientSummary(String nutrient) {
+        AtomicReference<Double> result = new AtomicReference<>(0.0);
+        switch (nutrient) {
+            case "kcal":
+                products.forEach(p -> result.updateAndGet(v -> v + p.getProductKcal()));
+                break;
+            case "protein":
+                products.forEach(p -> result.updateAndGet(v -> v + p.getProductProtein()));
+                break;
+            case "carbs":
+                products.forEach(p -> result.updateAndGet(v -> v + p.getProductCarbs()));
+                break;
+            case "fat":
+                products.forEach(p -> result.updateAndGet(v -> v + p.getProductFat()));
+                break;
+        }
+        return round(result.get());
     }
 
     private Double round(Double d) {

@@ -1,40 +1,42 @@
 package com.damgor.foodapp.service.serviceImpl;
 
-import com.damgor.foodapp.controller.FoodDiaryController;
-import com.damgor.foodapp.controller.ProfileController;
-import com.damgor.foodapp.controller.ProfileDetailsController;
+import com.damgor.foodapp.controller.controllerUI.ProfileControllerUI;
 import com.damgor.foodapp.exception.EntityNotFoundException;
 import com.damgor.foodapp.model.Message;
 import com.damgor.foodapp.model.Profile;
 import com.damgor.foodapp.repository.ProfileRepository;
 import com.damgor.foodapp.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
 
     @Autowired
-    ProfileRepository profileRepository;
+    private ProfileRepository profileRepository;
+    @Autowired
+    private ApplicationContext context;
+    @Autowired
+    private LinkProvider linkProvider;
 
     @Override
     public List<Profile> getAllProfiles() {
 
         List<Profile> profiles = profileRepository.findAll();
-        addBasicLinks(profiles);
+        linkProvider.addProfileLinks(profiles);
         return profiles;
     }
 
     @Override
     public Profile getProfile(Long profileId) {
         Profile profile = getProfileIfExist(profileId);
-        addBasicLinks(profile);
+        linkProvider.addProfileLinks(profile);
         return profile;
     }
 
@@ -49,7 +51,7 @@ public class ProfileServiceImpl implements ProfileService {
         updatedProfile.setFavouriteRecipes(profile.getFavouriteRecipes());
         updatedProfile.setFavouriteProducts(profile.getFavouriteProducts());
 
-        addBasicLinks(updatedProfile);
+        linkProvider.addProfileLinks(updatedProfile);
         profileRepository.save(updatedProfile);
         return updatedProfile;
     }
@@ -66,20 +68,18 @@ public class ProfileServiceImpl implements ProfileService {
             Set<Integer> temp = new TreeSet<>();
             if (updatedProfile.getFavouriteRecipes() != null) temp.addAll(updatedProfile.getFavouriteRecipes());
             temp.addAll(profile.getFavouriteRecipes());
-            ArrayList<Integer> updatedRecipes = new ArrayList<>();
-            updatedRecipes.addAll(temp);
+            ArrayList<Integer> updatedRecipes = new ArrayList<>(temp);
             updatedProfile.setFavouriteRecipes(updatedRecipes);
         }
         if (profile.getFavouriteProducts() != null) {
             Set<String> temp = new TreeSet<>();
             if (updatedProfile.getFavouriteProducts() != null) temp.addAll(updatedProfile.getFavouriteProducts());
             temp.addAll(profile.getFavouriteProducts());
-            ArrayList<String> updatedProducts = new ArrayList<>();
-            updatedProducts.addAll(temp);
+            ArrayList<String> updatedProducts = new ArrayList<>(temp);
             updatedProfile.setFavouriteProducts(updatedProducts);
         }
 
-        addBasicLinks(updatedProfile);
+        linkProvider.addProfileLinks(updatedProfile);
         profileRepository.save(updatedProfile);
         return updatedProfile;
     }
@@ -87,7 +87,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public Profile addProfile(Profile profile) {
         profileRepository.save(profile);
-        addBasicLinks(profile);
+        linkProvider.addProfileLinks(profile);
         return profile;
     }
 
@@ -96,7 +96,7 @@ public class ProfileServiceImpl implements ProfileService {
         getProfileIfExist(profileId);
         profileRepository.deleteById(profileId);
         Message message = new Message("Profile has been removed successfuly. To get all profiles click on the following link.");
-        message.add(linkTo(ProfileController.class).withSelfRel().withRel("Get all profiles"));
+        message.add(linkTo(ProfileControllerUI.class).withSelfRel().withRel("Get all profiles"));
         return message;
     }
 
@@ -119,7 +119,7 @@ public class ProfileServiceImpl implements ProfileService {
 
         Message message = new Message("Positions have been added to favourites successfully. To view the entire list of " +
                 "favorite recipes and products, click on the following link.");
-        addBasicLinks(message, profileId);
+        linkProvider.addProfileMessageLinks(message, profileId);
         return message;
     }
 
@@ -153,7 +153,7 @@ public class ProfileServiceImpl implements ProfileService {
 
         Message message = new Message("Positions have been removed from favourites successfully. To view the entire list of favorite " +
                 "recipes and products, click on the following link.");
-        addBasicLinks(message, profileId);
+        linkProvider.addProfileMessageLinks(message, profileId);
         return message;
     }
 
@@ -168,29 +168,4 @@ public class ProfileServiceImpl implements ProfileService {
             throw new EntityNotFoundException(Profile.class, "id", profileId.toString());
         }
     }
-
-    /////////////// LINKS  /////////////
-
-    private void addBasicLinks(Profile profile) {
-        profile.add(
-                linkTo(methodOn(ProfileController.class).getProfile(profile.getId())).withSelfRel(),
-                linkTo(methodOn(ProfileDetailsController.class).getProfileDetails(profile.getId())).withRel("Go to profile's delites"),
-                linkTo(methodOn(FoodDiaryController.class).getFoodDiary(profile.getId())).withRel("Go to profile's food diary"),
-                linkTo(ProfileController.class).withSelfRel().withRel("Get all profiles")
-        );
-    }
-
-    /////////////// METHODS OVERLOADING /////////////
-
-    private void addBasicLinks(List<Profile> profiles) {
-        profiles.forEach(this::addBasicLinks);
-    }
-
-    private void addBasicLinks(Message message, Long profileId) {
-        Profile profile = new Profile();
-        profile.setId(profileId);
-        addBasicLinks(profile);
-        message.add(profile.getLinks());
-    }
-
 }

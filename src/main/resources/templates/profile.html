@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<h1 th:text="${profile.name}"></h1>
+<p>Id: <span th:text="${profile.id}"></span></p>
+<table class="table">
+    <tr>
+        <td>Favourite cuisine:</td>
+        <td th:text="${profile.cuisine}">-</td>
+    </tr>
+    <tr>
+        <td>Diet type:</td>
+        <td th:text="${profile.diet}">-</td>
+    </tr>
+    <tr>
+        <td>Intolerance:</td>
+        <td th:text="${profile.intolerance}">-</td>
+    </tr>
+</table>
+
+<h2>Favourites recipes</h2>
+<ul th:each="recipe : ${profile.favouriteRecipes}">
+    <li th:text="${recipe}"></li>
+</ul>
+
+<h2>Favourites products</h2>
+<ul th:each="product : ${profile.favouriteProducts}">
+    <li th:text="${product}"></li>
+</ul>
+
+<a th:href="${profile.getLink('Go to profile details').get().getHref()}"><button>Details</button></a>
+<a th:href="${profile.getLink('Go to profile food diary').get().getHref()}"><button>Food Diary</button></a>
+<a th:href="${profile.getLink('Get all profiles').get().getHref()}"><button>Back to profiles</button></a>
+
+</body>
+</html>

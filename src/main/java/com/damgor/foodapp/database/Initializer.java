@@ -133,7 +133,6 @@ public class Initializer implements CommandLineRunner {
         Meal m3 = new Meal(profile1.getId(), null, 3, products3);
         Meal m4 = new Meal(profile1.getId(), Date.valueOf("2020-04-13"),1, products4);
 
-
         mealService.addMeal(m1);
         mealService.addMeal(m2);
         mealService.addMeal(m3);
@@ -146,7 +145,6 @@ public class Initializer implements CommandLineRunner {
         userRepository.save(new User(profile2.getId(),"user2", passwordEncoder.encode("pass"), true, "ROLE_USER"));
         userRepository.save(new User(profile3.getId(),"user3", passwordEncoder.encode("pass"), true, "ROLE_USER"));
         userRepository.save(new User(4L,"user4", passwordEncoder.encode("pass"), false, "ROLE_USER"));
-
 
     }
 

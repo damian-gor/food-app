@@ -2,7 +2,7 @@ package com.damgor.foodapp.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.Id;
@@ -14,6 +14,5 @@ public class ShortProduct extends RepresentationModel<ShortProduct> {
     private Long id;
     @JsonAlias({"title"})
     private String productName;
-
 
 }

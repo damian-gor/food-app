@@ -1,7 +1,5 @@
 package com.damgor.foodapp.service.serviceImpl;
 
-import com.damgor.foodapp.controller.ProfileController;
-import com.damgor.foodapp.controller.ProfileDetailsController;
 import com.damgor.foodapp.exception.EntityNotFoundException;
 import com.damgor.foodapp.model.Message;
 import com.damgor.foodapp.model.ProfileDetails;
@@ -13,22 +11,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 @Service
 public class ProfileDetailsServiceImpl implements ProfileDetailsService {
 
     @Autowired
     private ProfileDetailsRepository detailsRepository;
-
     @Autowired
     private ProfileService profileService;
+    @Autowired
+    private LinkProvider linkProvider;
 
     @Override
     public ProfileDetails getProfileDetails(Long profileId) {
         ProfileDetails profileDetails = getProfileDetailsIfExist(profileId);
-        addBasicLinks(profileDetails);
+        linkProvider.addProfileDetailsLinks(profileDetails);
         return profileDetails;
     }
 
@@ -44,8 +40,7 @@ public class ProfileDetailsServiceImpl implements ProfileDetailsService {
         updatedDetails.setSex(details.getSex());
 
         detailsRepository.save(updatedDetails);
-
-        addBasicLinks(updatedDetails);
+        linkProvider.addProfileDetailsLinks(updatedDetails);
         return updatedDetails;
     }
 
@@ -61,9 +56,7 @@ public class ProfileDetailsServiceImpl implements ProfileDetailsService {
         if (details.getSex() != null) updatedDetails.setSex(details.getSex());
 
         detailsRepository.save(updatedDetails);
-
-        addBasicLinks(updatedDetails);
-
+        linkProvider.addProfileDetailsLinks(updatedDetails);
         return updatedDetails;
     }
 
@@ -72,7 +65,7 @@ public class ProfileDetailsServiceImpl implements ProfileDetailsService {
         profileService.getProfile(details.getProfileId());
         ProfileDetails profileDetails = new ProfileDetails(details);
         detailsRepository.save(profileDetails);
-        addBasicLinks(profileDetails);
+        linkProvider.addProfileDetailsLinks(profileDetails);
         return profileDetails;
     }
 
@@ -80,8 +73,8 @@ public class ProfileDetailsServiceImpl implements ProfileDetailsService {
     public Message removeDetails(Long profileId) {
         getProfileDetailsIfExist(profileId);
         detailsRepository.deleteById(profileId);
-        Message message = new Message("Profile details has been removed successfuly. To get back to profile click on the following link.");
-        message.add(linkTo(methodOn(ProfileController.class).getProfile(profileId)).withRel("Back to profile."));
+        Message message = new Message("Profile details has been removed successfuly.");
+        linkProvider.addProfileDetailsMessageLinks(message, profileId);
         return message;
     }
 
@@ -95,12 +88,4 @@ public class ProfileDetailsServiceImpl implements ProfileDetailsService {
         } else throw new EntityNotFoundException(ProfileDetails.class, "id", profileId.toString());
     }
 
-    /////////////// LINKS  /////////////
-
-    private void addBasicLinks(ProfileDetails profileDetails) {
-        profileDetails.add(
-                linkTo(methodOn(ProfileDetailsController.class).getProfileDetails(profileDetails.getProfileId())).withSelfRel(),
-                linkTo(methodOn(ProfileController.class).getProfile(profileDetails.getProfileId())).withRel("Back to profile.")
-        );
-    }
 }

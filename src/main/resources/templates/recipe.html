@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe</title>
+</head>
+<body>
+<h1>Recipe</h1>
+
+<h2 th:text="${recipe.recipeTitle}"></h2>
+<p>Id: <span th:text="${recipe.id}"></span></p>
+<table class="table">
+    <tr>
+        <td>Likes:</td>
+        <td th:text="${recipe.likes}"></td>
+    </tr>
+    <tr>
+        <td>Score:</td>
+        <td th:text="${recipe.score}"></td>
+    </tr>
+    <tr>
+        <td>Health-scores:</td>
+        <td th:text="${recipe.healthScore}"></td>
+    </tr>
+    <tr>
+        <td>Servings:</td>
+        <td th:text="${recipe.servings}"></td>
+    </tr>
+    <tr>
+        <td>Estimated price per serving in $:</td>
+        <td th:text="${recipe.pricePerServing}">No-info</td>
+    </tr>
+    <tr>
+        <td>Diets:</td>
+        <td th:each="diet : ${recipe.diets}">
+            <li th:text="${diet}"></li>
+        </td>
+    </tr>
+    <tr>
+        <td>Dish types:</td>
+        <td th:each="dish : ${recipe.dishTypes}">
+            <li th:text="${dish}"></li>
+        </td>
+    </tr>
+</table>
+
+<div th:each="link : ${recipe.links} ">
+    <a th:href="${link.getHref()}"><button th:text="${link.getRel()}"></button></a>
+</div>
+
+<p>Ingredients:</p>
+<table class="table">
+    <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Units</th>
+    </tr>
+    <tr th:each="ingr : ${recipe.ingredients}">
+        <td th:text="${ingr.name}">-</td>
+        <td th:text="${ingr.amount}">-</td>
+        <td th:text="${ingr.unit}">unit</td>
+    </tr>
+</table>
+
+<p th:text="${recipe.instructions}"></p>
+</body>
+</html>

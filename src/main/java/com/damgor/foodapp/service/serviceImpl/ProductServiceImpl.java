@@ -1,7 +1,5 @@
 package com.damgor.foodapp.service.serviceImpl;
 
-import com.damgor.foodapp.controller.ProductController;
-import com.damgor.foodapp.controller.ProfileController;
 import com.damgor.foodapp.model.*;
 import com.damgor.foodapp.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +12,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 @Service
 @CacheConfig(cacheNames = {"cacheProducts"})
 public class ProductServiceImpl implements ProductService {
@@ -25,13 +20,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private LinkProvider linkProvider;
 
     @Value("${spoonacular.apiKey}")
     private String spoonacularApiKey;
-
     @Value("${edamam.app_id}")
     private String edamamAppId;
-
     @Value("${edamam.app_key}")
     private String edamamAppKey;
 
@@ -46,8 +41,7 @@ public class ProductServiceImpl implements ProductService {
                 SpoonacularOutput.class);
 
         products.addAll(output.getProducts());
-
-        addBasicLinks(products,profileId);
+        linkProvider.addProductsLinks(products,profileId);
         return products;
     }
 
@@ -69,8 +63,7 @@ public class ProductServiceImpl implements ProductService {
                 output.getParsed().get(0).getFood().getNutrients().getCarbs(),
                 output.getParsed().get(0).getFood().getNutrients().getFat()
         );
-        addBasicLinks(product,userId);
-
+        linkProvider.addProductsLinks(product,userId);
         return product;
     }
 
@@ -93,28 +86,8 @@ public class ProductServiceImpl implements ProductService {
                     output.getNutrition().getCarbs(),
                     output.getNutrition().getFat()
             );
-            addBasicLinks(product, userId);
-
+            linkProvider.addProductsLinks(product, userId);
             return product;
         }
-    }
-
-    /////////////// LINKS  /////////////
-
-    private void addBasicLinks(Product product, long userId) {
-        product.add(linkTo(methodOn(ProductController.class).getProductById(product.getId(), null)).withSelfRel());
-
-        if (userId!=99999)
-            product.add(linkTo(methodOn(ProfileController.class).addToFavourites(userId, null, product.getId()))
-                            .withRel("Add(/remove) product to favourites"));
-    }
-
-    private void addBasicLinks(List<ShortProduct> products, long userId) {
-        products.forEach(p -> p.add(
-                linkTo(methodOn(ProductController.class).getProductById(p.getId().toString(), null)).withRel("Get product details")));
-
-        if (userId!=99999)
-            products.forEach(p -> p.add(linkTo(methodOn(ProfileController.class).addToFavourites(userId, null, p.getId().toString()))
-                            .withRel("Add(/remove) product to favourites")));
     }
 }

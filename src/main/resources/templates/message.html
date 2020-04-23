@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Message</title>
+</head>
+<body>
+<p th:text="${message.message}"></p>
+
+<ul th:each="link : ${message.getLinks()}">
+    <li><a th:href="${link.getHref()}" th:text="${link.getRel()}"></a></li>
+</ul>
+
+</body>
+</html>

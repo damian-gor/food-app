@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Food Diary</title>
+</head>
+<body>
+<h1>*PROFILE NAME*</h1>
+<p>Id: <span th:text="${foodDiary.profileId}"></span></p>
+<h2>Food Diary</h2>
+<p>Recommended caloric intake: <span th:text="${foodDiary.caloricIntakeGoal}">No enough data about profile.
+    <a th:href="${foodDiary.getLink('Go to profile details').get().getHref()}">Fill in the missing profile details</a></span></p>
+
+<a th:href="${foodDiary.getLink('Go to profile details').get().getHref()}"><button>Profile details</button></a>
+<a th:href="${foodDiary.getLink('Get all profile diary pages').get().getHref()}"><button>Get all diary pages</button></a>
+<a th:href="${foodDiary.getLink('Back to profile').get().getHref()}"><button>Back to profile</button></a>
+</body>
+</html>

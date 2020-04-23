@@ -1,4 +1,4 @@
-package com.damgor.foodapp.service;
+package com.damgor.foodapp.service.serviceImpl;
 
 import com.damgor.foodapp.model.User;
 import com.damgor.foodapp.model.UserDetailsImpl;

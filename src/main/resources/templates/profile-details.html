@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile Details</title>
+</head>
+<body>
+<h2>Profile: <span th:text="${profileName}"></span></h2>
+<p>Id: <span th:text="${profileDetails.profileId}"></span></p>
+<table class="table">
+    <tr>
+        <td>Height:</td>
+        <td th:text="${profileDetails.height}"></td>
+    </tr>
+    <tr>
+        <td>Weight:</td>
+        <td th:text="${profileDetails.weight}"></td>
+    </tr>
+    <tr>
+        <td>Year of birth:</td>
+        <td th:text="${profileDetails.yearOfBirth}"></td>
+    </tr>
+    <tr>
+        <td>Sex:</td>
+        <td th:text="${profileDetails.sex}"></td>
+    </tr>
+    <tr>
+        <td>Diet's aim:</td>
+        <td th:text="${profileDetails.aim}"></td>
+    </tr>
+    <tr>
+        <td>Activity level:</td>
+        <td th:text="${profileDetails.activityLevel}"></td>
+    </tr>
+</table>
+
+<h3>Indicators:</h3>
+<table class="table">
+    <tr>
+        <td>BMI:</td>
+        <td th:text="${profileDetails.bmi}" th:title="${profileDetails.bmiDescription}"></td>
+    </tr>
+    <tr>
+        <td>BMR:</td>
+        <td th:text="${profileDetails.bmr}"></td>
+    </tr>
+    <tr>
+        <td>Recommended Caloric Intake:</td>
+        <td th:text="${profileDetails.recommendedCaloricIntake}"></td>
+    </tr>
+</table>
+
+<a th:href="${profileDetails.getLink('Back to profile').get().getHref()}"><button>Back to profile</button></a>
+</body>
+</html>

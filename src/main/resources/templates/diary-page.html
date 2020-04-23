@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <meta charset="UTF-8">
+    <title>Diary Page</title>
+</head>
+<body>
+<h1>Diary Page</h1>
+
+<p>Date: <span th:text="${diaryPage.id.date}"></span></p>
+<p>Caloric intake goal: <span th:text="${diaryPage.caloricIntakeGoal}"></span></p>
+<p>Calories left: <span th:text="${diaryPage.kcalLeft}"></span></p>
+
+<p>Actually consumed:</p>
+<table class="table">
+    <tr>
+        <td>Calories:</td>
+        <td th:text="${diaryPage.actualKcalIntake}"></td>
+    </tr>
+    <tr>
+        <td>Proteins:</td>
+        <td th:text="${diaryPage.actualProteinIntake}"></td>
+    </tr>
+    <tr>
+        <td>Carbohydrates:</td>
+        <td th:text="${diaryPage.actualCarbsIntake}"></td>
+    </tr>
+    <tr>
+        <td>Fats:</td>
+        <td th:text="${diaryPage.actualFatIntake}"></td>
+    </tr>
+</table>
+
+<a th:href="${diaryPage.getLink('Get all profile diary pages').get().getHref()}"><button>Get all diary pages</button></a>
+<a th:href="${diaryPage.getLink('Get all meals in the diary page').get().getHref()}"><button>Get page's meals</button></a>
+<a th:href="${diaryPage.getLink('Go to profile food diary').get().getHref()}"><button>Back to profile's food diary</button></a>
+<a th:href="${diaryPage.getLink('Back to profile').get().getHref()}"><button>Back to profile</button></a>
+
+
+</body>
+</html>

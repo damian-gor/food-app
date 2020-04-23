@@ -5,6 +5,13 @@ demand, searching for recipes and products (from external databases), which can 
 diary, which allows you to track currently consumed meals in relation to for the nutritional purposes set by 
 the user.
 
+Application access ways:
+1) Raw endpoints (start from: http://localhost:8080/ )
+2) Basic UI- transferring objects and implementing HATEOAS (!TO DO: graphic part!). Just add "/ui" as the first 
+URI element (for example homepage http://localhost:8080/ui ; profiles: http://localhost:8080/ui/profiles)
+3) Swagger (http://localhost:8080/swagger-ui.html)
+
+
 The application has been divided into the following modules:
 1) Product
 Search for food products by name or ID. General products like "milk", "eggs", or specific, like "Snickers Candy 
@@ -44,9 +51,9 @@ H2 (In-Memory Database). Starting data is initialized by the application automat
 Introduced among others:
 - Exception handling
 - HATEOAS Driven REST API concept (using Spring HATEOAS)
-- Swagger (URL: http://localhost:8080/swagger-ui.html)
 
 Other items to add:
+- UI's graphic
 - Tests
 
 #### credentials ###

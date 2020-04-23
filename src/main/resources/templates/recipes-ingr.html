@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipes</title>
+</head>
+<body>
+<h1>Recipes</h1>
+
+<h2>Products list:</h2>
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Likes</th>
+        <th>Number of ingredients used from the query</th>
+        <th>List of used ingredients form the query</th>
+    </tr>
+    <tr th:each="recipe : ${recipes}">
+        <td th:text="${recipe.id}"></td>
+        <td th:text="${recipe.recipeTitle}"></td>
+        <td th:text="${recipe.likes}"></td>
+        <td th:text="${recipe.usedIngredientCount}"></td>
+        <td th:text="${recipe.usedIngredientsList}"></td>
+        <td th:each="link : ${recipe.links} ">
+            <a th:href="${link.getHref()}"><button th:text="${link.getRel()}"></button></a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

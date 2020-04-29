@@ -33,12 +33,14 @@ public class LinkProvider {
 
     public void addRecipesLinks(Recipe recipe, long userId) {
         if (getRequestURI().contains("/ui")) {
-            recipe.add(new Link(recipe.getRecipeURL().toString()).withRel("Source"));
+            recipe.add(linkTo(methodOn(RecipeControllerUI.class).getRecipeById(recipe.getId(), null)).withSelfRel());
+            if (recipe.getRecipeURL() != null) recipe.add(new Link(recipe.getRecipeURL().toString()).withRel("Source"));
             if (userId != 99999)
                 recipe.add(linkTo(methodOn(ProfileControllerUI.class).addToFavourites(userId, recipe.getId().toString(), null))
                         .withRel("Add to favourites"));
         } else {
             recipe.add(linkTo(methodOn(RecipeController.class).getRecipeById(recipe.getId(), null)).withSelfRel());
+            if (recipe.getRecipeURL() != null) recipe.add(new Link(recipe.getRecipeURL().toString()).withRel("Source"));
             if (userId != 99999)
                 recipe.add(linkTo(methodOn(ProfileController.class).addToFavourites(userId, recipe.getId().toString(), null))
                         .withRel("Add to favourites"));

@@ -1,20 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <script type="text/javascript" th:src="@{/js/home.js}"></script>
     <title>Home</title>
 </head>
-<body>
-<h1>Food-app</h1>
-<p>This application is designed to facilitate diet by calculating basic indicators (e.g. BMI), determining caloric
-    demand, searching for recipes and products (from external databases), which can then be added to the nutrition
-    diary, which allows you to track currently consumed meals in relation to for the nutritional purposes set by
-    the user.</p>
 
-<h2>Sample app's features:</h2>
-<ul th:each="link: ${message.links}">
-    <li><a th:href="${link.getHref()}" th:text="${link.getRel()}"></a></li>
-</ul>
+<body>
+    <h1>Food-app</h1>
+    <p>This application is designed to facilitate diet by calculating basic indicators (e.g. BMI), determining caloric
+        demand, searching for recipes and products (from external databases), which can then be added to the nutrition
+        diary, which allows you to track currently consumed meals in relation to for the nutritional purposes set by
+        the user.</p>
+
+    <h2>Examples of functionality:</h2>
+    <table class="table">
+        <tr>
+            <td>Search for recipes:</td>
+            <td><a th:href="${message.getLink('Search for recipes').get().getHref()}" target="_blank">
+                    <button>Just test</button></a>
+            </td>
+            <td><input id="input-recipe" type="text" placeholder="Write searching recipe text..."></td>
+            <td><button id="search-recipe">Search</button></td>
+        </tr>
+        <tr>
+            <td>Search for products:</td>
+            <td><a th:href="${message.getLink('Search for products').get().getHref()}" target="_blank">
+                    <button>Just test</button></a>
+            </td>
+            <td><input id="input-product" type="text" placeholder="Write product name..."></td>
+            <td><button id="search-product">Search</button></td>
+        </tr>
+        <tr>
+            <td>Check our profiles or find specific</td>
+            <td><a th:href="${message.getLink('Check our profiles').get().getHref()}" target="_blank">
+                    <button>See profiles</button></a>
+            </td>
+            <td><input id="input-profile" type="text" placeholder="Write profile's ID..."></td>
+            <td><button id="search-profile">Search</button></td>
+        </tr>
+    </table>
 
 </body>
+
 </html>

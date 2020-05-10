@@ -1,8 +1,12 @@
 package com.damgor.foodapp.model;
 
-import com.damgor.foodapp.model.enums.*;
+import com.damgor.foodapp.model.enums.Cuisine;
+import com.damgor.foodapp.model.enums.Diet;
+import com.damgor.foodapp.model.enums.Intolerance;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;

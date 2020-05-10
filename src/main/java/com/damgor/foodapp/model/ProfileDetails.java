@@ -3,7 +3,6 @@ package com.damgor.foodapp.model;
 import com.damgor.foodapp.model.enums.ActivityLevel;
 import com.damgor.foodapp.model.enums.Aim;
 import com.damgor.foodapp.model.enums.Sex;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -14,7 +13,7 @@ import java.time.Year;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
+//@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Data
 @Entity
 public class ProfileDetails extends RepresentationModel<ProfileDetails> {
@@ -22,14 +21,13 @@ public class ProfileDetails extends RepresentationModel<ProfileDetails> {
     @Id
     @Column(updatable = false)
     private Long profileId;
-    @Min(100)
+    @Min(80)
     @Max(250)
     private Double height; // cm
     @Min(20)
     @Max(250)
     private Double weight; // kg
     @Min(1920)
-    @Max(2005)
     private Integer yearOfBirth;
     @Enumerated(EnumType.STRING)
     private Sex sex;
@@ -48,7 +46,7 @@ public class ProfileDetails extends RepresentationModel<ProfileDetails> {
     @Setter(AccessLevel.NONE)
     private Integer bmr; // "rate of energy expenditure per day by endothermic animals at rest". Used Mifflin-St Jeor Equation
     @Setter(AccessLevel.NONE)
-    private Double recommendedCaloricIntake;
+    private Double recommendedCaloricIntake=0.0;
 
     public ProfileDetails(Long profileId, Double height, Double weight, Integer yearOfBirth, Sex sex, Aim aim, ActivityLevel activityLevel) {
         this.profileId = profileId;
@@ -76,6 +74,10 @@ public class ProfileDetails extends RepresentationModel<ProfileDetails> {
         setBmr();
     }
 
+    public ProfileDetails(Long profileId) {
+        this.profileId = profileId;
+    }
+
 
     public void setHeight(Double height) {
         this.height = height;
@@ -89,14 +91,26 @@ public class ProfileDetails extends RepresentationModel<ProfileDetails> {
         setBmr();
     }
 
+    public void setYearOfBirth(Integer yearOfBirth) {
+        this.yearOfBirth = yearOfBirth;
+        setAge();
+    }
+
     public void setAge() {
-        this.age = Year.now().getValue() - this.yearOfBirth;
+        if (yearOfBirth != null) {
+            this.age = Year.now().getValue() - this.yearOfBirth;
         setBmr();
+        }
     }
 
     public void setAim(Aim aim) {
         this.aim = aim;
         setRecommendedCaloricIntake();
+    }
+
+    public void setSex(Sex sex) {
+        this.sex = sex;
+        setBmr();
     }
 
     public void setActivityLevel(ActivityLevel activityLevel) {
@@ -131,20 +145,10 @@ public class ProfileDetails extends RepresentationModel<ProfileDetails> {
 
 
     public void setRecommendedCaloricIntake() {
-        if (activityLevel != null && aim != null && bmr!=null) {
-            double activityFactor = 0;
-            if (activityLevel == ActivityLevel.ANY_OR_LITTLE) activityFactor = 1.2;
-            if (activityLevel == ActivityLevel.LIGHT_EXERCISE) activityFactor = 1.375;
-            if (activityLevel == ActivityLevel.MODERATE_EXERCISE) activityFactor = 1.55;
-            if (activityLevel == ActivityLevel.HEAVY_EXERCISE) activityFactor = 1.725;
-            if (activityLevel == ActivityLevel.VERY_HEAVY_EXERCISE) activityFactor = 1.9;
-            double aimFactor = 0;
-            if (aim == Aim.FAST_WEIGHT_LOSS) aimFactor = 0.9;
-            if (aim == Aim.WEIGHT_LOSS) aimFactor = 0.95;
-            if (aim == Aim.KEEP_WEIGHT) aimFactor = 1;
-            if (aim == Aim.WEIGHT_GAIN) aimFactor = 1.05;
-            if (aim == Aim.FAST_WEIGHT_GAIN) aimFactor = 1.1;
-            this.recommendedCaloricIntake =  Math.round((bmr * activityFactor * aimFactor) * 100.0) / 100.0;
+        if (activityLevel != null && aim != null && bmr != null) {
+            double activityFactor = activityLevel.getActivityFactor();
+            double aimFactor = aim.getAimFactor();
+            this.recommendedCaloricIntake = Math.round((bmr * activityFactor * aimFactor) * 100.0) / 100.0;
         } else this.recommendedCaloricIntake = 0.0;
     }
 }

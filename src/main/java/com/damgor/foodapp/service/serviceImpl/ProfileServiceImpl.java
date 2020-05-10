@@ -4,6 +4,7 @@ import com.damgor.foodapp.controller.controllerUI.ProfileControllerUI;
 import com.damgor.foodapp.exception.EntityNotFoundException;
 import com.damgor.foodapp.model.Message;
 import com.damgor.foodapp.model.Profile;
+import com.damgor.foodapp.model.ProfileDetails;
 import com.damgor.foodapp.repository.ProfileRepository;
 import com.damgor.foodapp.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,13 @@ public class ProfileServiceImpl implements ProfileService {
     private ApplicationContext context;
     @Autowired
     private LinkProvider linkProvider;
+    @Autowired
+    private ProfileDetailsServiceImpl profileDetailsService;
+    @Autowired
+    private FoodDiaryServiceImpl foodDiaryService;
 
     @Override
     public List<Profile> getAllProfiles() {
-
         List<Profile> profiles = profileRepository.findAll();
         linkProvider.addProfileLinks(profiles);
         return profiles;
@@ -88,6 +92,8 @@ public class ProfileServiceImpl implements ProfileService {
     public Profile addProfile(Profile profile) {
         profileRepository.save(profile);
         linkProvider.addProfileLinks(profile);
+        profileDetailsService.addProfileDetails(new ProfileDetails(profile.getId()));
+        foodDiaryService.addFoodDiary(profile.getId());
         return profile;
     }
 

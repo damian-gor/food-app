@@ -4,6 +4,7 @@ import com.damgor.foodapp.model.Message;
 import com.damgor.foodapp.model.Profile;
 import com.damgor.foodapp.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,13 +36,19 @@ public class ProfileControllerUI {
         return modelAndView;
     }
 
+//    @PostMapping
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    public ModelAndView addProfile(@RequestBody Profile profile) {
+//        ModelAndView modelAndView = new ModelAndView("profile");
+//        Profile newProfile = profileService.addProfile(profile);
+//        modelAndView.addObject("profile", newProfile);
+//        return modelAndView;
+//    }
+
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView addProfile(@RequestBody Profile profile) {
-        ModelAndView modelAndView = new ModelAndView("profile");
-        Profile newProfile = profileService.addProfile(profile);
-        modelAndView.addObject("profile", newProfile);
-        return modelAndView;
+    public ResponseEntity <Profile> addProfile(@RequestBody Profile profile) {
+        return ResponseEntity.ok().body(profileService.addProfile(profile));
     }
 
     @PutMapping("/{profileId}")
@@ -56,21 +63,15 @@ public class ProfileControllerUI {
 
     @PatchMapping("/{profileId}")
     @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
-    public ModelAndView partialUpdateProfile(@PathVariable("profileId") long profileId, @RequestBody Profile profile) {
-        ModelAndView modelAndView = new ModelAndView("profile");
+    public ResponseEntity<Profile> partialUpdateProfile(@PathVariable("profileId") long profileId, @RequestBody Profile profile) {
         profile.setId(profileId);
-        Profile updatedProfile = profileService.partialUpdateProfile(profile);
-        modelAndView.addObject("profile", updatedProfile);
-        return modelAndView;
+        return ResponseEntity.ok().body(profileService.partialUpdateProfile(profile));
     }
 
     @DeleteMapping("/{profileId}")
     @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
-    public ModelAndView removeProfile(@PathVariable("profileId") long profileId) {
-        ModelAndView modelAndView = new ModelAndView("message");
-        Message message = profileService.removeProfile(profileId);
-        modelAndView.addObject("message", message);
-        return modelAndView;
+    public ResponseEntity<Message> removeProfile(@PathVariable("profileId") long profileId) {
+        return ResponseEntity.ok().body(profileService.removeProfile(profileId));
     }
 
     @GetMapping("/{profileId}/favourites")

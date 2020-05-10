@@ -5,6 +5,7 @@ import com.damgor.foodapp.model.ProfileDetails;
 import com.damgor.foodapp.service.ProfileDetailsService;
 import com.damgor.foodapp.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,37 +33,54 @@ public class ProfileDetailsControllerUI {
         return modelAndView;
     }
 
+//    @PostMapping
+//    public ModelAndView addProfileDetails(@PathVariable Long profileId, @RequestBody ProfileDetails details) {
+//        ModelAndView modelAndView = new ModelAndView("profile-details");
+//        details.setProfileId(profileId);
+//        ProfileDetails profileDetails = detailsService.addProfileDetails(details);
+//        String profileName = profileService.getProfile(profileId).getName();
+//        modelAndView.addObject("profileName", profileName);
+//        modelAndView.addObject("profileDetails", profileDetails);
+//        return modelAndView;
+//    }
     @PostMapping
-    public ModelAndView addProfileDetails(@PathVariable Long profileId, @RequestBody ProfileDetails details) {
-        ModelAndView modelAndView = new ModelAndView("profile-details");
+    public ResponseEntity<ProfileDetails> addProfileDetails(@PathVariable Long profileId, @RequestBody ProfileDetails details) {
         details.setProfileId(profileId);
-        ProfileDetails profileDetails = detailsService.addProfileDetails(details);
-        String profileName = profileService.getProfile(profileId).getName();
-        modelAndView.addObject("profileName", profileName);
-        modelAndView.addObject("profileDetails", profileDetails);
-        return modelAndView;
+        return ResponseEntity.ok().body(detailsService.addProfileDetails(details));
     }
+
+//    @PutMapping
+//    public ModelAndView updateProfileDetails(@PathVariable Long profileId, @RequestBody ProfileDetails details) {
+//        ModelAndView modelAndView = new ModelAndView("profile-details");
+//        details.setProfileId(profileId);
+//        ProfileDetails profileDetails = detailsService.updateProfileDetails(details);
+//        String profileName = profileService.getProfile(profileId).getName();
+//        modelAndView.addObject("profileName", profileName);
+//        modelAndView.addObject("profileDetails", profileDetails);
+//        return modelAndView;
+//    }
 
     @PutMapping
-    public ModelAndView updateProfileDetails(@PathVariable Long profileId, @RequestBody ProfileDetails details) {
-        ModelAndView modelAndView = new ModelAndView("profile-details");
+    public ResponseEntity<ProfileDetails> updateProfileDetails(@PathVariable Long profileId, @RequestBody ProfileDetails details) {
         details.setProfileId(profileId);
-        ProfileDetails profileDetails = detailsService.updateProfileDetails(details);
-        String profileName = profileService.getProfile(profileId).getName();
-        modelAndView.addObject("profileName", profileName);
-        modelAndView.addObject("profileDetails", profileDetails);
-        return modelAndView;
+        return ResponseEntity.ok().body(detailsService.updateProfileDetails(details));
     }
 
+//    @PatchMapping
+//    public ModelAndView partialUpdateProfileDetails(@PathVariable Long profileId, @RequestBody ProfileDetails details) {
+//        ModelAndView modelAndView = new ModelAndView("profile-details");
+//        details.setProfileId(profileId);
+//        ProfileDetails profileDetails = detailsService.partialUpdateProfileDetails(details);
+//        String profileName = profileService.getProfile(profileId).getName();
+//        modelAndView.addObject("profileName", profileName);
+//        modelAndView.addObject("profileDetails", profileDetails);
+//        return modelAndView;
+//    }
+
     @PatchMapping
-    public ModelAndView partialUpdateProfileDetails(@PathVariable Long profileId, @RequestBody ProfileDetails details) {
-        ModelAndView modelAndView = new ModelAndView("profile-details");
+    public ResponseEntity<ProfileDetails> partialUpdateProfileDetails(@PathVariable Long profileId, @RequestBody ProfileDetails details) {
         details.setProfileId(profileId);
-        ProfileDetails profileDetails = detailsService.partialUpdateProfileDetails(details);
-        String profileName = profileService.getProfile(profileId).getName();
-        modelAndView.addObject("profileName", profileName);
-        modelAndView.addObject("profileDetails", profileDetails);
-        return modelAndView;
+        return ResponseEntity.ok().body(detailsService.partialUpdateProfileDetails(details));
     }
 
     @DeleteMapping

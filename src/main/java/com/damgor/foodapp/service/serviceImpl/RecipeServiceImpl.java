@@ -49,11 +49,12 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<ShortRecipe> getRecipesByIngredients(String ingredients, long userId) {
+    public List<ShortRecipe> getRecipesByIngredients(String ingredients, long userId, int number) {
         ShortRecipe[] output = restTemplate.getForObject(
                 "https://api.spoonacular.com/recipes/findByIngredients?"
                         + "ranking=1"
                         + "&ingredients=" + ingredients
+                        + "&number=" + number
                         + "&apiKey=" + apiKey,
                 ShortRecipe[].class);
         List<ShortRecipe> recipes = Arrays.asList(output);
@@ -79,12 +80,14 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<ShortRecipe> getRecipesByText(String text, long userId) {
+    public List<ShortRecipe> getRecipesByText(String text, long userId, int number, int offset) {
         String query = text.replaceAll(" ", "+");
         List<ShortRecipe> recipes = new ArrayList<>();
         SpoonacularOutput output = restTemplate.getForObject(
                 "https://api.spoonacular.com/recipes/search"
                         + "?query=" + query
+                        + "&number=" + number
+                        + "&offset=" + offset
                         + "&apiKey=" + apiKey,
                 SpoonacularOutput.class);
         recipes.addAll(output.getResults());

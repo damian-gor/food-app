@@ -32,10 +32,12 @@ public class RecipeControllerUI {
     }
 
     @GetMapping("/byIngredients/{ingredients}")
-    public ModelAndView getRecipesByIngredients(@PathVariable("ingredients") String ingredients, Principal principal) {
+    public ModelAndView getRecipesByIngredients(@RequestParam(defaultValue = "5") int number,
+                                                @PathVariable("ingredients") String ingredients,
+                                                Principal principal) {
         ModelAndView modelAndView = new ModelAndView("recipes-ingr");
         long userId = getProfileIdIfAuthenticated(principal);
-        List<ShortRecipe> recipes = recipeService.getRecipesByIngredients(ingredients, userId);
+        List<ShortRecipe> recipes = recipeService.getRecipesByIngredients(ingredients, userId, number);
         modelAndView.addObject("recipes", recipes);
         return modelAndView;
     }
@@ -50,34 +52,37 @@ public class RecipeControllerUI {
     }
 
     @GetMapping("/search/{text}")
-    public ModelAndView getRecipesByText(@PathVariable("text") String text, Principal principal) {
+    public ModelAndView getRecipesByText(@RequestParam(defaultValue = "5") int number,
+                                         @RequestParam(defaultValue = "0") int offset,
+                                         @PathVariable("text") String text,
+                                         Principal principal) {
         ModelAndView modelAndView = new ModelAndView("recipes");
         long userId = getProfileIdIfAuthenticated(principal);
-        List<ShortRecipe> recipes =recipeService.getRecipesByText(text, userId);
+        List<ShortRecipe> recipes = recipeService.getRecipesByText(text, userId, number, offset);
         modelAndView.addObject("recipes", recipes);
         return modelAndView;
     }
 
     @GetMapping("/suitable/{profileId}")
     public ModelAndView getMostSuitableRecipes(@RequestParam(defaultValue = "5") int number,
-                                                                    @RequestParam(defaultValue = "0") int offset,
-                                                                    @PathVariable("profileId") long profileId,
-                                                                    Principal principal) {
+                                               @RequestParam(defaultValue = "0") int offset,
+                                               @PathVariable("profileId") long profileId,
+                                               Principal principal) {
         ModelAndView modelAndView = new ModelAndView("recipes");
         long userId = getProfileIdIfAuthenticated(principal);
-        List<ShortRecipe> recipes =recipeService.getMostSuitableRecipes(profileId, number, offset, userId);
+        List<ShortRecipe> recipes = recipeService.getMostSuitableRecipes(profileId, number, offset, userId);
         modelAndView.addObject("recipes", recipes);
         return modelAndView;
     }
 
-    @GetMapping("/compromise")
+    @GetMapping("/compromise/{profileIds}")
     public ModelAndView getCompromiseRecipes(@RequestParam(defaultValue = "5") int number,
-                                                                  @RequestParam(defaultValue = "0") int offset,
-                                                                  @RequestParam("id") String profileIds,
-                                                                  Principal principal) {
+                                             @RequestParam(defaultValue = "0") int offset,
+                                             @PathVariable("profileIds") String profileIds,
+                                             Principal principal) {
         ModelAndView modelAndView = new ModelAndView("recipes");
         long userId = getProfileIdIfAuthenticated(principal);
-        List<ShortRecipe> recipes =recipeService.getCompromiseRecipes(profileIds, number, offset, userId);
+        List<ShortRecipe> recipes = recipeService.getCompromiseRecipes(profileIds, number, offset, userId);
         modelAndView.addObject("recipes", recipes);
         return modelAndView;
     }

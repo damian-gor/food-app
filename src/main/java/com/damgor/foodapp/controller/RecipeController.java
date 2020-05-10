@@ -36,9 +36,10 @@ public class RecipeController {
             notes = "Enter the desired ingredients, separating them with a comma or space.",
             response = ShortRecipe.class)
     @GetMapping("/byIngredients/{ingredients}")
-    public ResponseEntity<List<ShortRecipe>> getRecipesByIngredients(@PathVariable("ingredients") String ingredients, Principal principal) {
+    public ResponseEntity<List<ShortRecipe>> getRecipesByIngredients(@RequestParam(defaultValue = "5") int number,
+                                                                     @PathVariable("ingredients") String ingredients, Principal principal) {
         long userId = getProfileIdIfAuthenticated(principal);
-        return ResponseEntity.ok().body(recipeService.getRecipesByIngredients(ingredients, userId));
+        return ResponseEntity.ok().body(recipeService.getRecipesByIngredients(ingredients, userId, number));
     }
 
     @ApiOperation(value = "Get the recipe by id",
@@ -53,9 +54,12 @@ public class RecipeController {
             notes = "E.g. 'Cake with carrots without nuts'.",
             response = ShortRecipe.class)
     @GetMapping("/search/{text}")
-    public ResponseEntity<List<ShortRecipe>> getRecipesByText(@PathVariable("text") String text, Principal principal) {
+    public ResponseEntity<List<ShortRecipe>> getRecipesByText(@RequestParam(defaultValue = "5") int number,
+                                                              @RequestParam(defaultValue = "0") int offset,
+                                                              @PathVariable("text") String text,
+                                                              Principal principal) {
         long userId = getProfileIdIfAuthenticated(principal);
-        return ResponseEntity.ok().body(recipeService.getRecipesByText(text, userId));
+        return ResponseEntity.ok().body(recipeService.getRecipesByText(text, userId, number, offset));
     }
 
     @ApiOperation(value = "Receive a list of recipes that match the nutritional preferences of the indicated profile",
@@ -73,10 +77,10 @@ public class RecipeController {
     @ApiOperation(value = "Receive a list of recipes that match the nutritional preferences of the indicated profiles",
             notes = "Insert any number of profile' ids, separating them with a comma. You can define the number of displayed recipes.",
             response = ShortRecipe.class)
-    @GetMapping("/compromise")
+    @GetMapping("/compromise/{profileIds}")
     public ResponseEntity<List<ShortRecipe>> getCompromiseRecipes(@RequestParam(defaultValue = "5") int number,
                                                                   @RequestParam(defaultValue = "0") int offset,
-                                                                  @RequestParam("id") String profileIds,
+                                                                  @PathVariable("profileIds") String profileIds,
                                                                   Principal principal) {
         long userId = getProfileIdIfAuthenticated(principal);
         return ResponseEntity.ok().body(recipeService.getCompromiseRecipes(profileIds, number, offset, userId));

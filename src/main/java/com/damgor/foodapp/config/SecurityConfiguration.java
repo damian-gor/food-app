@@ -31,7 +31,7 @@ import static org.springframework.http.HttpMethod.GET;
                 .and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(GET,"/", "/recipes/**","/products/**","/profiles","/profiles/*",
-                        "/ui/", "/ui/recipes/**","/ui/products/**","/ui/profiles","/ui/profiles/*").permitAll()
+                        "/ui","/ui/", "/ui/recipes/**","/ui/products/**","/ui/profiles","/ui/profiles/*").permitAll()
                 .antMatchers("/", "/recipes/**","/products/**","/profiles/**",
                         "/ui/", "/ui/recipes/**","/ui/products/**","/ui/profiles/**").hasAnyRole("USER","ADMIN")
                 .antMatchers("/**").hasRole("ADMIN")

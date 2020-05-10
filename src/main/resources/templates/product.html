@@ -1,36 +1,67 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <script type="text/javascript" th:src="@{/js/product-common.js}"></script>
     <title>Product</title>
 </head>
+
 <body>
-<h1>Product</h1>
+    <h1>Product</h1>
 
-<h2 th:text="${product.productName}"></h2>
-<p>Id: <span th:text="${product.id}"></span></p>
-<table class="table">
-    <tr>
-        <td>Kcal:</td>
-        <td th:text="${product.kcal}"></td>
-    </tr>
-    <tr>
-        <td>Proteins:</td>
-        <td th:text="${product.protein}"></td>
-    </tr>
-    <tr>
-        <td>Carbohydrates:</td>
-        <td th:text="${product.carbs}"></td>
-    </tr>
-    <tr>
-        <td>Fats:</td>
-        <td th:text="${product.fat}"></td>
-    </tr>
-</table>
+    <h2 th:text="${product.productName}"></h2>
+    <p>Id: <span th:text="${product.id}"></span></p>
+    <table class="table">
+        <tr>
+            <td>Kcal:</td>
+            <td th:text="${product.kcal}"></td>
+        </tr>
+        <tr>
+            <td>Proteins:</td>
+            <td th:text="${product.protein}"></td>
+        </tr>
+        <tr>
+            <td>Carbohydrates:</td>
+            <td th:text="${product.carbs}"></td>
+        </tr>
+        <tr>
+            <td>Fats:</td>
+            <td th:text="${product.fat}"></td>
+        </tr>
+    </table>
 
-<div th:each="link : ${product.links} ">
-    <a th:href="${link.getHref()}"><button th:text="${link.getRel()}"></button></a>
-</div>
+    <div th:each="link : ${product.links} ">
+        <a th:href="${link.getHref()}"><button th:text="${link.getRel()}"></button></a>
+    </div>
+
+    <h3>Look for other products:</h3>
+    <div>
+        <label for="input-product-general">Find general product:</label>
+        <input id="input-product-general" type="text" placeholder="Write product name...">
+        <button id="search-product-general">Search</button>
+        <i class="far fa-question-circle" aria-hidden="true"
+        title="Returns general products, without specific brand, for example: 'milk' or 'beer'"></i>
+        <br>
+
+        <label for="input-product-specific">Find brand products:</label>
+        <input id="input-product-specific" type="text" placeholder="Write product name...">
+        <button id="search-product-specific">Search</button>
+        <i class="far fa-question-circle" aria-hidden="true"
+        title="Returns list of products with specific brands. Write specific product name (i.e. 'Coca-Cola') or general product name (i.e. 'cookies')"></i>
+        <br>
+
+        <label for="input-product-id">Find product by ID:</label>
+        <input id="input-product-id" type="text" placeholder="Write product ID...">
+        <button id="search-product-id">Search</button>
+        <i class="far fa-question-circle" aria-hidden="true" title="Write for example: '62248'"></i>
+    </div>
 
 </body>
+
 </html>

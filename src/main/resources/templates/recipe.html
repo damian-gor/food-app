@@ -1,67 +1,116 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <script type="text/javascript" th:src="@{/js/recipe-common.js}"></script>
     <title>Recipe</title>
 </head>
+
 <body>
-<h1>Recipe</h1>
+    <h1>Recipe</h1>
 
-<h2 th:text="${recipe.recipeTitle}"></h2>
-<p>Id: <span th:text="${recipe.id}"></span></p>
-<table class="table">
-    <tr>
-        <td>Likes:</td>
-        <td th:text="${recipe.likes}"></td>
-    </tr>
-    <tr>
-        <td>Score:</td>
-        <td th:text="${recipe.score}"></td>
-    </tr>
-    <tr>
-        <td>Health-scores:</td>
-        <td th:text="${recipe.healthScore}"></td>
-    </tr>
-    <tr>
-        <td>Servings:</td>
-        <td th:text="${recipe.servings}"></td>
-    </tr>
-    <tr>
-        <td>Estimated price per serving in $:</td>
-        <td th:text="${recipe.pricePerServing}">No-info</td>
-    </tr>
-    <tr>
-        <td>Diets:</td>
-        <td th:each="diet : ${recipe.diets}">
-            <li th:text="${diet}"></li>
-        </td>
-    </tr>
-    <tr>
-        <td>Dish types:</td>
-        <td th:each="dish : ${recipe.dishTypes}">
-            <li th:text="${dish}"></li>
-        </td>
-    </tr>
-</table>
+    <h2 th:text="${recipe.recipeTitle}"></h2>
+    <p>Id: <span th:text="${recipe.id}"></span></p>
 
-<div th:each="link : ${recipe.links} ">
-    <a th:href="${link.getHref()}"><button th:text="${link.getRel()}"></button></a>
+    <h3>Basic informations</h3>
+    <table class="table">
+        <tr>
+            <td>Likes:</td>
+            <td th:text="${recipe.likes}"></td>
+        </tr>
+        <tr>
+            <td>Score:</td>
+            <td th:text="${recipe.score}"></td>
+        </tr>
+        <tr>
+            <td>Health-scores:</td>
+            <td th:text="${recipe.healthScore}"></td>
+        </tr>
+        <tr>
+            <td>Servings:</td>
+            <td th:text="${recipe.servings}"></td>
+        </tr>
+        <tr>
+            <td>Estimated price per serving in $:</td>
+            <td th:text="${recipe.pricePerServing}">No-info</td>
+        </tr>
+        <tr>
+            <td>Diets:</td>
+            <td th:each="diet : ${recipe.diets}">
+                <li th:text="${diet}"></li>
+            </td>
+        </tr>
+        <tr>
+            <td>Dish types:</td>
+            <td th:each="dish : ${recipe.dishTypes}">
+                <li th:text="${dish}"></li>
+            </td>
+        </tr>
+    </table>
+
+    <h3>Ingredients:</h3>
+    <table class="table">
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Units</th>
+        </tr>
+        <tr th:each="ingr : ${recipe.ingredients}">
+            <td th:text="${ingr.name}">-</td>
+            <td th:text="${ingr.amount}">-</td>
+            <td th:text="${ingr.unit}">unit</td>
+        </tr>
+    </table>
+
+    <h3>Instructions:</h3>
+    <p th:text="${recipe.instructions}"></p>
+</body>
+
+<h3>Look for other recipes:</h3>
+<div>
+    <button id="search-recipe-random">Surprise me!</button><i class="far fa-question-circle" aria-hidden="true"
+        title="Get random recipe"></i>
+    <br>
+
+    <label for="input-recipe-byIngredients">Find recipes by ingredients:</label>
+    <input id="input-recipe-byIngredients" type="text" placeholder="Write wanted ingredients...">
+    <button id="search-recipe-byIngredients">Search</button>
+    <i class="far fa-question-circle" aria-hidden="true"
+        title="Use commas as separators, for example: 'cottage-cheese, spinach'"></i>
+    <br>
+
+    <label for="input-recipe-byId">Find recipe by ID:</label>
+    <input id="input-recipe-byId" type="text" placeholder="Write recipe ID...">
+    <button id="search-recipe-byId">Search</button>
+    <i class="far fa-question-circle" aria-hidden="true" title="Write for example: '168241'"></i>
+    <br>
+
+    <label for="input-recipe-byText">Find recipes by text:</label>
+    <input id="input-recipe-byText" type="text" placeholder="Write query...">
+    <button id="search-recipe-byText">Search</button>
+    <i class="far fa-question-circle" aria-hidden="true"
+        title="Write for example: 'Cake with carrots without nuts'"></i>
+    <br>
+
+    <label for="input-recipe-suitable">Find recipe suitable for selected profile:</label>
+    <input id="input-recipe-suitable" type="text" placeholder="Write profile ID...">
+    <button id="search-recipe-suitable">Search</button>
+    <i class="far fa-question-circle" aria-hidden="true"
+        title="We will find a recipe that your friend will love! Write for example: '1'"></i>
+    <br>
+
+    <label for="input-recipe-compromise" title="We will find a recipe suitable for everyone at the same time!">Find a
+        compromise recipes for selected profiles:</label>
+    <input id="input-recipe-compromise" type="text" placeholder="Write profile' IDs...">
+    <button id="search-recipe-compromise">Search</button>
+    <i class="far fa-question-circle" aria-hidden="true"
+        title="We will find a recipe suitable for everyone at the same time! Write for example: 1,3"></i>
 </div>
 
-<p>Ingredients:</p>
-<table class="table">
-    <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Units</th>
-    </tr>
-    <tr th:each="ingr : ${recipe.ingredients}">
-        <td th:text="${ingr.name}">-</td>
-        <td th:text="${ingr.amount}">-</td>
-        <td th:text="${ingr.unit}">unit</td>
-    </tr>
-</table>
-
-<p th:text="${recipe.instructions}"></p>
-</body>
 </html>

@@ -1,39 +1,54 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
     <title>Meals</title>
 </head>
+
 <body>
-<h1>Meals</h1>
-<p>Profile ID: <span th:text="${meals.get('0').id.profileId}"></span></p>
-<p>Date: <span th:text="${meals.get('0').id.date}"></span></p>
+    <h1>Meals</h1>
+    <p>Profile ID: <span th:text="${meals.get('0').id.profileId}"></span></p>
+    <p>Date: <span th:text="${meals.get('0').id.date}"></span></p>
 
+    <h3>Diary pages caloric statistics</h3>
+    <table class="table">
+        <tr>
+            <td>Caloric intake goal:</td>
+            <td th:text="${diaryPage.caloricIntakeGoal}"></td>
+        </tr>
+        <tr>
+            <td>Calories left:</td>
+            <td th:text="${diaryPage.kcalLeft}"></td>
+        </tr>
+    </table>
+    <br>
 
-<table class="table">
-    <tr>
-        <th>Meal ID</th>
-<!--        <th>Number of products</th>-->
-        <th>Meal's kcal</th>
-        <th></th>
-    </tr>
-    <tr th:each="meal : ${meals}">
-        <td th:text="${meal.id.mealNumber}"></td>
-<!--        <td th:text="${meal.products.size()}">0</td>-->
-        <td th:text="${meal.mealKcal}"></td>
-        <td><a th:href="${meal.getLink('Self').get().getHref()}"><button>Meal details</button></a></td>
-    </tr>
-    <tr>
-        <td>Caloric intake goal:</td>
-        <td th:text="${diaryPage.caloricIntakeGoal}"></td>
-    </tr>
-    <tr>
-        <td>Calories left:</td>
-        <td th:text="${diaryPage.kcalLeft}"></td>
-    </tr>
-</table>
-    <a th:href="${meals.get('0').getLink('Back to the diary page').get().getHref()}"><button>Back to diary page</button></a>
-    <a th:href="${meals.get('0').getLink('Go to profile food diary').get().getHref()}"><button>Back to profile's food diary</button></a>
+    <h3>Meals list</h3>
+    <table class="table">
+        <tr>
+            <th>Meal ID</th>
+            <th>Meal's kcal</th>
+            <th></th>
+        </tr>
+        <tr th:each="meal : ${meals}">
+            <td th:text="${meal.id.mealNumber}"></td>
+            <td th:text="${meal.mealKcal}"></td>
+            <td><a th:href="${meal.getLink('Self').get().getHref()}"><button>Meal details</button></a></td>
+        </tr>
+    </table>
+    <br>
+
+    <a th:href="${meals.get('0').getLink('Back to the diary page').get().getHref()}"><button>Back to diary
+            page</button></a>
+    <a th:href="${meals.get('0').getLink('Go to profile food diary').get().getHref()}"><button>Back to profile's food
+            diary</button></a>
     <a th:href="${meals.get('0').getLink('Back to the profile').get().getHref()}"><button>Back to profile</button></a>
 </body>
+
 </html>

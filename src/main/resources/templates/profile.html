@@ -1,40 +1,126 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <script type="text/javascript" th:src="@{/js/profile.js}"></script>
     <title>Profile</title>
 </head>
+
 <body>
-<h1 th:text="${profile.name}"></h1>
-<p>Id: <span th:text="${profile.id}"></span></p>
-<table class="table">
-    <tr>
-        <td>Favourite cuisine:</td>
-        <td th:text="${profile.cuisine}">-</td>
-    </tr>
-    <tr>
-        <td>Diet type:</td>
-        <td th:text="${profile.diet}">-</td>
-    </tr>
-    <tr>
-        <td>Intolerance:</td>
-        <td th:text="${profile.intolerance}">-</td>
-    </tr>
-</table>
+    <h1 th:text="${profile.name}" id="profile-name"></h1>
+    <button type="button" class="btn btn-default btn-lg confirm" id="delete">
+        <i class="fas fa-trash-alt" aria-hidden="true"></i>
+    </button>
+    <h2>Profile</h2>
+    <p>Id: <span th:text="${profile.id}"></span></p>
+    <table class="table">
+        <tr>
+            <td>Favourite cuisine:</td>
+            <td id="profile-cuisine"><span th:if="${profile.cuisine != null}"
+                    th:text="${profile.cuisine.displayName}"></span></td>
+        </tr>
+        <tr>
+            <td>Diet type:</td>
+            <td id="profile-diet"><span th:if="${profile.diet != null}" th:text="${profile.diet.displayName}"
+                    th:title="${profile.diet.description}"></span></td>
+        </tr>
+        <tr>
+            <td>Intolerance:</td>
+            <td id="profile-intolerance"><span th:if="${profile.intolerance != null}"
+                    th:text="${profile.intolerance.displayName}"></span></td>
+        </tr>
+    </table>
 
-<h2>Favourites recipes</h2>
-<ul th:each="recipe : ${profile.favouriteRecipes}">
-    <li th:text="${recipe}"></li>
-</ul>
+    <button id="btn-edit-profile">Edit profile</button>
+    <div class="container" id="profile-form-container" style="display: none">
+        <form id="profileForm">
+            <div class="form-group">
+                <label for="name">Profile name:</label> <input type="text" class="form-control" id="name"
+                    th:value="${profile.name}" name="name">
+            </div>
+            <div class="form-group">
+                <label for="diet">Diet:</label>
+                <select name="diet" id="diet">
+                    <option th:each="diet : ${T(com.damgor.foodapp.model.enums.Diet).values()}" th:value="${diet}"
+                        th:text="${diet.displayName}" th:if="${diet == profile.diet}" selected>
+                    </option>
+                    <option th:each="diet : ${T(com.damgor.foodapp.model.enums.Diet).values()}" th:value="${diet}"
+                        th:text="${diet.displayName}" th:if="${diet != profile.diet}">
+                    </option>
+                    <option value="none">none</option>
+                </select>
+                <p style="font-size: 14px; font-style: italic" id="desc-diet" th:text="${profile.diet.description}"
+                    th:if="${profile.diet != null}">
+                    Select diet to get description</p>
+            </div>
+            <div class="form-group">
+                <label for="cuisine">Cuisine:</label>
+                <select name="cuisine" id="cuisine">
+                    <option th:each="cuisine : ${T(com.damgor.foodapp.model.enums.Cuisine).values()}"
+                        th:value="${cuisine}" th:text="${cuisine.displayName}" th:if="${cuisine == profile.cuisine}"
+                        selected></option>
+                    <option th:each="cuisine : ${T(com.damgor.foodapp.model.enums.Cuisine).values()}"
+                        th:value="${cuisine}" th:text="${cuisine.displayName}" th:if="${cuisine != profile.cuisine}">
+                    </option>
+                    <option value="none">none</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="intolerance">Intolerance:</label>
+                <select name="intolerance" id="intolerance">
+                    <option th:each="intolerance : ${T(com.damgor.foodapp.model.enums.Intolerance).values()}"
+                        th:value="${intolerance}" th:text="${intolerance.displayName}"
+                        th:if="${intolerance == profile.intolerance}" selected></option>
+                    <option th:each="intolerance : ${T(com.damgor.foodapp.model.enums.Intolerance).values()}"
+                        th:value="${intolerance}" th:text="${intolerance.displayName}"
+                        th:if="${intolerance != profile.intolerance}"></option>
+                    <option value="none">none</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
 
-<h2>Favourites products</h2>
-<ul th:each="product : ${profile.favouriteProducts}">
-    <li th:text="${product}"></li>
-</ul>
 
-<a th:href="${profile.getLink('Go to profile details').get().getHref()}"><button>Details</button></a>
-<a th:href="${profile.getLink('Go to profile food diary').get().getHref()}"><button>Food Diary</button></a>
-<a th:href="${profile.getLink('Get all profiles').get().getHref()}"><button>Back to profiles</button></a>
+    <h2>Favourites recipes</h2>
+    <ul th:each="recipe : ${profile.favouriteRecipes}">
+        <li th:text="${recipe}"></li>
+    </ul>
+
+    <button id="btn-edit-recipes">Add recipes</button>
+    <div id="recipes-form-container" style="display: none">
+        <p>Still under construction ... sorry!</p>
+    </div>
+
+    <h2>Favourites products</h2>
+    <ul th:each="product : ${profile.favouriteProducts}">
+        <li th:text="${product}"></li>
+    </ul>
+    <button id="btn-edit-products">Add products</button>
+    <div id="products-form-container" style="display: none">
+        <p>Still under construction ... sorry!</p>
+    </div>
+    <br>
+    <br>
+    <a th:href="${profile.getLink('Go to profile details').get().getHref()}"><button>Details</button></a>
+    <a th:href="${profile.getLink('Go to profile food diary').get().getHref()}"><button>Food Diary</button></a>
+    <a th:href="${profile.getLink('Get all profiles').get().getHref()}"><button>Back to profiles</button></a>
+
+    <script th:inline="javascript">
+        var dietDisplayNamesMap = /*[[${T(com.damgor.foodapp.model.enums.Diet).values()[0].displayNameMap}]]*/ null;
+        var dietDescriptionsMap = /*[[${T(com.damgor.foodapp.model.enums.Diet).values()[0].descriptionMap}]]*/ null;
+        var intoleranceDisplayNamesMap = /*[[${T(com.damgor.foodapp.model.enums.Intolerance).values()[0].displayNameMap}]]*/
+            null;
+        var cuisineDisplayNamesMap = /*[[${T(com.damgor.foodapp.model.enums.Cuisine).values()[0].displayNameMap}]]*/
+            null;
+    </script>
 
 </body>
+
 </html>

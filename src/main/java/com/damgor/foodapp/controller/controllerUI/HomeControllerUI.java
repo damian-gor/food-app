@@ -20,9 +20,9 @@ public class HomeControllerUI {
         Message message = new Message("Welcome to food-app! Feel free to check up food-app's features :) Some of them" +
                 " are available below:");
         message.add(
-                linkTo(methodOn(RecipeControllerUI.class).getRecipesByText("cake with carrots without nuts", null)).withRel("Search for recipes"),
+                linkTo(methodOn(RecipeControllerUI.class).getRecipesByText(5,0,"cake with carrots without nuts", null)).withRel("Search for recipes"),
                 linkTo(methodOn(ProductControllerUI.class).getGeneralProduct("goat milk", null)).withRel("Search for products"),
-                linkTo(methodOn(ProfileControllerUI.class).getAllProfiles()).withRel("Check our profiles.")
+                linkTo(methodOn(ProfileControllerUI.class).getAllProfiles()).withRel("Check our profiles")
         );
         modelAndView.addObject("message", message);
         return modelAndView;

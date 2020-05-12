@@ -7,12 +7,4 @@ $(document).ready(function () {
         window.open(window.location.href.split('?')[0] + "?number=" + resultsInput + "&offset=" +
         pageNumberInput, "_self");
     });
-
-    // var btnResults = document.getElementById("set-result-number");
-    // btnResults.addEventListener("click", function () {
-    //     var resultsInput = $("#input-result-number").val();
-    //     var pageNumberInput = $("#input-page").val() - 1;
-    //     window.open(window.location.href.split('?')[0] + "?number=" + resultsInput + "&offset=" +
-    //         pageNumberInput, "_self");
-    // });
 });

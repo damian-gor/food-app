@@ -1,7 +1,9 @@
 package com.damgor.foodapp.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,7 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.springframework.http.HttpMethod.GET;
 
+
+@Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
  public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -30,12 +35,17 @@ import static org.springframework.http.HttpMethod.GET;
                 .and().cors()
                 .and().csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/css/**", "/js/**").permitAll()
                 .antMatchers(GET,"/", "/recipes/**","/products/**","/profiles","/profiles/*",
                         "/ui","/ui/", "/ui/recipes/**","/ui/products/**","/ui/profiles","/ui/profiles/*").permitAll()
                 .antMatchers("/", "/recipes/**","/products/**","/profiles/**",
                         "/ui/", "/ui/recipes/**","/ui/products/**","/ui/profiles/**").hasAnyRole("USER","ADMIN")
                 .antMatchers("/**").hasRole("ADMIN")
-                .and().formLogin();
+                .and().formLogin()
+                .and()
+                .logout()
+                .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true).clearAuthentication(true);
     }
 
     @Override

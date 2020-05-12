@@ -35,7 +35,9 @@ public class Profile extends RepresentationModel<Profile> {
     private Diet diet;
     @Enumerated(EnumType.STRING)
     private Intolerance intolerance;
+    @Column(columnDefinition = "MEDIUMBLOB")
     private ArrayList<Integer> favouriteRecipes;
+    @Column(columnDefinition = "MEDIUMBLOB")
     private ArrayList<String> favouriteProducts;
 
 }

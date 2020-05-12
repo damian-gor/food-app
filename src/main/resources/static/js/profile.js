@@ -1,7 +1,9 @@
 $(document).ready(function () {
+
+
     var defaultDescDiet = "Select diet to get description";
 
-    // DELETE
+    // DELETE PROFILE BUTTON
     $("#delete").click(function (event) {
         event.preventDefault();
         if (window.confirm("Are you sure?")) {
@@ -9,6 +11,13 @@ $(document).ready(function () {
         }
     });
 
+    // SUBMIT FORM BUTTON
+    $("#profileForm").submit(function (event) {
+        event.preventDefault();
+        ajaxUpdateProfile();
+    });
+
+    // DELETE PROFILE
     function ajaxDelete() {
         $.ajax({
             url: window.location.href,
@@ -21,26 +30,16 @@ $(document).ready(function () {
                 window.location.replace(result.links[0].href);
             },
             error: function (xhr, e) {
-                if (xhr.status == 401) {
-                    alert('Unauthorized! Please log in.');
-                } else if (xhr.status == 403) {
-                    alert('Forbidden!');
-                } else {
-                    alert("error");
-                }
+                if (xhr.status == 401) alert('Unauthorized! Please log in');
+                else if (xhr.status == 403) alert('Forbidden!');
+                else alert("Error!");
                 console.log("ERROR: ", e);
             }
         });
     };
 
-
-    // SUBMIT FORM
-    $("#profileForm").submit(function (event) {
-        event.preventDefault();
-        ajaxPost();
-    });
-
-    function ajaxPost() {
+    // UPDATE PROFILE
+    function ajaxUpdateProfile() {
 
         var diet, cuisine, intolerance, name = null;
         if ($("#diet").val() != "none") diet = $("#diet").val();
@@ -71,8 +70,10 @@ $(document).ready(function () {
                         .intolerance]);
                 }
             },
-            error: function (e) {
-                alert("error");
+            error: function (xhr, e) {
+                if (xhr.status == 401) alert('Unauthorized! Please log in');
+                else if (xhr.status == 403) alert('Forbidden!');
+                else alert("Error!");
                 console.log("ERROR: ", e);
             }
         });
@@ -90,7 +91,7 @@ $(document).ready(function () {
         }
     });
 
-    //  buttons
+    //  toggle buttons
     $("#btn-edit-profile").click(function () {
         $("#profile-form-container").toggle();
     });
@@ -103,4 +104,7 @@ $(document).ready(function () {
         $("#products-form-container").toggle();
     });
 
+    $("#btn-search-products").click(function () {
+        $("#search-products").toggle();
+    });
 });

@@ -36,15 +36,6 @@ public class ProfileControllerUI {
         return modelAndView;
     }
 
-//    @PostMapping
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    public ModelAndView addProfile(@RequestBody Profile profile) {
-//        ModelAndView modelAndView = new ModelAndView("profile");
-//        Profile newProfile = profileService.addProfile(profile);
-//        modelAndView.addObject("profile", newProfile);
-//        return modelAndView;
-//    }
-
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity <Profile> addProfile(@RequestBody Profile profile) {
@@ -76,23 +67,17 @@ public class ProfileControllerUI {
 
     @GetMapping("/{profileId}/favourites")
     @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
-    public ModelAndView addToFavourites(@PathVariable long profileId,
+    public ResponseEntity<Message> addToFavourites(@PathVariable long profileId,
                                                    @RequestParam(defaultValue = "0") String recipesIds,
                                                    @RequestParam(defaultValue = "0") String productsIds) {
-        ModelAndView modelAndView = new ModelAndView("message");
-        Message message = profileService.addToFavourites(profileId, recipesIds, productsIds);
-        modelAndView.addObject("message", message);
-        return modelAndView;
+        return ResponseEntity.ok().body(profileService.addToFavourites(profileId, recipesIds, productsIds));
     }
 
     @DeleteMapping("/{profileId}/favourites")
     @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
-    public ModelAndView removeFromFavourites(@PathVariable long profileId,
+    public ResponseEntity<Message> removeFromFavourites(@PathVariable long profileId,
                                                         @RequestParam(defaultValue = "0") String recipesIds,
                                                         @RequestParam(defaultValue = "0") String productsIds) {
-        ModelAndView modelAndView = new ModelAndView("message");
-        Message message = profileService.removeFromFavourites(profileId, recipesIds, productsIds);
-        modelAndView.addObject("message", message);
-        return modelAndView;
+        return ResponseEntity.ok().body(profileService.removeFromFavourites(profileId, recipesIds, productsIds));
     }
 }

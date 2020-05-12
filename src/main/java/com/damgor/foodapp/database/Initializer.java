@@ -46,8 +46,12 @@ public class Initializer implements CommandLineRunner {
 ///////////////    PROFILE    ///////////////////
 
         ArrayList<String> favouritesSample1 = new ArrayList<>();
-        favouritesSample1.add("hard-coded-product1");
-        favouritesSample1.add("hard-coded-product2");
+        favouritesSample1.add("food_ac9n68caswlpggbp7727varlyjk5");
+        favouritesSample1.add("food_a3049hmbqj5wstaeeb3udaz6uaqv");
+        favouritesSample1.add("food_ai215e5b85pdh5ajd4aafa3w2zm8");
+        favouritesSample1.add("food_awz3iefajbk1fwahq9logahmgltj");
+        favouritesSample1.add("430682");
+        favouritesSample1.add("209138");
 
         Profile profile1 = new Profile();
         profile1.setId(1L);

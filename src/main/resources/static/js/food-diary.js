@@ -11,7 +11,10 @@ $(document).ready(function () {
                 $('#profileName').text(profileName);
             }
         },
-        error: function (e) {
+        error: function (xhr, e) {
+            if (xhr.status == 401) alert('Unauthorized! Please log in');
+            else if (xhr.status == 403) alert('Forbidden!');
+            else alert("Error!");
             console.log("ERROR: ", e);
         }
     });

@@ -48,9 +48,10 @@ $(document).ready(function () {
                     $("#postresponseDiv").html("<strong>Error</strong>");
                 }
             },
-            error: function (e) {
-                alert(e.responseJSON.apierror.status + "\n" + e.responseJSON.apierror
-                    .message)
+            error: function (xhr, e) {
+                if (xhr.status == 401) alert('Unauthorized! Please log in');
+                else if (xhr.status == 403) alert('Forbidden!');
+                else alert("Error!");
                 console.log("ERROR: ", e);
             }
         });

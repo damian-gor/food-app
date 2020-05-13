@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <meta charset="UTF-8">
@@ -9,10 +10,22 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
     <script type="text/javascript" th:src="@{/js/profiles.js}"></script>
+    <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
     <title>Profiles</title>
 </head>
 
 <body>
+
+    <div>
+        <i class="far fa-user"></i>
+        <div sec:authorize="isAuthenticated()">
+            <a id="user"><span sec:authentication="name"></span></a>
+            <a id="logout">Log out</a>
+        </div>
+        <span sec:authorize="!isAuthenticated()"><a id="login-redirect">Log in</a></span>
+    </div>
+
+
     <h1>Profiles</h1>
 
     <table class="table">
@@ -75,7 +88,9 @@
 
     <script th:inline="javascript">
         var dietDescriptionsMap = /*[[${T(com.damgor.foodapp.model.enums.Diet).values()[0].descriptionMap}]]*/ null;
+        var auth = /*[[${#authentication}]]*/ null;
     </script>
+
 </body>
 
 </html>

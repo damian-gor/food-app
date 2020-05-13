@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <meta charset="UTF-8">
@@ -9,10 +10,22 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
     <script type="text/javascript" th:src="@{/js/food-diary.js}"></script>
+    <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
     <title>Food Diary</title>
 </head>
 
 <body>
+
+    <div>
+        <i class="far fa-user"></i>
+        <div sec:authorize="isAuthenticated()">
+            <a id="user"><span sec:authentication="name"></span></a>
+            <a id="logout">Log out</a>
+        </div>
+        <span sec:authorize="!isAuthenticated()"><a id="login-redirect">Log in</a></span>
+    </div>
+
+
     <h1><span id="profileName"></span></h1>
     <h2>Food Diary</h2>
     <p>Id: <span th:text="${foodDiary.profileId}"></span></p>
@@ -25,6 +38,11 @@
             pages</button></a>
     <a th:href="${foodDiary.getLink('Back to profile').get().getHref()}" id="profileLink"><button>Back to
             profile</button></a>
+
+    <script th:inline="javascript">
+        var auth = /*[[${#authentication}]]*/ null;
+    </script>
+
 </body>
 
 </html>

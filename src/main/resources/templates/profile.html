@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <meta charset="UTF-8">
@@ -11,6 +12,8 @@
     <script type="text/javascript" th:src="@{/js/profile.js}"></script>
     <script type="text/javascript" th:src="@{/js/product-common.js}"></script>
     <script type="text/javascript" th:src="@{/js/favourites.js}"></script>
+    <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
+    <script type="text/javascript" th:src="@{/js/recipe-common.js}"></script>
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
@@ -18,8 +21,16 @@
 </head>
 
 <body>
-<!--    <div sec:authorize="isAuthenticated()">-->
-<!--        Authenticated as <span sec:authentication="name"></span></div>-->
+
+    <div>
+        <i class="far fa-user"></i>
+        <div sec:authorize="isAuthenticated()">
+            <a id="user"><span sec:authentication="name"></span></a>
+            <a id="logout">Log out</a>
+        </div>
+        <span sec:authorize="!isAuthenticated()"><a id="login-redirect">Log in</a></span>
+    </div>
+
 
     <h1 th:text="${profile.name}" id="profile-name"></h1>
     <button type="button" class="btn btn-default btn-lg confirm" id="delete">
@@ -94,19 +105,52 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
+    <br>
 
 
-    <h2>Favourites recipes</h2>
-    <ul th:each="recipe : ${profile.favouriteRecipes}">
-        <li th:text="${recipe}"></li>
-    </ul>
-
-    <button id="btn-edit-recipes">Add recipes</button>
-    <div id="recipes-form-container" style="display: none">
-        <p>Still under construction ... sorry!</p>
+    <h2>Favourite recipes</h2>
+    <input type="checkbox" unchecked data-toggle="toggle" data-on="shown" data-off="hidden" data-onstyle="success"
+        data-offstyle="secondary" id="showRecipes">
+    <div class="container" id="recipes-container" style="display: none">
+        <table class="table" id="recipesTable">
+            <tr>
+                <th>Recipe title</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </table>
     </div>
+    <br>
 
-    <h2>Favourites products</h2>
+    <button id="btn-search-recipes">Search more recipes</button>
+    <div class="container" id="search-recipes" style="display: none">
+        <button id="search-recipe-random">Surprise me!</button><i class="far fa-question-circle" aria-hidden="true"
+            title="Get random recipe"></i>
+        <br>
+
+        <label for="input-recipe-byIngredients">Find recipes by ingredients:</label>
+        <input id="input-recipe-byIngredients" type="text" placeholder="Write wanted ingredients...">
+        <button id="search-recipe-byIngredients">Search</button>
+        <i class="far fa-question-circle" aria-hidden="true"
+            title="Use commas as separators, for example: 'cottage-cheese, spinach'"></i>
+        <br>
+
+        <label for="input-recipe-byId">Find recipe by ID:</label>
+        <input id="input-recipe-byId" type="text" placeholder="Write recipe ID...">
+        <button id="search-recipe-byId">Search</button>
+        <i class="far fa-question-circle" aria-hidden="true" title="Write for example: '168241'"></i>
+        <br>
+
+        <label for="input-recipe-byText">Find recipes by text:</label>
+        <input id="input-recipe-byText" type="text" placeholder="Write query...">
+        <button id="search-recipe-byText">Search</button>
+        <i class="far fa-question-circle" aria-hidden="true"
+            title="Write for example: 'Cake with carrots without nuts'"></i>
+        <br>
+    </div>
+    <br>
+
+    <h2>Favourite products</h2>
     <input type="checkbox" unchecked data-toggle="toggle" data-on="shown" data-off="hidden" data-onstyle="success"
         data-offstyle="secondary" id="showProducts">
     <div class="container" id="products-container" style="display: none">
@@ -127,14 +171,14 @@
         <input id="input-product-general" type="text" placeholder="Write product name...">
         <button id="search-product-general">Search</button>
         <i class="far fa-question-circle" aria-hidden="true"
-        title="Returns general products, without specific brand, for example: 'milk' or 'beer'"></i>
+            title="Returns general products, without specific brand, for example: 'milk' or 'beer'"></i>
         <br>
 
         <label for="input-product-specific">Find brand products:</label>
         <input id="input-product-specific" type="text" placeholder="Write product name...">
         <button id="search-product-specific">Search</button>
         <i class="far fa-question-circle" aria-hidden="true"
-        title="Returns list of products with specific brands. Write specific product name (i.e. 'Coca-Cola') or general product name (i.e. 'cookies')"></i>
+            title="Returns list of products with specific brands. Write specific product name (i.e. 'Coca-Cola') or general product name (i.e. 'cookies')"></i>
         <br>
 
         <label for="input-product-id">Find product by ID:</label>
@@ -144,6 +188,7 @@
     </div>
 
 
+    <br>
     <br>
     <br>
     <a th:href="${profile.getLink('Go to profile details').get().getHref()}"><button>Details</button></a>
@@ -158,6 +203,8 @@
         var cuisineDisplayNamesMap = /*[[${T(com.damgor.foodapp.model.enums.Cuisine).values()[0].displayNameMap}]]*/
             null;
         var favouriteProducts = /*[[${profile.favouriteProducts}]]*/ null;
+        var favouriteRecipes = /*[[${profile.favouriteRecipes}]]*/ null;
+        var auth = /*[[${#authentication}]]*/ null;
     </script>
 
 </body>

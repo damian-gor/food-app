@@ -107,4 +107,8 @@ $(document).ready(function () {
     $("#btn-search-products").click(function () {
         $("#search-products").toggle();
     });
+
+    $("#btn-search-recipes").click(function () {
+        $("#search-recipes").toggle();
+    });
 });

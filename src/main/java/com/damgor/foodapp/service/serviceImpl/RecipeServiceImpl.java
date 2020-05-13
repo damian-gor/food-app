@@ -174,5 +174,10 @@ public class RecipeServiceImpl implements RecipeService {
         return recipes;
     }
 
+
+    // adding sample recipes manually (in Initializer class) so as not to exceed the external server limit (low budget production $$$)
+    public void addRecipesToCache (Recipe recipe){
+        cacheRecipes.add(recipe);
+    }
 }
 

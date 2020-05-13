@@ -11,23 +11,30 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
     <script type="text/javascript" th:src="@{/js/product-common.js}"></script>
     <script type="text/javascript" th:src="@{/js/favourites.js}"></script>
+    <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
     <title>Product</title>
 </head>
 
 <body>
 
-<!--    <div sec:authorize="isAuthenticated()">-->
-<!--        Authenticated with ID <span id='userId' sec:authentication="principal.id"></span>-->
-<!--    </div>-->
+    <div>
+        <i class="far fa-user"></i>
+        <div sec:authorize="isAuthenticated()">
+            <a id="user"><span sec:authentication="name"></span></a>
+            <a id="logout">Log out</a>
+        </div>
+        <span sec:authorize="!isAuthenticated()"><a id="login-redirect">Log in</a></span>
+    </div>
+
 
     <h1>Product</h1>
     <h2 th:text="${product.productName}"></h2>
-    <button type="button" class="btn btn-default btn-sm" id="addToFavourites" title="Add product to favourites">
+    <button type="button" class="btn btn-default btn-sm" id="addToFavourites-product" title="Add product to favourites">
         <i class="fas fa-star" aria-hidden="true" style="color:rgba(202, 202, 60, 0.575)"></i>
     </button>
-    <div id ="admin-select-profile-id" style="display: none">
-        <input id="input-profile-id" type="text" placeholder="Write profileId...">
-        <button id="addToThis-profile-id">Add</button>
+    <div id ="product-admin-select-profile-id" style="display: none">
+        <input id="product-input-profile-id" type="text" placeholder="Write profileId...">
+        <button id="product-addToThis-profile-id">Add</button>
     </div>
 
 

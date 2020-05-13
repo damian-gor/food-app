@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,28 +9,49 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
     <title>Diary pages</title>
 </head>
-<body>
-<h1>Diary pages</h1>
 
-<table class="table">
-    <tr>
-        <th>Date</th>
-        <th>Caloric intake goal</th>
-        <th>Calories left</th>
-        <th></th>
-        <th></th>
-    </tr>
-    <tr th:each="diaryPage : ${diaryPages}">
-        <td th:text="${diaryPage.id.date}"></td>
-        <td th:text="${diaryPage.caloricIntakeGoal}"></td>
-        <td th:text="${diaryPage.kcalLeft}"></td>
-        <td><a th:href="${diaryPage.getLink('Self').get().getHref()}"><button>Page details</button></a></td>
-        <td><a th:href="${diaryPage.getLink('Get all meals in the diary page').get().getHref()}"><button>Page's meals</button></a></td>
-    </tr>
-</table>
-    <a th:href="${diaryPages.get('0').getLink('Go to profile food diary').get().getHref()}"><button>Back to profile's food diary</button></a>
+<body>
+
+    <div>
+        <i class="far fa-user"></i>
+        <div sec:authorize="isAuthenticated()">
+            <a id="user"><span sec:authentication="name"></span></a>
+            <a id="logout">Log out</a>
+        </div>
+        <span sec:authorize="!isAuthenticated()"><a id="login-redirect">Log in</a></span>
+    </div>
+
+
+    <h1>Diary pages</h1>
+
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Caloric intake goal</th>
+            <th>Calories left</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr th:each="diaryPage : ${diaryPages}">
+            <td th:text="${diaryPage.id.date}"></td>
+            <td th:text="${diaryPage.caloricIntakeGoal}"></td>
+            <td th:text="${diaryPage.kcalLeft}"></td>
+            <td><a th:href="${diaryPage.getLink('Self').get().getHref()}"><button>Page details</button></a></td>
+            <td><a th:href="${diaryPage.getLink('Get all meals in the diary page').get().getHref()}"><button>Page's
+                        meals</button></a></td>
+        </tr>
+    </table>
+    <a th:href="${diaryPages.get('0').getLink('Go to profile food diary').get().getHref()}"><button>Back to profile's
+            food diary</button></a>
     <a th:href="${diaryPages.get('0').getLink('Back to profile').get().getHref()}"><button>Back to profile</button></a>
+
+    <script th:inline="javascript">
+        var auth = /*[[${#authentication}]]*/ null;
+    </script>
+
 </body>
+
 </html>

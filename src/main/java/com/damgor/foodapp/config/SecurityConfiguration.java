@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.http.HttpMethod.GET;
 
@@ -17,7 +18,7 @@ import static org.springframework.http.HttpMethod.GET;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
- public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -35,17 +36,17 @@ import static org.springframework.http.HttpMethod.GET;
                 .and().cors()
                 .and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/css/**", "/js/**").permitAll()
-                .antMatchers(GET,"/", "/recipes/**","/products/**","/profiles","/profiles/*",
-                        "/ui","/ui/", "/ui/recipes/**","/ui/products/**","/ui/profiles","/ui/profiles/*").permitAll()
-                .antMatchers("/", "/recipes/**","/products/**","/profiles/**",
-                        "/ui/", "/ui/recipes/**","/ui/products/**","/ui/profiles/**").hasAnyRole("USER","ADMIN")
+                .antMatchers("/resources/**", "/css/**", "/js/**").permitAll()
+                .antMatchers(GET, "/", "/recipes/**", "/products/**", "/profiles", "/profiles/*",
+                        "/ui", "/ui/", "/ui/recipes/**", "/ui/products/**", "/ui/profiles", "/ui/profiles/*").permitAll()
+                .antMatchers("/", "/recipes/**", "/products/**", "/profiles/**",
+                        "/ui/", "/ui/recipes/**", "/ui/products/**", "/ui/profiles/**", "/ui/login/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/**").hasRole("ADMIN")
                 .and().formLogin()
-                .and()
-                .logout()
+                .and().logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true).clearAuthentication(true);
+                .invalidateHttpSession(true);
     }
 
     @Override
@@ -55,7 +56,8 @@ import static org.springframework.http.HttpMethod.GET;
                 "/swagger-resources/**",
                 "/configuration/security",
                 "/swagger-ui.html",
-                "/webjars/**");
+                "/webjars/**",
+                "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/icon/**, /*.ico");
     }
 
 }

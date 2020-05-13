@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <meta charset="UTF-8">
@@ -9,10 +10,22 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
     <script type="text/javascript" th:src="@{/js/home.js}"></script>
+    <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
     <title>Home</title>
 </head>
 
 <body>
+
+    <div>
+        <i class="far fa-user"></i>
+        <div sec:authorize="isAuthenticated()">
+            <a id="user"><span sec:authentication="name"></span></a>
+            <a id="logout">Log out</a>
+        </div>
+        <span sec:authorize="!isAuthenticated()"><a id="login-redirect">Log in</a></span>
+    </div>
+
+
     <h1>Food-app</h1>
     <p>This application is designed to facilitate diet by calculating basic indicators (e.g. BMI), determining caloric
         demand, searching for recipes and products (from external databases), which can then be added to the nutrition
@@ -46,6 +59,10 @@
             <td><button id="search-profile">Search</button></td>
         </tr>
     </table>
+
+    <script th:inline="javascript">
+        var auth = /*[[${#authentication}]]*/ null;
+    </script>
 
 </body>
 

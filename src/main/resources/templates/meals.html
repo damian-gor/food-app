@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <meta charset="UTF-8">
@@ -8,10 +9,22 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
     <title>Meals</title>
 </head>
 
 <body>
+
+    <div>
+        <i class="far fa-user"></i>
+        <div sec:authorize="isAuthenticated()">
+            <a id="user"><span sec:authentication="name"></span></a>
+            <a id="logout">Log out</a>
+        </div>
+        <span sec:authorize="!isAuthenticated()"><a id="login-redirect">Log in</a></span>
+    </div>
+
+
     <h1>Meals</h1>
     <p>Profile ID: <span th:text="${meals.get('0').id.profileId}"></span></p>
     <p>Date: <span th:text="${meals.get('0').id.date}"></span></p>
@@ -49,6 +62,11 @@
     <a th:href="${meals.get('0').getLink('Go to profile food diary').get().getHref()}"><button>Back to profile's food
             diary</button></a>
     <a th:href="${meals.get('0').getLink('Back to the profile').get().getHref()}"><button>Back to profile</button></a>
+
+    <script th:inline="javascript">
+        var auth = /*[[${#authentication}]]*/ null;
+    </script>
+
 </body>
 
 </html>

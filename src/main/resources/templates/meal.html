@@ -1,73 +1,97 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"><title>Meal</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
+
+    <title>Meal</title>
 </head>
+
 <body>
-<h1>Meal <span th:text="${meal.id.mealNumber}"></span></h1>
-<p>Profile ID: <span th:text="${meal.id.profileId}"></span></p>
-<p>Date: <span th:text="${meal.id.date}"></span></p>
 
-<h3>Meal details</h3>
-<table class="table">
-    <tr>
-        <td>Kcal:</td>
-        <td th:text="${meal.mealKcal}"></td>
-    </tr>
-    <tr>
-        <td>Proteins:</td>
-        <td th:text="${meal.mealProtein}"></td>
-    </tr>
-    <tr>
-        <td>Carbohydrates:</td>
-        <td th:text="${meal.mealCarbs}"></td>
-    </tr>
-    <tr>
-        <td>Fats:</td>
-        <td th:text="${meal.mealFat}"></td>
-    </tr>
-</table>
+    <div>
+        <i class="far fa-user"></i>
+        <div sec:authorize="isAuthenticated()">
+            <a id="user"><span sec:authentication="name"></span></a>
+            <a id="logout">Log out</a>
+        </div>
+        <span sec:authorize="!isAuthenticated()"><a id="login-redirect">Log in</a></span>
+    </div>
 
-<h3>Meal elements</h3>
-<table class="table">
-    <tr>
-        <th>No.</th>
-        <th>Product ID</th>
-        <th>Amount [g]</th>
-        <th>Kcal</th>
-        <th>Protein</th>
-        <th>Carbs</th>
-        <th>Fat</th>
-    </tr>
-    <tr th:each="product,iterationStatus : ${meal.products}">
-        <td style="font-weight : bold" th:text="${iterationStatus.count}"></td>
-        <td th:text="${product.productId}"></td>
-        <td th:text="${product.grams}"></td>
-        <td th:text="${product.productKcal}"></td>
-        <td th:text="${product.productProtein}"></td>
-        <td th:text="${product.productCarbs}"></td>
-        <td th:text="${product.productFat}"></td>
-        <td><a th:href="${product.getLink('Get product details').get().getHref()}"><button>Product details</button></a></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td>Total:</td>
-        <td th:text="${meal.getNutrientSummary('kcal')}"></td>
-        <td th:text="${meal.getNutrientSummary('protein')}"></td>
-        <td th:text="${meal.getNutrientSummary('carbs')}"></td>
-        <td th:text="${meal.getNutrientSummary('fat')}"></td>
-    </tr>
-</table>
 
-<a th:href="${meal.getLink('Back to the diary page').get().getHref()}"><button>Back to diary page</button></a>
-<a th:href="${meal.getLink('Go to profile food diary').get().getHref()}"><button>Back to profile's food diary</button></a>
-<a th:href="${meal.getLink('Back to the profile').get().getHref()}"><button>Back to profile</button></a>
+    <h1>Meal <span th:text="${meal.id.mealNumber}"></span></h1>
+    <p>Profile ID: <span th:text="${meal.id.profileId}"></span></p>
+    <p>Date: <span th:text="${meal.id.date}"></span></p>
+
+    <h3>Meal details</h3>
+    <table class="table">
+        <tr>
+            <td>Kcal:</td>
+            <td th:text="${meal.mealKcal}"></td>
+        </tr>
+        <tr>
+            <td>Proteins:</td>
+            <td th:text="${meal.mealProtein}"></td>
+        </tr>
+        <tr>
+            <td>Carbohydrates:</td>
+            <td th:text="${meal.mealCarbs}"></td>
+        </tr>
+        <tr>
+            <td>Fats:</td>
+            <td th:text="${meal.mealFat}"></td>
+        </tr>
+    </table>
+
+    <h3>Meal elements</h3>
+    <table class="table">
+        <tr>
+            <th>No.</th>
+            <th>Product ID</th>
+            <th>Amount [g]</th>
+            <th>Kcal</th>
+            <th>Protein</th>
+            <th>Carbs</th>
+            <th>Fat</th>
+        </tr>
+        <tr th:each="product,iterationStatus : ${meal.products}">
+            <td style="font-weight : bold" th:text="${iterationStatus.count}"></td>
+            <td th:text="${product.productId}"></td>
+            <td th:text="${product.grams}"></td>
+            <td th:text="${product.productKcal}"></td>
+            <td th:text="${product.productProtein}"></td>
+            <td th:text="${product.productCarbs}"></td>
+            <td th:text="${product.productFat}"></td>
+            <td><a th:href="${product.getLink('Get product details').get().getHref()}"><button>Product
+                        details</button></a></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>Total:</td>
+            <td th:text="${meal.getNutrientSummary('kcal')}"></td>
+            <td th:text="${meal.getNutrientSummary('protein')}"></td>
+            <td th:text="${meal.getNutrientSummary('carbs')}"></td>
+            <td th:text="${meal.getNutrientSummary('fat')}"></td>
+        </tr>
+    </table>
+
+    <a th:href="${meal.getLink('Back to the diary page').get().getHref()}"><button>Back to diary page</button></a>
+    <a th:href="${meal.getLink('Go to profile food diary').get().getHref()}"><button>Back to profile's food
+            diary</button></a>
+    <a th:href="${meal.getLink('Back to the profile').get().getHref()}"><button>Back to profile</button></a>
+
+    <script th:inline="javascript">
+        var auth = /*[[${#authentication}]]*/ null;
+    </script>
 
 </body>
+
 </html>

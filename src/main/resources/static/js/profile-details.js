@@ -66,11 +66,8 @@ $(document).ready(function () {
                         .recommendedCaloricIntake);
                 }
             },
-            error: function (xhr, e) {
-                if (xhr.status == 401) alert('Unauthorized! Please log in');
-                else if (xhr.status == 403) alert('Forbidden!');
-                else alert("Error!");
-                console.log("ERROR: ", e);
+            error: function (xhr) {
+                handleAjaxError(xhr);
             }
         });
     };

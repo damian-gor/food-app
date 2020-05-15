@@ -23,17 +23,13 @@ $(document).ready(function () {
             url: window.location.href,
             type: 'DELETE',
             success: function (result) {
-                console.log(result);
                 alert(
                     'Profile has been removed successfuly. Redirecting to all profiles list.'
                 );
                 window.location.replace(result.links[0].href);
             },
-            error: function (xhr, e) {
-                if (xhr.status == 401) alert('Unauthorized! Please log in');
-                else if (xhr.status == 403) alert('Forbidden!');
-                else alert("Error!");
-                console.log("ERROR: ", e);
+            error: function (xhr) {
+                handleAjaxError(xhr);
             }
         });
     };
@@ -70,11 +66,8 @@ $(document).ready(function () {
                         .intolerance]);
                 }
             },
-            error: function (xhr, e) {
-                if (xhr.status == 401) alert('Unauthorized! Please log in');
-                else if (xhr.status == 403) alert('Forbidden!');
-                else alert("Error!");
-                console.log("ERROR: ", e);
+            error: function (xhr) {
+                handleAjaxError(xhr);
             }
         });
 

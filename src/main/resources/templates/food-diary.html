@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
     <script type="text/javascript" th:src="@{/js/food-diary.js}"></script>
     <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ajax-errorHandling.js}"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
     <title>Food Diary</title>
 </head>
 
@@ -28,14 +30,20 @@
 
     <h1><span id="profileName"></span></h1>
     <h2>Food Diary</h2>
+    <button type="button" class="btn btn-default btn-lg confirm" id="delete">
+        <i class="fas fa-trash-alt" aria-hidden="true"></i>
+    </button>
+
     <p>Id: <span th:text="${foodDiary.profileId}"></span></p>
     <p>Recommended caloric intake: <span th:text="${foodDiary.caloricIntakeGoal}">No enough data about profile.
             <a th:href="${foodDiary.getLink('Go to profile details').get().getHref()}">Fill in the missing profile
                 details</a></span></p>
 
-    <a th:href="${foodDiary.getLink('Go to profile details').get().getHref()}"><button>Profile details</button></a>
     <a th:href="${foodDiary.getLink('Get all profile diary pages').get().getHref()}"><button>Get all diary
             pages</button></a>
+
+    <br><br>
+    <a th:href="${foodDiary.getLink('Go to profile details').get().getHref()}"><button>Profile details</button></a>
     <a th:href="${foodDiary.getLink('Back to profile').get().getHref()}" id="profileLink"><button>Back to
             profile</button></a>
 

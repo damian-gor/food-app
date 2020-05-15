@@ -117,6 +117,8 @@ public class Initializer implements CommandLineRunner {
         products1.put("101207", 80);
         products1.put("126586", 120);
         products1.put("food_bpumdjzb5rtqaeabb0kbgbcgr4t9", 165);
+        products1.put("food_awz3iefajbk1fwahq9logahmgltj", 300);
+
 
         Map<String, Integer> products2 = new HashMap<>();
         products2.put("food_beu36e7ao1sz5obzslxr5bu8tg9u", 350);

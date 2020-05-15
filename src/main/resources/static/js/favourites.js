@@ -34,11 +34,8 @@ $(document).ready(function () {
                                 "</tr>");
                         }
                     },
-                    error: function (xhr, e) {
-                        if (xhr.status == 401) alert('Unauthorized! Please log in');
-                        else if (xhr.status == 403) alert('Forbidden!');
-                        else alert("Error!");
-                        console.log("ERROR: ", e);
+                    error: function (xhr) {
+                        handleAjaxError(xhr);
                     }
                 });
             });
@@ -92,11 +89,8 @@ $(document).ready(function () {
                                 "</tr>");
                         }
                     },
-                    error: function (xhr, e) {
-                        if (xhr.status == 401) alert('Unauthorized! Please log in');
-                        else if (xhr.status == 403) alert('Forbidden!');
-                        else alert("Error!");
-                        console.log("ERROR: ", e);
+                    error: function (xhr) {
+                        handleAjaxError(xhr);
                     }
                 });
             });
@@ -108,7 +102,7 @@ $(document).ready(function () {
     };
 
 
-    // REMOVE PRODUCT FROM FAVOURITES
+    // REMOVE PRODUCT FROM FAVOURITES BUTTON
     $(document).on("click", ".delete-favourite-product", function (event) {
         event.preventDefault();
         if (window.confirm("Are you sure?")) {
@@ -168,11 +162,8 @@ $(document).ready(function () {
                     row.remove();
                 }
             },
-            error: function (xhr, e) {
-                if (xhr.status == 401) alert('Unauthorized! Please log in');
-                else if (xhr.status == 403) alert('Forbidden!');
-                else alert("Error!");
-                console.log("ERROR: ", e);
+            error: function (xhr) {
+                handleAjaxError(xhr);
             }
         });
     };
@@ -191,11 +182,8 @@ $(document).ready(function () {
                     alert("Product has been added to favourites successfully!")
                 }
             },
-            error: function (xhr, e) {
-                if (xhr.status == 401) alert('Unauthorized! Please log in');
-                else if (xhr.status == 403) alert('Forbidden!');
-                else alert("Error!");
-                console.log("ERROR: ", e);
+            error: function (xhr) {
+                handleAjaxError(xhr);
             }
         });
     };

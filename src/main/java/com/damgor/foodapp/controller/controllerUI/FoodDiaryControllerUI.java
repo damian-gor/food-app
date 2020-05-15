@@ -4,6 +4,7 @@ import com.damgor.foodapp.model.FoodDiary;
 import com.damgor.foodapp.model.Message;
 import com.damgor.foodapp.service.FoodDiaryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -37,11 +38,8 @@ public class FoodDiaryControllerUI {
 
     @DeleteMapping
     @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
-    public ModelAndView removeFoodDiary(@PathVariable Long profileId) {
-        ModelAndView modelAndView = new ModelAndView("message");
-        Message message = foodDiaryService.removeFoodDiary(profileId);
-        modelAndView.addObject("message", message);
-        return modelAndView;
+    public ResponseEntity<Message> removeFoodDiary(@PathVariable Long profileId) {
+        return ResponseEntity.ok(foodDiaryService.removeFoodDiary(profileId));
     }
 
 }

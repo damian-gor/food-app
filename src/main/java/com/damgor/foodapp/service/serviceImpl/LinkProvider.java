@@ -229,19 +229,19 @@ public class LinkProvider {
                 if (meal.getElements() != null) meal.getProducts().forEach(mealProduct -> mealProduct.add(
                         linkTo(methodOn(ProductControllerUI.class).getProductById(mealProduct.getProductId(), null)).withRel("Get product details")
                 ));
-            } else {
-                if (meal.getLinks().isEmpty()) {
-                    meal.add(
-                            linkTo(methodOn(MealController.class).getMeal(meal.getId().getProfileId(), meal.getId().getDate().toString(), meal.getId().getMealNumber())).withSelfRel(),
-                            linkTo(methodOn(MealController.class).getAllMeals(meal.getId().getProfileId(), meal.getId().getDate().toString())).withRel("Get all meals in that diary page"),
-                            linkTo(methodOn(DiaryPageController.class).getDiaryPage(meal.getId().getProfileId(), meal.getId().getDate().toString())).withRel("Back to the diary page"),
-                            linkTo(methodOn(ProfileController.class).getProfile(meal.getId().getProfileId())).withRel("Back to the profile"),
-                            linkTo(methodOn(FoodDiaryController.class).getFoodDiary(meal.getId().getProfileId())).withRel("Go to profile food diary")
-                    );
-                    if (meal.getElements() != null) meal.getProducts().forEach(mealProduct -> mealProduct.add(
-                            linkTo(methodOn(ProductController.class).getProductById(mealProduct.getProductId(), null)).withRel("Get product details")
-                    ));
-                }
+            }
+        } else {
+            if (meal.getLinks().isEmpty()) {
+                meal.add(
+                        linkTo(methodOn(MealController.class).getMeal(meal.getId().getProfileId(), meal.getId().getDate().toString(), meal.getId().getMealNumber())).withSelfRel(),
+                        linkTo(methodOn(MealController.class).getAllMeals(meal.getId().getProfileId(), meal.getId().getDate().toString())).withRel("Get all meals in that diary page"),
+                        linkTo(methodOn(DiaryPageController.class).getDiaryPage(meal.getId().getProfileId(), meal.getId().getDate().toString())).withRel("Back to the diary page"),
+                        linkTo(methodOn(ProfileController.class).getProfile(meal.getId().getProfileId())).withRel("Back to the profile"),
+                        linkTo(methodOn(FoodDiaryController.class).getFoodDiary(meal.getId().getProfileId())).withRel("Go to profile food diary")
+                );
+                if (meal.getElements() != null) meal.getProducts().forEach(mealProduct -> mealProduct.add(
+                        linkTo(methodOn(ProductController.class).getProductById(mealProduct.getProductId(), null)).withRel("Get product details")
+                ));
             }
         }
     }

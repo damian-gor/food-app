@@ -4,6 +4,7 @@ import com.damgor.foodapp.model.DiaryPage;
 import com.damgor.foodapp.model.Message;
 import com.damgor.foodapp.service.DiaryPageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,21 +40,15 @@ public class DiaryPageControllerUI {
 
     @PostMapping
     @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
-    public ModelAndView addDiaryPage(@PathVariable Long profileId,
+    public ResponseEntity<DiaryPage> addDiaryPage(@PathVariable Long profileId,
                                                   @RequestParam(required = false, name = "date") String stringDate) {
-        ModelAndView modelAndView = new ModelAndView("diary-page");
-        DiaryPage diaryPage = diaryPageService.addDiaryPage(profileId, stringDate);
-        modelAndView.addObject("diaryPage", diaryPage);
-        return modelAndView;
+        return ResponseEntity.ok(diaryPageService.addDiaryPage(profileId, stringDate));
     }
 
     @DeleteMapping("/{stringDate}")
     @PreAuthorize("#profileId == authentication.principal.id or hasRole('ROLE_ADMIN')")
-    public ModelAndView removeDiaryPage(@PathVariable Long profileId,
+    public ResponseEntity<Message> removeDiaryPage(@PathVariable Long profileId,
                                                    @PathVariable String stringDate) {
-        ModelAndView modelAndView = new ModelAndView("message");
-        Message message = diaryPageService.removeDiaryPage(profileId, stringDate);
-        modelAndView.addObject("message", message);
-        return modelAndView;
+        return ResponseEntity.ok(diaryPageService.removeDiaryPage(profileId, stringDate));
     }
 }

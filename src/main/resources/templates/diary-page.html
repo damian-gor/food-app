@@ -10,6 +10,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
     <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
+    <script type="text/javascript" th:src="@{/js/diary-page.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ajax-errorHandling.js}"></script>
+
 
     <title>Diary Page</title>
 </head>
@@ -28,14 +31,19 @@
 
     <h1>Diary Page</h1>
 
+    <button type="button" class="btn btn-default btn-lg confirm" id="delete">
+        <i class="fas fa-trash-alt" aria-hidden="true"></i>
+    </button>
+
     <p>Date: <span th:text="${diaryPage.id.date}"></span></p>
     <p>Caloric intake goal: <span th:text="${diaryPage.caloricIntakeGoal}"></span></p>
     <p>Calories left: <span th:text="${diaryPage.kcalLeft}"></span></p>
+    <br>
 
-    <p>Actually consumed:</p>
+    <h3>Consumption summary:</h3>
     <table class="table">
         <tr>
-            <td>Calories:</td>
+            <td>Kcal:</td>
             <td th:text="${diaryPage.actualKcalIntake}"></td>
         </tr>
         <tr>
@@ -52,7 +60,7 @@
         </tr>
     </table>
 
-    <a th:href="${diaryPage.getLink('Get all profile diary pages').get().getHref()}"><button>Get all diary
+    <a th:href="${diaryPage.getLink('Get all profile diary pages').get().getHref()}" id="diaryPagesLink"><button>Get all diary
             pages</button></a>
     <a th:href="${diaryPage.getLink('Get all meals in the diary page').get().getHref()}"><button>Get page's
             meals</button></a>

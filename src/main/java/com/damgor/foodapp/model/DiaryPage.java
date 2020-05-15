@@ -18,7 +18,7 @@ public class DiaryPage extends RepresentationModel<DiaryPage> {
     @EmbeddedId
     private DiaryPageId id;
     private Double caloricIntakeGoal = 0.0;
-    private Double actualKcalIntake  = 0.0;
+    private Double actualKcalIntake = 0.0;
     private Double kcalLeft = 0.0;
     private Double actualProteinIntake = 0.0;
     private Double actualCarbsIntake = 0.0;
@@ -35,16 +35,20 @@ public class DiaryPage extends RepresentationModel<DiaryPage> {
     }
 
     public void setNutrients(Double actualKcalIntake, Double actualProteinIntake, Double actualCarbsIntake, Double actualFatIntake) {
-        this.actualKcalIntake = actualKcalIntake;
-        this.actualProteinIntake = actualProteinIntake;
-        this.actualCarbsIntake = actualCarbsIntake;
-        this.actualFatIntake = actualFatIntake;
-        setKcalLeft(caloricIntakeGoal - actualKcalIntake);
+        this.actualKcalIntake = round(actualKcalIntake);
+        this.actualProteinIntake = round(actualProteinIntake);
+        this.actualCarbsIntake = round(actualCarbsIntake);
+        this.actualFatIntake = round(actualFatIntake);
+        setKcalLeft(caloricIntakeGoal - round(actualKcalIntake));
     }
 
     public void setCaloricIntakeGoal(Double caloricIntakeGoal) {
         this.caloricIntakeGoal = caloricIntakeGoal;
         setKcalLeft(caloricIntakeGoal - actualKcalIntake);
+    }
+
+    private Double round(Double d) {
+        return Math.round(d * 100.0) / 100.0;
     }
 }
 

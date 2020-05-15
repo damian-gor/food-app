@@ -10,6 +10,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
     <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
+    <script type="text/javascript" th:src="@{/js/diary-pages.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ajax-errorHandling.js}"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
     <title>Diary pages</title>
 </head>
 
@@ -40,10 +46,26 @@
             <td th:text="${diaryPage.caloricIntakeGoal}"></td>
             <td th:text="${diaryPage.kcalLeft}"></td>
             <td><a th:href="${diaryPage.getLink('Self').get().getHref()}"><button>Page details</button></a></td>
-            <td><a th:href="${diaryPage.getLink('Get all meals in the diary page').get().getHref()}"><button>Page's
+            <td><a th:href="${diaryPage.getLink('Get all meals in the diary page').get().getHref()}"><button>Page
                         meals</button></a></td>
         </tr>
     </table>
+    <br>
+
+    <button type="button" class="btn btn-default btn-lg" id="show-diaryPage-form">
+        Add new diary page
+        <i id="show-img" class="fas fa-sort-down" aria-hidden="true"></i>
+    </button>
+
+    <div class="container" id="diaryPage-form-container" style="display: none">
+        <form id="diaryPageForm">
+            Select new diary page date:
+            <input type="text" id="datepicker">
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+    </div>
+    <br>
+
     <a th:href="${diaryPages.get('0').getLink('Go to profile food diary').get().getHref()}"><button>Back to profile's
             food diary</button></a>
     <a th:href="${diaryPages.get('0').getLink('Back to profile').get().getHref()}"><button>Back to profile</button></a>

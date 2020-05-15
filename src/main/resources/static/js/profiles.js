@@ -3,7 +3,6 @@ $(document).ready(function () {
 
     // SUBMIT FORM
     $("#profileForm").submit(function (event) {
-        // Prevent the form from submitting via the browser.
         event.preventDefault();
         ajaxPost();
     });
@@ -48,11 +47,8 @@ $(document).ready(function () {
                     $("#postresponseDiv").html("<strong>Error</strong>");
                 }
             },
-            error: function (xhr, e) {
-                if (xhr.status == 401) alert('Unauthorized! Please log in');
-                else if (xhr.status == 403) alert('Forbidden!');
-                else alert("Error!");
-                console.log("ERROR: ", e);
+            error: function (xhr) {
+                handleAjaxError(xhr);
             }
         });
 

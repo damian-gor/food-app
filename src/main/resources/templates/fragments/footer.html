@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<body>
+    <footer th:fragment="footer">
+        <div class="left">
+            <p>&copy; 2020 <a href="https://github.com/damian-gor/food-app">food-app</a></p>
+        </div>
+        <div class="right">
+            <p>Recipes and Products data comes from:</p>
+            <a href="https://spoonacular.com/"><img  th:src="@{/images/spoonacular.png}" alt="spoonacular"></a>
+            <a href="https://www.edamam.com/"><img th:src="@{/images/edamam.png}" alt="edamam"></a>
+        </div>
+        <style>
+            footer {
+                font-size: 11px;
+                font-style: italic;
+                color: grey;
+                width: 100%;
+                margin-top: 20px;
+                margin-bottom: 5px;
+            }
+
+            footer div {
+                display: inline-block;
+                text-align: center;
+            }
+
+            footer div p,
+            footer div a {
+                display: block;
+                width: fit-content;
+                display: inline-block;
+
+            }
+
+            img {
+                width: 100px;
+                padding-right: 10px;
+                padding-left: 10px;
+            }
+
+            .left {
+                width: 20%;
+                text-align: left;
+                float: left;
+                padding-left: 20px;
+            }
+
+            .right {
+                width: 80%;
+                padding-right: 20px;
+                text-align: right;
+            }
+        </style>
+    </footer>
+
+</body>
+
+</html>

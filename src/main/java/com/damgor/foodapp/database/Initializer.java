@@ -93,13 +93,16 @@ public class Initializer implements CommandLineRunner {
         ///////////////    PROFILE DETAILS    ///////////////////
 
         ProfileDetails details = new ProfileDetails(1L, 185.0, 80.0, 1994, Sex.M, Aim.WEIGHT_GAIN, ActivityLevel.MODERATE_EXERCISE);
+        ProfileDetails details2 = new ProfileDetails(2L, 170.0, 90.0, 1987, Sex.M, Aim.FAST_WEIGHT_LOSS, ActivityLevel.LIGHT_EXERCISE);
         ProfileDetails details3 = new ProfileDetails(3L, 180.0, 85.0, 1961, Sex.M, Aim.KEEP_WEIGHT, ActivityLevel.MODERATE_EXERCISE);
         profileDetailsRepository.save(details);
+        profileDetailsRepository.save(details2);
         profileDetailsRepository.save(details3);
 
         ///////////////    FOOD DIARY    ///////////////////
 
         foodDiaryService.addFoodDiary(profile1.getId());
+        foodDiaryService.addFoodDiary(profile2.getId());
         foodDiaryService.addFoodDiary(profile3.getId());
 
         ///////////////    DIARY PAGE    ///////////////////

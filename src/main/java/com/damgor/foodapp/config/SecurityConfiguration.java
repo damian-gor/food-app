@@ -36,9 +36,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().cors()
                 .and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/resources/**", "/css/**", "/js/**").permitAll()
+                .antMatchers("/resources/**", "/css/**", "/js/**","/images/**").permitAll()
                 .antMatchers(GET, "/", "/recipes/**", "/products/**", "/profiles", "/profiles/*",
-                        "/ui", "/ui/", "/ui/recipes/**", "/ui/products/**", "/ui/profiles", "/ui/profiles/*").permitAll()
+                        "/ui", "/ui/", "/ui/recipes/**", "/ui/products/**", "/ui/profiles", "/ui/profiles/*",
+                        "/ui/search-recipes", "/ui/search-products").permitAll()
                 .antMatchers("/", "/recipes/**", "/products/**", "/profiles/**",
                         "/ui/", "/ui/recipes/**", "/ui/products/**", "/ui/profiles/**", "/ui/login/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/**").hasRole("ADMIN")
@@ -57,11 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/configuration/security",
                 "/swagger-ui.html",
                 "/webjars/**"
-//                ,"/**/*.ico",
-//                "**/*.ico",
-//                "/favicon.ico"
                 );
-//                "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/icon/**, /*.ico", "*ico");
     }
 
 }

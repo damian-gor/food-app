@@ -39,12 +39,12 @@ public class DiaryPage extends RepresentationModel<DiaryPage> {
         this.actualProteinIntake = round(actualProteinIntake);
         this.actualCarbsIntake = round(actualCarbsIntake);
         this.actualFatIntake = round(actualFatIntake);
-        setKcalLeft(caloricIntakeGoal - round(actualKcalIntake));
+        setKcalLeft(round(caloricIntakeGoal - actualKcalIntake));
     }
 
     public void setCaloricIntakeGoal(Double caloricIntakeGoal) {
         this.caloricIntakeGoal = caloricIntakeGoal;
-        setKcalLeft(caloricIntakeGoal - actualKcalIntake);
+        setKcalLeft(round(caloricIntakeGoal - actualKcalIntake));
     }
 
     private Double round(Double d) {

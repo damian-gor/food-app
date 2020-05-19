@@ -2,55 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head th:include="fragments/base-head :: baseHead(~{::title}, ~{::script})">
+
     <script type="text/javascript" th:src="@{/js/recipes-list.js}"></script>
     <script type="text/javascript" th:src="@{/js/recipe-common.js}"></script>
     <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
     <script type="text/javascript" th:src="@{/js/ajax-errorHandling.js}"></script>
 
-    <title>Recipes</title>
+    <title>Search recipes</title>
 
 </head>
 
 <body>
 
     <div th:replace="fragments/menu :: user"></div>
-
     <main>
 
-        <h1>Recipes</h1>
-
-        <h3 class="table-tittle">Recipes list:</h3>
-        <table class="table">
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Likes</th>
-                <th>Number of ingredients <br>from the query</th>
-                <th>List of used ingredients <br>from the query</th>
-                <th></th>
-            </tr>
-            <tr th:each="recipe : ${recipes}">
-                <td th:text="${recipe.id}"></td>
-                <td th:text="${recipe.recipeTitle}"></td>
-                <td th:text="${recipe.likes}"></td>
-                <td th:text="${recipe.usedIngredientCount}"></td>
-                <td th:text="${recipe.usedIngredientsList}"></td>
-                <td th:each="link : ${recipe.links} ">
-                    <a th:href="${link.getHref()}"><button th:text="${link.getRel()}"></button></a>
-                </td>
-            </tr>
-        </table>
-
-        <div style="text-align: center">
-            <label for="input-result-number">Results on page:</label>
-            <input id="input-result-number" type="number" value="5" min="1" max="99" class="small-input-number">
-            <label for="input-page">Page number</label>
-            <input id="input-page" type="number" value="1" min="1" max="99" class="small-input-number">
-            <button id="set-numberAndOffset">Set</button>
-        </div>
-        <br>
-
-        <h3>Look for other recipes:</h3>
+        <h3 class="table-tittle">Look for recipes:</h3>
         <div>
             <button id="search-recipe-random">Surprise me!</button><i class="far fa-question-circle" aria-hidden="true"
                 title="Get random recipe"></i>
@@ -90,6 +57,15 @@
             <button id="search-recipe-compromise">Search</button>
             <i class="far fa-question-circle" aria-hidden="true"
                 title="We will find a recipe suitable for everyone at the same time! Write for example: 1,3"></i>
+        </div>
+        <br>
+
+        <h4>Searching options:</h4>
+        <div>
+            <label for="input-result-number">Results on page:</label>
+            <input id="input-result-number" type="number" value="5" min="1" max="99" class="small-input-number">
+            <label for="input-page">Page number</label>
+            <input id="input-page" type="number" value="1" min="1" max="99" class="small-input-number">
         </div>
 
     </main>

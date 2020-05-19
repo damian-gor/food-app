@@ -27,4 +27,15 @@ public class HomeControllerUI {
         modelAndView.addObject("message", message);
         return modelAndView;
     }
+
+    @GetMapping("/ui/search-recipes")
+    public ModelAndView searchRecipes () {
+        ModelAndView modelAndView = new ModelAndView("search-recipes");
+        return modelAndView;
+    }
+    @GetMapping("/ui/search-products")
+    public ModelAndView searchProducts () {
+        ModelAndView modelAndView = new ModelAndView("search-products");
+        return modelAndView;
+    }
 }

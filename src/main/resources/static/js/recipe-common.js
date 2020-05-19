@@ -1,5 +1,7 @@
 $(document).ready(function () {
     var url = window.location.origin + "/ui/recipes/";
+    var resultsInput = "";
+    var pageNumberInput = "";
 
     $("#search-recipe-random").click(function () {
         window.open(url + "random", "_self");
@@ -7,7 +9,8 @@ $(document).ready(function () {
 
     $("#search-recipe-byIngredients").click(function () {
         var input = $("#input-recipe-byIngredients").val();
-        window.open(url + "byIngredients/" + input, "_self");
+        addSearchingParams();
+        window.open(url + "byIngredients/" + input + resultsInput + pageNumberInput, "_self");
     });
 
     $("#search-recipe-byId").click(function () {
@@ -17,16 +20,27 @@ $(document).ready(function () {
 
     $("#search-recipe-byText").click(function () {
         var input = $("#input-recipe-byText").val();
-        window.open(url + "search/" + input, "_self");
+        addSearchingParams();
+        window.open(url + "search/" + input + resultsInput + pageNumberInput, "_self");
     });
 
     $("#search-recipe-suitable").click(function () {
         var input = $("#input-recipe-suitable").val();
-        window.open(url + "suitable/" + input, "_self");
+        addSearchingParams();
+        window.open(url + "suitable/" + input + resultsInput + pageNumberInput, "_self");
     });
 
     $("#search-recipe-compromise").click(function () {
         var input = $("#input-recipe-compromise").val();
-        window.open(url + "compromise/" + input, "_self");
+        addSearchingParams();
+        window.open(url + "compromise/" + input + resultsInput + pageNumberInput, "_self");
     });
+
+    // Add page number and inputs on page params
+    function addSearchingParams(){
+        if ($("#input-result-number").length && $("#input-page").length){
+            resultsInput = "?number=" + $("#input-result-number").val();
+            pageNumberInput = "&offset=" + ($("#input-page").val() - 1);
+        }
+    };
 });

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head th:include="fragments/base-head :: baseHead(~{::title}, ~{::script})">
+<head th:include="fragments/head :: baseHead(~{::title}, ~{::script})">
 
     <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
     <script type="text/javascript" th:src="@{/js/diary-pages.js}"></script>
     <script type="text/javascript" th:src="@{/js/ajax-errorHandling.js}"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" th:src="@{/js/external/jquery-1.12.4.js}"></script>
+    <script type="text/javascript" th:src="@{/js/external/jquery-ui.js}"></script>
 
     <title>Diary pages</title>
 
@@ -15,19 +15,28 @@
 
 <body>
 
-    <div th:replace="fragments/menu :: user"></div>
+    <div th:replace="fragments/header :: user"></div>
 
     <main>
 
-        <h1>Diary pages</h1>
+        <div class="navi">
+            <div class="back">
+                <span><img class="navi-img" th:src="@{/images/arrow-left-solid.svg}">Back</span>
+                <a th:href="${diaryPages.get('0').getLink('Go to profile food diary').get().getHref()}"><button>
+                        <img class="navi-img" th:src="@{/images/book-solid.svg}">Food diary</button></a>
+                <a th:href="${diaryPages.get('0').getLink('Back to profile').get().getHref()}"><button>
+                        <img class="navi-img" th:src="@{/images/user-solid.svg}">Profile</button></a>
+            </div>
+        </div>
 
+        <h3 class="table-tittle">Diary pages</h3>
         <table class="table">
             <tr>
                 <th>Date</th>
                 <th>Caloric intake goal</th>
                 <th>Calories left</th>
-                <th></th>
-                <th></th>
+                <th><img class="navi-img" th:src="@{/images/file-alt-solid.svg}"></th>
+                <th><img class="navi-img" th:src="@{/images/utensils-solid.svg}"></th>
             </tr>
             <tr th:each="diaryPage : ${diaryPages}">
                 <td th:text="${diaryPage.id.date}"></td>
@@ -40,25 +49,18 @@
         </table>
         <br>
 
-        <button type="button" class="btn btn-default btn-lg" id="show-diaryPage-form">
+        <button type="button" class="btn btn-default btn-sm" id="show-diaryPage-form">
             Add new diary page
-            <i id="show-img" class="fas fa-sort-down" aria-hidden="true"></i>
+            <img class="navi-img" id="show-img" th:src="@{/images/sort-down-solid.svg}">
         </button>
 
         <div class="container" id="diaryPage-form-container" style="display: none">
             <form id="diaryPageForm">
                 Select new diary page date:
                 <input type="text" id="datepicker">
-                <button type="submit" class="btn btn-primary">Add</button>
+                <button type="submit" class="btn btn-primary btn-sm">Add</button>
             </form>
         </div>
-        
-        <br><br>
-        <a th:href="${diaryPages.get('0').getLink('Go to profile food diary').get().getHref()}"><button>Back to
-                profile's
-                food diary</button></a>
-        <a th:href="${diaryPages.get('0').getLink('Back to profile').get().getHref()}"><button>Back to
-                profile</button></a>
 
     </main>
 

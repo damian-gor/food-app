@@ -29,8 +29,8 @@ $(document).ready(function () {
                                 "<tr>" +
                                 "<td>" + recipe.recipeTitle + "</td>" +
                                 "<td><a href=" + recipeLink + "><button>See recipe details</button></a></td>" +
-                                "<td><button type='button' class='btn btn-default btn-lg confirm delete-favourite-recipe' value=" + recipeId + ">" +
-                                "<i class='fas fa-trash-alt' aria-hidden='true'></i></button></td>" +
+                                "<td class='removable'><button type='button' class='btn btn-default btn-sm confirm delete-favourite-recipe' value=" + recipeId + ">" +
+                                "<img src='/images/trash-alt-solid.svg'></button></td>" +
                                 "</tr>");
                         }
                     },
@@ -84,8 +84,8 @@ $(document).ready(function () {
                                 "<tr>" +
                                 "<td>" + product.productName + "</td>" +
                                 "<td><a href=" + productLink + "><button>See product details</button></a></td>" +
-                                "<td><button type='button' class='btn btn-default btn-lg confirm delete-favourite-product' value=" + productId + ">" +
-                                "<i class='fas fa-trash-alt' aria-hidden='true'></i></button></td>" +
+                                "<td class='removable'><button type='button' class='btn btn-default btn-lg confirm delete-favourite-product' value=" + productId + ">" +
+                                "<img src='/images/trash-alt-solid.svg'></button></td>" +
                                 "</tr>");
                         }
                     },

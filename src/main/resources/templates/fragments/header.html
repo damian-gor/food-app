@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+
+    <header th:fragment="user">
+
+        <a class="header-brand">FoodApp</a>
+        <nav id="header-nav">
+            <ul>
+                <li><a id="header-profilesLink">Profiles</a></li>
+                <li><a id="header-productsLink">Products</a></li>
+                <li><a id="header-recipesLink">Recipes</a></li>
+            </ul>
+
+            <div class="header-profile">
+
+                <img class="header-img" th:src="@{/images/user-regular.svg}">
+
+                <span sec:authorize="isAuthenticated()">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span sec:authentication="name"></span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" id="profilePage">Profile</a>
+                            <a class="dropdown-item" id="profileDetails">Details</a>
+                            <a class="dropdown-item" id="profileDiary">Food diary</a>
+                            <a class="dropdown-item" id="logout">Log out</a>
+                        </div>
+                    </div>
+                </span>
+                
+                <a id="login-redirect" sec:authorize="!isAuthenticated()" style="color: black">Log in</a>
+
+            </div>
+        </nav>
+
+    </header>
+
+</body>
+
+</html>

@@ -3,8 +3,8 @@ $(document).ready(function () {
     // BUTTON: show diary page form 
     $("#show-diaryPage-form").click(function () {
         $("#diaryPage-form-container").toggle();
-        if ($("#show-img").attr("class") == "fas fa-sort-down") $("#show-img").attr("class", "fas fa-sort-up");
-        else $("#show-img").attr("class", "fas fa-sort-down");
+        if ($("#show-img").attr("src") == "/images/sort-down-solid.svg") $("#show-img").attr("src", "/images/sort-up-solid.svg");
+        else $("#show-img").attr("src", "/images/sort-down-solid.svg");
     });
 
     // Calendar 

@@ -6,11 +6,9 @@ diary, which allows you to track currently consumed meals in relation to for the
 the user.
 
 Application access ways:
-1) Raw endpoints (start from: http://localhost:8080/ )
-2) Basic UI- transferring objects and implementing HATEOAS (!TO DO: graphic part!). Just add "/ui" as the first 
-URI element (for example homepage http://localhost:8080/ui ; profiles: http://localhost:8080/ui/profiles)
-3) Swagger (http://localhost:8080/swagger-ui.html)
-
+1) Application UI (start from: http://localhost:8080/ )
+2) Swagger (http://localhost:8080/swagger-ui.html)
+3) If You want to test JSON objects, remove "/ui" from any URI
 
 The application has been divided into the following modules:
 1) Product
@@ -48,12 +46,7 @@ Admin has access to all application functionalities.
 Database:
 H2 (In-Memory Database). Starting data is initialized by the application automatically.
 
-Introduced among others:
-- Exception handling
-- HATEOAS Driven REST API concept (using Spring HATEOAS)
-
-Other items to add:
-- UI's graphic
+Other items TO DO:
 - Tests
 
 #### credentials ###

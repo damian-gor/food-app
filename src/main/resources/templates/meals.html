@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head th:include="fragments/base-head :: baseHead(~{::title}, ~{::script})">
+<head th:include="fragments/head :: baseHead(~{::title}, ~{::script})">
 
     <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
     <script type="text/javascript" th:src="@{/js/meals.js}"></script>
@@ -13,31 +13,44 @@
 
 <body>
 
-    <div th:replace="fragments/menu :: user"></div>
+    <div th:replace="fragments/header :: user"></div>
 
     <main>
+        <div class="navi">
+            <div class="back">
+                <span><img class="navi-img" th:src="@{/images/arrow-left-solid.svg}">Back</span>
+                <a th:href="${meals.get('0').getLink('Back to the diary page').get().getHref()}"><button><img
+                            class="navi-img" th:src="@{/images/file-alt-solid.svg}">Diary
+                        page</button></a>
+                <a th:href="${diaryPage.getLink('Get all profile diary pages').get().getHref()}"
+                    id="diaryPagesLink"><button><img class="navi-img" th:src="@{/images/calendar-alt-solid.svg}">Diary
+                        pages</button></a>
+                <a th:href="${diaryPage.getLink('Go to profile food diary').get().getHref()}"><button>
+                        <img class="navi-img" th:src="@{/images/book-solid.svg}">Food diary</button></a>
+                <a th:href="${diaryPage.getLink('Back to profile').get().getHref()}"><button>
+                        <img class="navi-img" th:src="@{/images/user-solid.svg}">Profile</button></a>
+            </div>
+        </div>
 
         <h1>Meals</h1>
-        <p>Profile ID: <span th:text="${meals.get('0').id.profileId}"></span></p>
         <p>Date: <span th:text="${meals.get('0').id.date}"></span></p>
 
-        <h3 class="table-tittle">Diary pages caloric statistics</h3>
-        <table class="table">
+        <h3 class="table-tittle">Daily caloric balance</h3>
+        <table class="table summary-table">
             <tr>
-                <td>Caloric intake goal:</td>
+                <td>Kcal intake goal:</td>
                 <td th:text="${diaryPage.caloricIntakeGoal}"></td>
             </tr>
             <tr>
-                <td>Calories left:</td>
+                <td>Kcal left:</td>
                 <td th:text="${diaryPage.kcalLeft}"></td>
             </tr>
         </table>
-        <br>
 
         <h3 class="table-tittle">Meals list</h3>
         <table class="table">
             <tr>
-                <th>Meal ID</th>
+                <th>No.</th>
                 <th>Meal's kcal</th>
                 <th></th>
             </tr>
@@ -47,21 +60,10 @@
                 <td><a th:href="${meal.getLink('Self').get().getHref()}"><button>Meal details</button></a></td>
             </tr>
         </table>
-        <br>
-
-        <button type="button" class="btn btn-default btn-lg" id="add-meal">
-            Add new meal
-            <i id="show-img" class="fas fa-plus-square" aria-hidden="true"></i>
+        <button type="button" class="btn btn-default btn-sm editable" id="add-meal"><img
+                th:src="@{/images/plus-solid.svg}">
+            <p style="margin-top: 2px;">Add new meal</p>
         </button>
-
-        <br>
-        <a th:href="${meals.get('0').getLink('Back to the diary page').get().getHref()}"><button>Back to diary
-                page</button></a>
-        <a th:href="${meals.get('0').getLink('Go to profile food diary').get().getHref()}"><button>Back to profile's
-                food
-                diary</button></a>
-        <a th:href="${meals.get('0').getLink('Back to the profile').get().getHref()}"><button>Back to
-                profile</button></a>
 
     </main>
 

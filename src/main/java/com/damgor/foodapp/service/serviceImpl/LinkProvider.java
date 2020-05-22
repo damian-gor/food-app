@@ -223,6 +223,7 @@ public class LinkProvider {
                         linkTo(methodOn(MealControllerUI.class).getMeal(meal.getId().getProfileId(), meal.getId().getDate().toString(), meal.getId().getMealNumber())).withSelfRel(),
                         linkTo(methodOn(MealControllerUI.class).getAllMeals(meal.getId().getProfileId(), meal.getId().getDate().toString())).withRel("Get all meals in that diary page"),
                         linkTo(methodOn(DiaryPageControllerUI.class).getDiaryPage(meal.getId().getProfileId(), meal.getId().getDate().toString())).withRel("Back to the diary page"),
+                        linkTo(methodOn(DiaryPageControllerUI.class).getAllDiaryPages(meal.getId().getProfileId())).withRel("Get all profile diary pages"),
                         linkTo(methodOn(ProfileControllerUI.class).getProfile(meal.getId().getProfileId())).withRel("Back to the profile"),
                         linkTo(methodOn(FoodDiaryControllerUI.class).getFoodDiary(meal.getId().getProfileId())).withRel("Go to profile food diary")
                 );
@@ -236,6 +237,7 @@ public class LinkProvider {
                         linkTo(methodOn(MealController.class).getMeal(meal.getId().getProfileId(), meal.getId().getDate().toString(), meal.getId().getMealNumber())).withSelfRel(),
                         linkTo(methodOn(MealController.class).getAllMeals(meal.getId().getProfileId(), meal.getId().getDate().toString())).withRel("Get all meals in that diary page"),
                         linkTo(methodOn(DiaryPageController.class).getDiaryPage(meal.getId().getProfileId(), meal.getId().getDate().toString())).withRel("Back to the diary page"),
+                        linkTo(methodOn(DiaryPageController.class).getAllDiaryPages(meal.getId().getProfileId())).withRel("Get all profile diary pages"),
                         linkTo(methodOn(ProfileController.class).getProfile(meal.getId().getProfileId())).withRel("Back to the profile"),
                         linkTo(methodOn(FoodDiaryController.class).getFoodDiary(meal.getId().getProfileId())).withRel("Go to profile food diary")
                 );

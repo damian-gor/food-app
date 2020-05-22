@@ -35,7 +35,7 @@ $(document).ready(function () {
                         "Profile " + profile.name +
                         ", with ID " + profile.id +
                         " has been created successfully! <br>");
-                    $(".table tr:last").after(
+                    $("#profiles-table tr:last").after(
                         "<tr style='background-color:rgba(226, 224, 186, 0.966)'>" +
                         "<td>" + profile.id + "</td>" +
                         "<td>" + profile.name + "</td>" +
@@ -43,8 +43,6 @@ $(document).ready(function () {
                         "<td><a href=" + link + "/details><button>Details</button></a></td>" +
                         "<td><a href=" + link + "/food-diary><button>Food Diary</button></a></td>" +
                         "</tr>");
-                } else {
-                    $("#postresponseDiv").html("<strong>Error</strong>");
                 }
             },
             error: function (xhr) {
@@ -66,7 +64,7 @@ $(document).ready(function () {
 
     // buttons
     $("#btn-add-profile").click(function () {
-        $("#profile-form-container").toggle();
+        $("#profile-form-container").toggleClass("hidden");
     });
 
 })

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<body>
+    <div th:fragment="search-recipes">
+        <h3 class="table-tittle">Look for recipes:</h3>
+        <table class="search-table">
+            <tr>
+                <td><label for="input-recipe-byIngredients">Find recipes by ingredients:</label></td>
+                <td><input id="input-recipe-byIngredients" type="text" placeholder="Write ingredients...">
+                </td>
+                <td><button id="search-recipe-byIngredients">Search</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark"
+                        title="Use commas as separators, for example: 'cottage-cheese, spinach'"></td>
+            </tr>
+            <tr>
+                <td><label for="input-recipe-byText">Find recipes by text:</label></td>
+                <td><input id="input-recipe-byText" type="text" placeholder="Write query..."></td>
+                <td><button id="search-recipe-byText">Search</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark"
+                        title="Write for example: 'Cake with carrots without nuts'"></td>
+            </tr>
+            <tr>
+                <td><label for="input-recipe-byId">Find recipe by ID:</label></td>
+                <td><input id="input-recipe-byId" type="text" placeholder="Write recipe ID..."></td>
+                <td><button id="search-recipe-byId">Search</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark" title="Write for example: '168241'">
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+
+</html>

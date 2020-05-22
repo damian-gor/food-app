@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<body>
+    <div th:fragment="search-products">
+        <h3 class="table-tittle">Look for products:</h3>
+        <table class="search-table">
+            <tr>
+                <td><label for="input-product-general">Find general product:</label></td>
+                <td><input id="input-product-general" type="text" placeholder="Write product name..."></td>
+                <td><button id="search-product-general">Search</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark"
+                        title="Returns general products, without specific brand, for example: 'milk' or 'beer'">
+                </td>
+            </tr>
+            <tr>
+                <td><label for="input-product-specific">Find brand products:</label></td>
+                <td><input id="input-product-specific" type="text" placeholder="Write product name..."></td>
+                <td><button id="search-product-specific">Search</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark"
+                        title="Returns list of products with specific brands. Write specific product name (i.e. 'Coca-Cola') or general product name (i.e. 'cookies')">
+                </td>
+            </tr>
+            <tr>
+                <td><label for="input-product-id">Find product by ID:</label></td>
+                <td><input id="input-product-id" type="text" placeholder="Write product ID..."></td>
+                <td><button id="search-product-id">Search</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark" title="Write for example: '62248'">
+                </td>
+            <tr>
+        </table>
+    </div>
+
+
+</body>
+
+</html>

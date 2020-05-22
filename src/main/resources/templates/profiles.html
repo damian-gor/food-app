@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 
-<head th:include="fragments/base-head :: baseHead(~{::title}, ~{::script})">
+<head th:include="fragments/head :: baseHead(~{::title}, ~{::script})">
 
     <script type="text/javascript" th:src="@{/js/profiles.js}"></script>
     <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
@@ -14,19 +14,18 @@
 
 <body>
 
-    <div th:replace="fragments/menu :: user"></div>
+    <div th:replace="fragments/header :: user"></div>
 
     <main>
 
-        <h1>Profiles</h1>
-
-        <table class="table">
+        <h3 class="table-tittle">Profiles</h3>
+        <table class="table" id="profiles-table">
             <tr>
                 <th>Id</th>
                 <th>Nickname</th>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th><img class="navi-img" th:src="@{/images/user-solid.svg}"></th>
+                <th><img class="navi-img" th:src="@{/images/address-card-regular.svg}"></th>
+                <th><img class="navi-img" th:src="@{/images/book-solid.svg}"></th>
             </tr>
             <tr th:each="profile : ${profiles}">
                 <td th:text="${profile.id}"></td>
@@ -42,41 +41,64 @@
 
         <div id="postresponseDiv"></div>
 
-        <button id="btn-add-profile">Add new profile</button>
-        <div class="container" id="profile-form-container" style="display: none">
-            <form id="profileForm">
-                <div class="form-group">
-                    <label for="name">Profile name:</label> <input type="text" class="form-control" id="name"
-                        placeholder="Enter profile name" name="name">
-                </div>
-                <div class="form-group">
-                    <label for="diet">Diet:</label>
-                    <select name="diet" id="diet">
-                        <option value="none">none</option>
-                        <option th:each="diet : ${T(com.damgor.foodapp.model.enums.Diet).values()}" th:value="${diet}"
-                            th:text="${diet.displayName}"></option>
-                    </select>
-                    <p id="desc-diet" style="font-size: 14px; font-style: italic">Select diet to get description</p>
-                </div>
-                <div class="form-group">
-                    <label for="cuisine">Cuisine:</label>
-                    <select name="cuisine" id="cuisine">
-                        <option value="none">none</option>
-                        <option th:each="cuisine : ${T(com.damgor.foodapp.model.enums.Cuisine).values()}"
-                            th:value="${cuisine}" th:text="${cuisine.displayName}"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="intolerance">Intolerance:</label>
-                    <select name="intolerance" id="intolerance">
-                        <option value="none">none</option>
-                        <option th:each="intolerance : ${T(com.damgor.foodapp.model.enums.Intolerance).values()}"
-                            th:value="${intolerance}" th:text="${intolerance.displayName}"></option>
-                    </select>
-                </div>
+        <button id="btn-add-profile">Add new profile</button> <br>
 
+        <div class="form-container hidden" id="profile-form-container">
+            <form id="profileForm">
+                <table class="table summary-table form-table">
+                    <h3 class="form-tittle">New profile form</h3>
+                    <tr>
+                        <td>
+                            <label for="name">Profile name:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" id="name" placeholder="Enter profile name"
+                                name="name">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="diet">Diet:</label>
+                        </td>
+                        <td>
+                            <select name="diet" id="diet">
+                                <option value="none">none</option>
+                                <option th:each="diet : ${T(com.damgor.foodapp.model.enums.Diet).values()}"
+                                    th:value="${diet}" th:text="${diet.displayName}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="cuisine">Cuisine:</label>
+                        </td>
+                        <td>
+                            <select name="cuisine" id="cuisine">
+                                <option value="none">none</option>
+                                <option th:each="cuisine : ${T(com.damgor.foodapp.model.enums.Cuisine).values()}"
+                                    th:value="${cuisine}" th:text="${cuisine.displayName}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="intolerance">Intolerance:</label>
+                        </td>
+                        <td>
+                            <select name="intolerance" id="intolerance">
+                                <option value="none">none</option>
+                                <option
+                                    th:each="intolerance : ${T(com.damgor.foodapp.model.enums.Intolerance).values()}"
+                                    th:value="${intolerance}" th:text="${intolerance.displayName}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            <div class="form-desc-container" id="profiles-diet-desc-container">
+                <p id="desc-diet">Select diet to get description</p>
+            </div>
         </div>
 
     </main>

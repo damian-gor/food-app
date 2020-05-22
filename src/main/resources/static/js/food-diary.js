@@ -34,7 +34,7 @@ $(document).ready(function () {
                 success: function (result) {
                     console.log(result);
                     alert(
-                        'FoodDiary has been removed successfuly. Redirecting to your profile.'
+                        'FoodDiary has been removed successfuly. Redirecting to Profile.'
                     );
                     window.location.replace(profileLink);
                 },

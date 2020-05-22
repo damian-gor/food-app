@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head th:include="fragments/base-head :: baseHead(~{::title}, ~{::script})">
+<head th:include="fragments/head :: baseHead(~{::title}, ~{::script})">
 
     <script type="text/javascript" th:src="@{/js/home.js}"></script>
     <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
@@ -12,7 +12,7 @@
 
 <body>
 
-    <div th:replace="fragments/menu :: user"></div>
+    <div th:replace="fragments/header :: user"></div>
 
     <main>
         <p>This application is designed to facilitate diet by calculating basic indicators (e.g. BMI), determining
@@ -27,15 +27,15 @@
             <tr>
                 <td>Search for recipes:</td>
                 <td><a th:href="${message.getLink('Search for recipes').get().getHref()}" target="_blank">
-                        <button>Just test</button></a>
+                        <button>Try it out!</button></a>
                 </td>
-                <td><input id="input-recipe" type="text" placeholder="Write searching recipe text..."></td>
+                <td><input id="input-recipe" type="text" placeholder="Write recipe text..."></td>
                 <td><button id="search-recipe">Search</button></td>
             </tr>
             <tr>
                 <td>Search for products:</td>
                 <td><a th:href="${message.getLink('Search for products').get().getHref()}" target="_blank">
-                        <button>Just test</button></a>
+                        <button>Try it out!</button></a>
                 </td>
                 <td><input id="input-product" type="text" placeholder="Write product name..."></td>
                 <td><button id="search-product">Search</button></td>

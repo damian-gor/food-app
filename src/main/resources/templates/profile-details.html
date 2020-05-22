@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head th:include="fragments/base-head :: baseHead(~{::title}, ~{::script})">
+<head th:include="fragments/head :: baseHead(~{::title}, ~{::script})">
 
     <script type="text/javascript" th:src="@{/js/profile-details.js}"></script>
     <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
@@ -13,14 +13,30 @@
 
 <body>
 
-    <div th:replace="fragments/menu :: user"></div>
+    <div th:replace="fragments/header :: user"></div>
 
     <main>
 
-        <h1 th:text="${profileName}"></h1>
-        <h2>Profile details</h2>
+        <div class="navi">
+            <div class="back">
+                <span><img class="navi-img" th:src="@{/images/arrow-left-solid.svg}">Back</span>
+                <a th:href="${profileDetails.getLink('Back to profile').get().getHref()}"><button>
+                        <img class="navi-img" th:src="@{/images/user-solid.svg}">Profile</button></a>
+            </div>
+        </div>
+
+        <div class="page-title">
+            <h1><span th:text="${profileName}" id="profile-name"></span>: profile details</h1>
+        </div>
         <p>Id: <span th:text="${profileDetails.profileId}"></span></p>
-        <table class="table">
+
+        <div class="editable">
+            <h3 class="table-tittle">Details summary</h3>
+            <button type="button" class="btn btn-default btn-sm" id="btn-edit"><img
+                    th:src="@{/images/edit-solid.svg}"></button>
+        </div>
+
+        <table class="table summary-table">
             <tr>
                 <td>Height:</td>
                 <td th:text="${profileDetails.height}" id="profileHeight"></td>
@@ -52,76 +68,97 @@
             </tr>
         </table>
 
-        <button id="btn-edit">Edit details</button>
-        <div class="container" id="form" style="display: none">
+        <div class="form-container hidden" id="form">
             <form id="detailsForm">
-                <div class="form-group">
-                    <label for="height">Height:</label>
-                    <div class="range-slider">
-                        <input class="input-range-height" type="range" min="80" max="250"
-                            th:value="${profileDetails.height}" name="height" id="height">
-                        <span class="range-value" th:text="${profileDetails.height}"></span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="weight">Weight:</label>
-                    <div class="range-slider">
-                        <input class="input-range-weight" type="range" min="20" max="250"
-                            th:value="${profileDetails.weight}" name="weight" id="weight">
-                        <span class="range-value" th:text="${profileDetails.weight}"></span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="yearOfBirth">Year of birth:</label>
-                    <select name="yearOfBirth" id="yearpicker" th:text="${profileDetails.yearOfBirth}"></select>
-                </div>
-
-                <div class="form-group">
-                    <label for="sex" id="sex">Sex:</label>
-                    <input type='radio' class="sex_form" id='sex-male' name='sex' value='M' checked /><label
-                        for="sex-male">Male</label>
-                    <input type='radio' class="sex_form" id='sex-female' name='sex' value='F' /><label
-                        for="sex-female">Female</label>
-                </div>
-
-                <div class="form-group">
-                    <label for="aim">Aim:</label>
-                    <select name="aim" id="aim">
-                        <option th:each="aim : ${T(com.damgor.foodapp.model.enums.Aim).values()}" th:value="${aim}"
-                            th:text="${aim.displayName}" th:if="${aim == profileDetails.aim}" selected>
-                        </option>
-                        <option th:each="aim : ${T(com.damgor.foodapp.model.enums.Aim).values()}" th:value="${aim}"
-                            th:text="${aim.displayName}" th:if="${aim != profileDetails.aim}">
-                        </option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="activityLevel">Activity level:</label>
-                    <select name="activityLevel" id="activityLevel">
-                        <option th:each="activityLevel : ${T(com.damgor.foodapp.model.enums.ActivityLevel).values()}"
-                            th:value="${activityLevel}" th:text="${activityLevel.displayName}"
-                            th:if="${activityLevel == profileDetails.activityLevel && profileDetails.activityLevel != null}"
-                            selected>
-                        </option>
-                        <option th:each="activityLevel : ${T(com.damgor.foodapp.model.enums.ActivityLevel).values()}"
-                            th:value="${activityLevel}" th:text="${activityLevel.displayName}"
-                            th:if="${activityLevel != profileDetails.activityLevel || profileDetails.activityLevel == null}">
-                        </option>
-                    </select>
-                    <p style="font-size: 14px; font-style: italic" id="desc-activityLevel"
-                        th:text="${profileDetails.activityLevel.description}"
-                        th:if="${profileDetails.activityLevel != null}"></p>
-                </div>
-
+                <table class="table summary-table form-table">
+                    <h3 class="form-tittle">Edit details</h3>
+                    <tr>
+                        <td>
+                            <label for="height">Height:</label></td>
+                        <td>
+                            <input class="input-range-height" type="range" min="80" max="250"
+                                th:value="${profileDetails.height}" name="height" id="height">
+                            <span class="range-value" th:text="${profileDetails.height}"></span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="weight">Weight:</label> </td>
+                        <td>
+                            <div class="range-slider">
+                                <input class="input-range-weight" type="range" min="20" max="250"
+                                    th:value="${profileDetails.weight}" name="weight" id="weight">
+                                <span class="range-value" th:text="${profileDetails.weight}"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="yearpicker">Year of birth:</label>
+                        </td>
+                        <td>
+                            <select name="yearOfBirth" id="yearpicker" th:text="${profileDetails.yearOfBirth}"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="sex" id="sex">Sex:</label>
+                        </td>
+                        <td>
+                            <input type='radio' class="sex_form" id='sex-male' name='sex' value='M' checked /><label
+                                for="sex-male">Male</label>
+                            <input type='radio' class="sex_form" id='sex-female' name='sex' value='F' /><label
+                                for="sex-female">Female</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="aim">Aim:</label>
+                        </td>
+                        <td>
+                            <select name="aim" id="aim">
+                                <option th:each="aim : ${T(com.damgor.foodapp.model.enums.Aim).values()}"
+                                    th:value="${aim}" th:text="${aim.displayName}" th:if="${aim == profileDetails.aim}"
+                                    selected>
+                                </option>
+                                <option th:each="aim : ${T(com.damgor.foodapp.model.enums.Aim).values()}"
+                                    th:value="${aim}" th:text="${aim.displayName}" th:if="${aim != profileDetails.aim}">
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="activityLevel">Activity level:</label>
+                        </td>
+                        <td>
+                            <select name="activityLevel" id="activityLevel">
+                                <option
+                                    th:each="activityLevel : ${T(com.damgor.foodapp.model.enums.ActivityLevel).values()}"
+                                    th:value="${activityLevel}" th:text="${activityLevel.displayName}"
+                                    th:if="${activityLevel == profileDetails.activityLevel && profileDetails.activityLevel != null}"
+                                    selected>
+                                </option>
+                                <option
+                                    th:each="activityLevel : ${T(com.damgor.foodapp.model.enums.ActivityLevel).values()}"
+                                    th:value="${activityLevel}" th:text="${activityLevel.displayName}"
+                                    th:if="${activityLevel != profileDetails.activityLevel || profileDetails.activityLevel == null}">
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            <div class="form-desc-container" id="activity-desc-container">
+                <p id="desc-activityLevel"
+                    th:text="${profileDetails.activityLevel.description}"
+                    th:if="${profileDetails.activityLevel != null}">
+                </p>
+            </div>
         </div>
 
-        <h3>Indicators:</h3>
-        <table class="table">
+        <h3 class="table-tittle">Indicators</h3>
+        <table class="table summary-table">
             <tr>
                 <td title="Body mass index, weight in relation to height">BMI:</td>
                 <td th:text="${profileDetails.bmi}" th:title="${profileDetails.bmiDescription}" id="profileBMI"></td>
@@ -131,13 +168,10 @@
                 <td th:text="${profileDetails.bmr}" id="profileBMR"></td>
             </tr>
             <tr>
-                <td>Recommended Caloric Intake:</td>
+                <td style="max-width: 130px;">Recommended Caloric Intake:</td>
                 <td th:text="${profileDetails.recommendedCaloricIntake}" id="profileRecommendedCaloricIntake"></td>
             </tr>
         </table>
-
-
-        <a th:href="${profileDetails.getLink('Back to profile').get().getHref()}"><button>Back to profile</button></a>
 
         <script th:inline="javascript">
             /*<![CDATA[*/

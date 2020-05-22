@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head th:include="fragments/base-head :: baseHead(~{::title}, ~{::script})">
+<head th:include="fragments/head :: baseHead(~{::title}, ~{::script})">
 
     <script type="text/javascript" th:src="@{/js/food-diary.js}"></script>
     <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
@@ -13,27 +13,40 @@
 
 <body>
 
-    <div th:replace="fragments/menu :: user"></div>
+    <div th:replace="fragments/header :: user"></div>
 
     <main>
 
-        <h1><span id="profileName"></span>'s food diary</h1>
-        <button type="button" class="btn btn-default btn-lg confirm" id="delete">
-            <i class="fas fa-trash-alt" aria-hidden="true"></i>
-        </button>
+        <div class="navi">
+            <div class="back">
+                <span><img class="navi-img" th:src="@{/images/arrow-left-solid.svg}">Back</span>
+                <a th:href="${foodDiary.getLink('Back to profile').get().getHref()}" id="profileLink"><button>
+                        <img class="navi-img" th:src="@{/images/user-solid.svg}">Profile</button></a>
+            </div>
+            <div class="go-to">
+                <span>Go to<img class="navi-img" th:src="@{/images/arrow-right-solid.svg}"></span>
+                <a th:href="${foodDiary.getLink('Get all profile diary pages').get().getHref()}"><button>
+                        <img class="navi-img" th:src="@{/images/calendar-alt-solid.svg}">Diary pages</button></a>
+                <a th:href="${foodDiary.getLink('Go to profile details').get().getHref()}"><button>
+                        <img class="navi-img" th:src="@{/images/address-card-regular.svg}">Profile
+                        details</button></a>
+            </div>
+        </div>
+
+        <div class="page-title removable">
+            <h1><span id="profileName"></span>'s food diary</h1>
+            <button type="button" class="btn btn-default btn-lg confirm" id="delete">
+                <img th:src="@{/images/trash-alt-solid.svg}">
+            </button>
+        </div>
 
         <p>Id: <span th:text="${foodDiary.profileId}"></span></p>
-        <p>Current recommended caloric intake: <span th:text="${foodDiary.caloricIntakeGoal}">No enough data about profile.
-                <a th:href="${foodDiary.getLink('Go to profile details').get().getHref()}">Fill in the missing profile
-                    details</a></span></p>
 
-        <a th:href="${foodDiary.getLink('Get all profile diary pages').get().getHref()}"><button>Get all diary
-                pages</button></a>
-
-        <br><br>
-        <a th:href="${foodDiary.getLink('Go to profile details').get().getHref()}"><button>Profile details</button></a>
-        <a th:href="${foodDiary.getLink('Back to profile').get().getHref()}" id="profileLink"><button>Back to
-                profile</button></a>
+        <h3 class="table-tittle">Current recommended kcal intake:
+            <span th:text="${foodDiary.caloricIntakeGoal}">No enough data about
+                profile. <a th:href="${foodDiary.getLink('Go to profile details').get().getHref()}">Fill in the missing
+                    profile details</a></span>
+        </h3>
 
     </main>
 

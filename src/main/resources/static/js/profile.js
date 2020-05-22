@@ -86,7 +86,7 @@ $(document).ready(function () {
 
     //  toggle buttons
     $("#btn-edit-profile").click(function () {
-        $("#profile-form-container").toggle();
+        $("#profile-form-container").toggleClass("hidden");
     });
 
     $("#btn-edit-recipes").click(function () {

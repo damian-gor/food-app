@@ -8,10 +8,11 @@ $(document).ready(function () {
 
     // BUTTON: show new product form 
     $("#show-newProduct-form").click(function () {
-        $("#newProduct-form-container").toggle();
-        if ($("#show-img").attr("class") == "fas fa-sort-down") $("#show-img").attr("class", "fas fa-sort-up");
-        else $("#show-img").attr("class", "fas fa-sort-down");
+        $("#newProduct-form-container").toggleClass("hidden");
+        if ($("#show-img").attr("src") == "/images/sort-down-solid.svg") $("#show-img").attr("src", "/images/sort-up-solid.svg");
+        else $("#show-img").attr("src", "/images/sort-down-solid.svg");
     });
+
 
 
     // BUTTON: ADD NEW PRODUCT TO MEAL
@@ -22,11 +23,8 @@ $(document).ready(function () {
         productsArray.forEach(element => {
             if (element.productId == productId) {
                 productAmount = parseInt(productAmount) + parseInt(element.grams);
-                console.log($("table#mealElements tr#" + productId).find(".index").text());
                 var indexToRemove = indexes.indexOf(parseInt($("table#mealElements tr#" + productId).find(".index").text()));
-                console.log(indexToRemove);
                 if (indexToRemove !== -1) indexes.splice(indexToRemove, 1);
-                console.log(indexes);
                 $("table#mealElements tr#" + productId).remove();
             }
         });
@@ -50,25 +48,34 @@ $(document).ready(function () {
                     var meal = result.responseJSON;
                     productsArray = meal.products;
                     var product;
+                    var doesProductExist = true;
                     productsArray.forEach(element => {
+                        if (element.productName == null) {
+                            doesProductExist = false;
+                        }
                         if (element.productId == productId) {
                             product = element;
                         }
                     });
-                    $(".table tr:last").before(
-                        "<tr style='background-color:rgba(226, 224, 186, 0.966)' id=" + productId + ">" +
-                        "<td class='index'>" + assignIndex(productsArray.length) + "</td>" +
-                        "<td>" + product.productName + "</td>" +
-                        "<td>" + product.grams + "</td>" +
-                        "<td>" + product.productKcal + "</td>" +
-                        "<td>" + product.productProtein + "</td>" +
-                        "<td>" + product.productCarbs + "</td>" +
-                        "<td>" + product.productFat + "</td>" +
-                        "<td><button type='button' class='btn btn-default btn-lg confirm deleteProduct' value=" + productId + ">" +
-                        "<i class='fas fa-times' aria-hidden='true'></i></button></td>" +
-                        "<td><a href=" + product.links[0].href + "><button>Product details</button></a></td>" +
-                        "</tr>");
-                    actualizeResults(meal);
+
+                    if (doesProductExist == true) {
+                        $("#mealElements tr:last").before(
+                            "<tr style='background-color:rgba(226, 224, 186, 0.966)' id=" + productId + ">" +
+                            "<td class='index'>" + assignIndex(productsArray.length) + "</td>" +
+                            "<td>" + product.productName + "</td>" +
+                            "<td>" + product.grams + "</td>" +
+                            "<td>" + product.productKcal + "</td>" +
+                            "<td>" + product.productProtein + "</td>" +
+                            "<td>" + product.productCarbs + "</td>" +
+                            "<td>" + product.productFat + "</td>" +
+                            "<td class='removable'><button type='button' class='btn btn-default btn-lg confirm deleteProduct' value=" + productId + ">" +
+                            "<img src='/images/trash-alt-solid.svg'></button></td>" +
+                            "<td><a href=" + product.links[0].href + "><button>Product details</button></a></td>" +
+                            "</tr>");
+                        actualizeResults(meal);
+                    } else {
+                        alert("There is no product with ID " + productId + " in our database. Please try agane.")
+                    }
                 }
             },
             error: function (xhr) {
@@ -162,5 +169,10 @@ $(document).ready(function () {
         });
     };
 
+    // BUTTON: search for products
+
+    $("#btn-search-products").click(function () {
+        $("#search-products").toggle();
+    });
 
 });

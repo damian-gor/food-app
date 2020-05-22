@@ -1,18 +1,26 @@
 package com.damgor.foodapp.controller;
 
-import com.damgor.foodapp.model.Message;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @Api(tags = "0. Home", description = "Starting page")
 public class HomeController {
 
+    @GetMapping("/")
+    @ApiIgnore
+    public void redirectToUIHomepage(HttpServletResponse httpServletResponse, HttpServletRequest request) {
+        httpServletResponse.setHeader("Location", request.getRequestURL().toString() + "ui");
+        httpServletResponse.setStatus(302);
+    }
+
+    ///////// temporarily suspended to make getting to know the application easier
+ /*
     @GetMapping("/")
     @ApiOperation(value= "Homepage",
             notes = "Starting page, available to everyone.",
@@ -27,5 +35,6 @@ public class HomeController {
                         "functionalities of this module are available only to logged in users ")
         );
         return message;
-    }
+    }*/
+
 }

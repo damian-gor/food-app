@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head th:include="fragments/base-head :: baseHead(~{::title}, ~{::script})">
+<head th:include="fragments/head :: baseHead(~{::title}, ~{::script})">
     <script type="text/javascript" th:src="@{/js/recipes-list.js}"></script>
     <script type="text/javascript" th:src="@{/js/recipe-common.js}"></script>
     <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
@@ -13,7 +13,7 @@
 
 <body>
 
-    <div th:replace="fragments/menu :: user"></div>
+    <div th:replace="fragments/header :: user"></div>
 
     <main>
 
@@ -41,7 +41,7 @@
             </tr>
         </table>
 
-        <div style="text-align: center">
+        <div>
             <label for="input-result-number">Results on page:</label>
             <input id="input-result-number" type="number" value="5" min="1" max="99" class="small-input-number">
             <label for="input-page">Page number</label>
@@ -50,47 +50,7 @@
         </div>
         <br>
 
-        <h3>Look for other recipes:</h3>
-        <div>
-            <button id="search-recipe-random">Surprise me!</button><i class="far fa-question-circle" aria-hidden="true"
-                title="Get random recipe"></i>
-            <br>
-
-            <label for="input-recipe-byIngredients">Find recipes by ingredients:</label>
-            <input id="input-recipe-byIngredients" type="text" placeholder="Write wanted ingredients...">
-            <button id="search-recipe-byIngredients">Search</button>
-            <i class="far fa-question-circle" aria-hidden="true"
-                title="Use commas as separators, for example: 'cottage-cheese, spinach'"></i>
-            <br>
-
-            <label for="input-recipe-byId">Find recipe by ID:</label>
-            <input id="input-recipe-byId" type="text" placeholder="Write recipe ID...">
-            <button id="search-recipe-byId">Search</button>
-            <i class="far fa-question-circle" aria-hidden="true" title="Write for example: '168241'"></i>
-            <br>
-
-            <label for="input-recipe-byText">Find recipes by text:</label>
-            <input id="input-recipe-byText" type="text" placeholder="Write query...">
-            <button id="search-recipe-byText">Search</button>
-            <i class="far fa-question-circle" aria-hidden="true"
-                title="Write for example: 'Cake with carrots without nuts'"></i>
-            <br>
-
-            <label for="input-recipe-suitable">Find recipe suitable for selected profile:</label>
-            <input id="input-recipe-suitable" type="text" placeholder="Write profile ID...">
-            <button id="search-recipe-suitable">Search</button>
-            <i class="far fa-question-circle" aria-hidden="true"
-                title="We will find a recipe that your friend will love! Write for example: '1'"></i>
-            <br>
-
-            <label for="input-recipe-compromise"
-                title="We will find a recipe suitable for everyone at the same time!">Find
-                acompromise recipes for selected profiles:</label>
-            <input id="input-recipe-compromise" type="text" placeholder="Write profile' IDs...">
-            <button id="search-recipe-compromise">Search</button>
-            <i class="far fa-question-circle" aria-hidden="true"
-                title="We will find a recipe suitable for everyone at the same time! Write for example: 1,3"></i>
-        </div>
+        <div th:replace="fragments/basic-recipes-search :: search-recipes"></div>
 
     </main>
 

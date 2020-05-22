@@ -13,7 +13,7 @@ $(document).ready(function () {
     });
 
     $("#btn-edit").click(function () {
-        $("#form").toggle();
+        $("#form").toggleClass("hidden");
         $("#yearpicker").val($('#profileYearOfBirth').text());
         if ($("#profileSex").text() == "Female") $("#sex-female").prop("checked", true);
     });

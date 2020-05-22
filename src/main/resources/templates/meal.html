@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head th:include="fragments/base-head :: baseHead(~{::title}, ~{::script})">
+<head th:include="fragments/head :: baseHead(~{::title}, ~{::script})">
 
     <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
     <script type="text/javascript" th:src="@{/js/meal.js}"></script>
@@ -13,18 +13,39 @@
 
 <body>
 
-    <div th:replace="fragments/menu :: user"></div>
+    <div th:replace="fragments/header :: user"></div>
 
     <main>
 
-        <h1>Meal <span th:text="${meal.id.mealNumber}"></span></h1>
-        <button type="button" class="btn btn-default btn-lg confirm" id="deleteMeal">
-            <i class="fas fa-trash-alt" aria-hidden="true"></i>
-        </button>
+        <div class="navi">
+            <div class="back">
+                <span><img class="navi-img" th:src="@{/images/arrow-left-solid.svg}">Back</span>
+                <a th:href="${meal.getLink('Get all meals in that diary page').get().getHref()}" id="mealsLink"><button>
+                        <img class="navi-img" th:src="@{/images/utensils-solid.svg}">Meals</button></a>
+                <a th:href="${meal.getLink('Back to the diary page').get().getHref()}"><button><img class="navi-img"
+                            th:src="@{/images/file-alt-solid.svg}">Diary
+                        page</button></a>
+                <a th:href="${meal.getLink('Get all profile diary pages').get().getHref()}"><button><img
+                            class="navi-img" th:src="@{/images/calendar-alt-solid.svg}">Diary
+                        pages</button></a>
+                <a th:href="${meal.getLink('Go to profile food diary').get().getHref()}"><button>
+                        <img class="navi-img" th:src="@{/images/book-solid.svg}">Food diary</button></a>
+                <a th:href="${meal.getLink('Back to the profile').get().getHref()}"><button>
+                        <img class="navi-img" th:src="@{/images/user-solid.svg}">Profile</button></a>
+            </div>
+        </div>
+
+        <div class="page-title removable">
+            <h1>Meal <span th:text="${meal.id.mealNumber}"></span></h1>
+            <button type="button" class="btn btn-default btn-sm confirm" id="deleteMeal">
+                <img th:src="@{/images/trash-alt-solid.svg}">
+            </button>
+        </div>
+
         <p>Date: <span th:text="${meal.id.date}"></span></p>
 
         <h3>Meal summary</h3>
-        <table class="table" id="mealSummary">
+        <table class="table summary-table" id="mealSummary">
             <tr>
                 <td>Kcal:</td>
                 <td th:text="${meal.mealKcal}" class="total-kcal"></td>
@@ -34,7 +55,7 @@
                 <td th:text="${meal.mealProtein}" class="total-protein"></td>
             </tr>
             <tr>
-                <td>Carbohydrates:</td>
+                <td>Carbs:</td>
                 <td th:text="${meal.mealCarbs}" class="total-carbs"></td>
             </tr>
             <tr>
@@ -42,7 +63,6 @@
                 <td th:text="${meal.mealFat}" class="total-fat"></td>
             </tr>
         </table>
-        <br>
 
         <h3 class="table-tittle">Meal elements</h3>
         <table class="table" id="mealElements">
@@ -65,13 +85,13 @@
                 <td th:text="${product.productProtein}"></td>
                 <td th:text="${product.productCarbs}"></td>
                 <td th:text="${product.productFat}"></td>
-                <td><button type="button" class="btn btn-default btn-lg confirm deleteProduct"
+                <td class='removable'><button type="button" class="btn btn-default btn-sm confirm deleteProduct"
                         th:value="${product.productId}">
-                        <i class="fas fa-times" aria-hidden="true"></i></button></td>
+                        <img th:src="@{/images/trash-alt-solid.svg}"></button></td>
                 <td><a th:href="${product.getLink('Get product details').get().getHref()}"><button>Product
                             details</button></a></td>
             </tr>
-            <tr>
+            <tr style="background-color: transparent;">
                 <td></td>
                 <td></td>
                 <th>Total:</th>
@@ -81,36 +101,37 @@
                 <td th:text="${meal.mealFat}" class="total-fat"></td>
             </tr>
         </table>
-        <br>
 
-        <button type="button" class="btn btn-default btn-lg" id="show-newProduct-form">
+        <button type="button" class="btn btn-default btn-sm" id="show-newProduct-form">
             Add more products
-            <i id="show-img" class="fas fa-sort-down" aria-hidden="true"></i>
-        </button>
+            <img class="navi-img" id="show-img" th:src="@{/images/sort-down-solid.svg}">
+        </button> <br>
 
-        <div class="container" id="newProduct-form-container" style="display: none">
+        <div class="form-container hidden" id="newProduct-form-container">
             <form id="newProductForm">
-                <div class="form-group">
-                    <label for="productId">Product ID:</label> <input type="text" class="form-control" id="productId"
-                        placeholder="Enter product ID" name="productId">
-                </div>
-                <div class="form-group">
-                    <label for="productAmount">Product amount:</label> <input type="text" class="form-control"
-                        id="productAmount" placeholder="Enter amount in [g]" name="productAmount">
-                </div>
-
-                <button type="submit" class="btn btn-primary">Add</button>
+                <table class="table summary-table form-table">
+                    <tr>
+                        <td>
+                            <label for="productId">Product ID:</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" id="productId" placeholder="Enter product ID"
+                                name="productId">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="productAmount">Product amount:</label>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" id="productAmount" placeholder="Enter amount in [g]"
+                                name="productAmount">
+                        </td>
+                    </tr>
+                </table>
+                <button type="submit" class="btn btn-primary btn-sm">Add</button>
             </form>
         </div>
-        <br>
-        <br>
-
-        <a th:href="${meal.getLink('Get all meals in that diary page').get().getHref()}" id="mealsLink"><button>Back to
-                meals</button></a>
-        <a th:href="${meal.getLink('Back to the diary page').get().getHref()}"><button>Back to diary page</button></a>
-        <a th:href="${meal.getLink('Go to profile food diary').get().getHref()}"><button>Back to profile's food
-                diary</button></a>
-        <a th:href="${meal.getLink('Back to the profile').get().getHref()}"><button>Back to profile</button></a>
 
     </main>
 

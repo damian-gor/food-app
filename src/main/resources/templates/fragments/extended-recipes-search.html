@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<body>
+    <div th:fragment="search-recipes">
+        <h3 class="table-tittle">Look for recipes:</h3>
+        <table class="search-table">
+            <tr>
+                <td><label for="input-recipe-byIngredients">Find recipes by ingredients:</label></td>
+                <td><input id="input-recipe-byIngredients" type="text" placeholder="Write ingredients...">
+                </td>
+                <td><button id="search-recipe-byIngredients">Search</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark"
+                        title="Use commas as separators, for example: 'cottage-cheese, spinach'"></td>
+            </tr>
+            <tr>
+                <td><label for="input-recipe-byId">Find recipe by ID:</label></td>
+                <td><input id="input-recipe-byId" type="text" placeholder="Write recipe ID..."></td>
+                <td><button id="search-recipe-byId">Search</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark" title="Write for example: '168241'">
+                </td>
+            </tr>
+            <tr>
+                <td><label for="input-recipe-byText">Find recipes by text:</label></td>
+                <td><input id="input-recipe-byText" type="text" placeholder="Write query..."></td>
+                <td><button id="search-recipe-byText">Search</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark"
+                        title="Write for example: 'Cake with carrots without nuts'"></td>
+            </tr>
+            <tr>
+                <td><label for="input-recipe-suitable">Find recipe suitable for selected profile:</label></td>
+                <td><input id="input-recipe-suitable" type="text" placeholder="Write profile ID..."></td>
+                <td><button id="search-recipe-suitable">Search</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark"
+                        title="We will find a recipe that your friend will love! Write for example: '1'"></td>
+            </tr>
+            <tr>
+                <td><label for="input-recipe-compromise"
+                        title="We will find a recipe suitable for everyone at the same time!">Find
+                        a compromise recipes for profiles:</label></td>
+                <td><input id="input-recipe-compromise" type="text" placeholder="Write profile' IDs..."></td>
+                <td><button id="search-recipe-compromise">Search</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark"
+                        title="We will find a recipe suitable for everyone at the same time! Write for example: 1,3">
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    <button id="search-recipe-random">Surprise me!</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark" title="Get random recipe"></td>
+            </tr>
+        </table>
+
+        <div class=".search-options">
+            <h4>Searching options:</h4>
+            <label for="input-result-number">Results on page:</label>
+            <input id="input-result-number" type="number" value="5" min="1" max="99" class="small-input-number">
+            <label for="input-page">Page number</label>
+            <input id="input-page" type="number" value="1" min="1" max="99" class="small-input-number">
+        </div>
+    </div>
+
+    <div th:fragment="search-mini">
+        <h3 class="table-tittle">Look for recipes:</h3>
+        <table class="search-table">
+            <tr>
+                <td><label for="input-recipe-byIngredients">Find recipes by ingredients:</label></td>
+                <td><input id="input-recipe-byIngredients" type="text" placeholder="Write ingredients...">
+                </td>
+                <td><button id="search-recipe-byIngredients">Search</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark"
+                        title="Use commas as separators, for example: 'cottage-cheese, spinach'"></td>
+            </tr>
+            <tr>
+                <td><label for="input-recipe-byId">Find recipe by ID:</label></td>
+                <td><input id="input-recipe-byId" type="text" placeholder="Write recipe ID..."></td>
+                <td><button id="search-recipe-byId">Search</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark" title="Write for example: '168241'">
+                </td>
+            </tr>
+            <tr>
+                <td><label for="input-recipe-byText">Find recipes by text:</label></td>
+                <td><input id="input-recipe-byText" type="text" placeholder="Write query..."></td>
+                <td><button id="search-recipe-byText">Search</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark"
+                        title="Write for example: 'Cake with carrots without nuts'"></td>
+            </tr>
+            <tr>
+                <td><label for="input-recipe-suitable">Find recipe suitable for selected profile:</label></td>
+                <td><input id="input-recipe-suitable" type="text" placeholder="Write profile ID..."></td>
+                <td><button id="search-recipe-suitable">Search</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark"
+                        title="We will find a recipe that your friend will love! Write for example: '1'"></td>
+            </tr>
+            <tr>
+                <td><label for="input-recipe-compromise"
+                        title="We will find a recipe suitable for everyone at the same time!">Find
+                        a compromise recipes for profiles:</label></td>
+                <td><input id="input-recipe-compromise" type="text" placeholder="Write profile' IDs..."></td>
+                <td><button id="search-recipe-compromise">Search</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark"
+                        title="We will find a recipe suitable for everyone at the same time! Write for example: 1,3">
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    <button id="search-recipe-random">Surprise me!</button></td>
+                <td><img th:src="@{/images/question-circle-regular.svg}" class="question-mark" title="Get random recipe"></td>
+            </tr>
+        </table>
+
+        <div class=".search-options">
+            <h4>Searching options:</h4>
+            <label for="input-result-number">Results on page:</label>
+            <input id="input-result-number" type="number" value="5" min="1" max="99" class="small-input-number">
+            <label for="input-page">Page number</label>
+            <input id="input-page" type="number" value="1" min="1" max="99" class="small-input-number">
+        </div>
+    </div>
+
+
+</body>
+
+</html>

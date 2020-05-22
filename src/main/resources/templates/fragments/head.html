@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:fragment="baseHead(title, scripts)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <script type="text/javascript" th:src="@{/js/external/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/external/bootstrap.bundle.min.js}"></script>
+
+    <script th:inline="javascript">
+        var auth = /*[[${#authentication}]]*/ null;
+    </script>
+
+    <link rel="stylesheet" th:href="@{/css/external/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/external/all.css}" />
+    <link rel="stylesheet" th:href="@{/css/external/bootstrap4-toggle.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/external/jquery-ui.css}" />
+    <link rel="stylesheet" th:href="@{/css/basic.css}" />
+
+    <title th:replace="${title}">Food-app</title>
+
+    <th:block th:replace="${scripts}" />
+</head>
+
+</html>

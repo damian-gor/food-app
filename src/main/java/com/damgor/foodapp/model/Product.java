@@ -31,21 +31,25 @@ public class Product extends RepresentationModel<Product> {
 
     public void setKcal(Double kcal) {
         if (kcal == null) kcal =0.0;
-        this.kcal = kcal;
+        this.kcal = round(kcal);
     }
 
     public void setProtein(Double protein) {
         if (protein == null) protein =0.0;
-        this.protein = protein;
+        this.protein = round(protein);
     }
 
     public void setCarbs(Double carbs) {
         if (carbs == null) carbs =0.0;
-        this.carbs = carbs;
+        this.carbs = round(carbs);
     }
 
     public void setFat(Double fat) {
         if (fat == null) fat =0.0;
-        this.fat = fat;
+        this.fat = round(fat);
+    }
+
+    private Double round(Double d) {
+        return Math.round(d * 100.0) / 100.0;
     }
 }

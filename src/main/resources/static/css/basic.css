@@ -2,13 +2,54 @@ main {
     margin-top: 90px;
     margin-left: 3%;
     margin-right: 3%;
+    min-height: calc(100vh - 159px - 90px - 20px);
 }
 
 body {
     background-color: white;
 }
 
-/* TABLES */
+p {
+    margin-bottom: 5px;
+}
+
+.btn-sm {
+    padding: 4px;
+}
+
+/*  */
+.removable,
+.editable {
+    display: inline-flex;
+}
+
+.removable img,
+.editable img {
+    max-width: 30px;
+    max-height: 30px;
+    padding: 2px;
+}
+
+
+.removable button,
+.editable button {
+    padding: 2px;
+    height: fit-content;
+    width: fit-content;
+    align-self: center;
+    margin-left: 8px;
+    background-color: transparent;
+}
+
+.editable button {
+    margin-top: 18px;
+}
+
+.editable p {
+    margin-top: 18px;
+}
+
+/* TABLES - main*/
 
 .table-tittle {
     margin-top: 20px;
@@ -19,25 +60,70 @@ body {
 
 .table {
     width: fit-content;
-    min-width: 75%;
+    min-width: 35%;
     text-align: center;
-    vertical-align: middle !important;
+}
+
+.table td {
+    padding: 4px;
+    vertical-align: middle;
 }
 
 .table tr td:first-child {
     text-align: left;
 }
 
-tr:nth-child(even) {
+.table tr:nth-child(even) {
     background-color: #fff;
 }
 
-tr:nth-child(odd) {
+.table tr:nth-child(odd) {
     background-color: #ddd;
 }
 
-th {
+.table th {
     background-color: dimgray;
+    padding: 6px;
+    text-align: center;
+}
+
+.list-in-table li {
+    text-align: left;
+}
+
+.list-in-table ul {
+    margin-bottom: 0;
+    padding-left: 20px;
+    margin-bottom: 0;
+}
+
+
+/* TABLE - summary */
+.summary-table {
+    min-width: 20%;
+    width: fit-content;
+}
+
+.table .summary-table td {
+    padding: 7px;
+}
+
+.summary-table tr td:first-child {
+    border-right: lightslategrey solid 1px;
+}
+
+/* TABLES - search */
+.search-table tr td:first-child {
+    padding-right: 5px;
+}
+
+.search-table tr td:nth-child(3) {
+    text-align: center;
+}
+
+.search-options {
+    padding-top: 10px;
+    display: inline-block;
 }
 
 /* INPUTS */
@@ -45,4 +131,282 @@ th {
 .small-input-number {
     width: 50px;
     text-align: center;
+}
+
+/* Navigation */
+.navi {
+    display: flex;
+    text-align: center;
+    width: fit-content;
+    float: right;
+    margin-right: -3%;
+    font-size: 14px;
+}
+
+.navi .go-to {
+    display: block;
+}
+
+.navi .back {
+    display: block;
+}
+
+.navi div {
+    margin-right: 5px;
+}
+
+.navi a {
+    display: block;
+}
+
+.navi button {
+    width: 140px;
+    height: 35px;
+    padding: 0;
+}
+
+.navi-img {
+    max-width: 45px;
+    max-height: 35px;
+    padding-right: 5px;
+    padding-left: 0;
+}
+
+.navi button img {
+    max-width: 45px;
+    max-height: 30px;
+}
+
+/* FORM */
+
+.form-container {
+    display: inline-flex;
+}
+
+.hidden {
+    display: none;
+
+}
+
+.form-table {
+    border: outset;
+    margin-bottom: 2px;
+}
+
+.form-table tr td {
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    vertical-align: middle;
+
+}
+
+.form-table tr:nth-child(odd) {
+    background-color: blanchedalmond;
+}
+
+.form-table tr td:first-child {
+    text-align: center;
+}
+
+.form-table tr td:nth-child(2) {
+    text-align: left;
+}
+
+.form-table input,
+.form-table select {
+    width: 200px;
+    text-align: center;
+}
+
+.form-desc-container {
+    max-width: 50%;
+    height: fit-content;
+    position: relative;
+    left: 7px;
+}
+
+.form-desc-container p {
+    font-size: 11px;
+    font-style: italic;
+    text-align: justify;
+}
+
+#profiles-diet-desc-container {
+    top: 83px;
+}
+
+#profile-diet-desc-container {
+    top: 83px;
+}
+
+#activity-desc-container {
+    top: 222px;
+}
+
+.form-tittle {
+    margin-top: 15px;
+    margin-bottom: 2px;
+    font-family: 'Arima Madurai', cursive;
+    font-style: italic;
+    font-size: 20px;
+}
+
+form input[type=radio] {
+    width: 20px;
+}
+
+form input[type=range] {
+    width: 150px;
+}
+
+form input[type=text] {
+    padding: 0;
+}
+
+#show-img {
+    width: 15px;
+    padding-left: 2px;
+    padding-right: 0;
+}
+
+
+#datepicker{
+    width: 100px;
+    text-align: center;
+}
+
+/* HEADER */
+header {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(160, 189, 199);
+    width: 100%;
+    height: 80px;
+}
+
+header .header-brand {
+    font-family: 'Indie Flower', cursive;
+    font-size: 24px;
+    color: #111;
+    font-weight: 900;
+    display: block;
+    margin: 31px 0;
+    text-align: left;
+    line-height: 38px;
+    padding: 0px 20px 0px 40px;
+    border-right: 3px solid #111;
+    float: left;
+}
+
+header nav ul {
+    display: block;
+    width: fit-content;
+    margin: 20px 0px 0px 20px;
+    float: left;
+}
+
+header nav ul li {
+    display: inline-block;
+    list-style: none;
+    padding: 0 15px;
+}
+
+header nav ul li a {
+    font-family: 'Arima Madurai', cursive;
+    font-size: 16px;
+    color: #111;
+    text-transform: uppercase;
+    line-height: 60px;
+}
+
+header .header-profile {
+    display: flex;
+    font-family: 'Arima Madurai', cursive;
+    font-size: 16px;
+    color: #111;
+    text-transform: uppercase;
+    line-height: 38px;
+    float: right;
+    text-align: center;
+    margin-right: 40px;
+    margin-top: 30px;
+    padding: 0 20px;
+}
+
+.header-img {
+    width: 50px;
+}
+
+/* FOOTER */
+footer {
+    font-size: 11px;
+    font-style: italic;
+    color: grey;
+    width: 100%;
+    margin-top: 20px;
+    background-color: rgba(35, 65, 75, 0.253);
+    text-align: center;
+    height: 159px;
+}
+
+footer div {
+    display: inline-block;
+    text-align: center;
+}
+
+footer div p,
+footer div a {
+    display: block;
+    width: fit-content;
+    display: inline-block;
+}
+
+img {
+    width: 100px;
+    padding-right: 10px;
+    padding-left: 10px;
+    background: transparent;
+}
+
+.left {
+    text-align: left;
+    float: left;
+    padding-left: 20px;
+    vertical-align: center;
+    padding-top: 73px;
+}
+
+.center {
+    padding-right: 20px;
+    text-align: right;
+    vertical-align: center;
+    padding-top: 70px;
+}
+
+.footer-contact {
+    display: grid;
+    float: right;
+    border-left: 1px solid #111;
+}
+
+.footer-contact ul {
+    display: block;
+    list-style: none;
+}
+
+.footer-contact img {
+    width: 60px;
+}
+
+/* IMAGES */
+
+.question-mark {
+    width: 20px;
+    padding-right: 0px;
+    padding-left: 1px;
 }

@@ -6,53 +6,21 @@
         <div class="left">
             <p>&copy; 2020 <a href="https://github.com/damian-gor/food-app">food-app</a></p>
         </div>
-        <div class="right">
+        <div class="center">
             <p>Recipes and Products data comes from:</p>
-            <a href="https://spoonacular.com/"><img  th:src="@{/images/spoonacular.png}" alt="spoonacular"></a>
+            <a href="https://spoonacular.com/"><img th:src="@{/images/spoonacular.png}" alt="spoonacular"></a>
             <a href="https://www.edamam.com/"><img th:src="@{/images/edamam.png}" alt="edamam"></a>
         </div>
-        <style>
-            footer {
-                font-size: 11px;
-                font-style: italic;
-                color: grey;
-                width: 100%;
-                margin-top: 20px;
-                margin-bottom: 5px;
-            }
+        <div class="footer-contact">
+            <a href="https://www.linkedin.com/in/damian-górka-248026160"><img th:src="@{/images/linkedin-brands.svg}"
+                    alt="LinkedIn"></a>
+            <a href="https://github.com/damian-gor"><img th:src="@{/images/github-brands.svg}" alt="GitHub"></a>
 
-            footer div {
-                display: inline-block;
-                text-align: center;
-            }
-
-            footer div p,
-            footer div a {
-                display: block;
-                width: fit-content;
-                display: inline-block;
-
-            }
-
-            img {
-                width: 100px;
-                padding-right: 10px;
-                padding-left: 10px;
-            }
-
-            .left {
-                width: 20%;
-                text-align: left;
-                float: left;
-                padding-left: 20px;
-            }
-
-            .right {
-                width: 80%;
-                padding-right: 20px;
-                text-align: right;
-            }
-        </style>
+            <a href="https://hub.docker.com/u/damiangor"><img th:src="@{/images/docker-brands.svg}" alt="Docker"></a>
+            <a
+                href="mailto:damian.gorka94@gmail.com?subject=Invitation to a job interview&body=Hi, Damian! Let's meet tomorrow and talk about cooperation! Best reards, TheBestCompany"><img
+                    th:src="@{/images/envelope-solid.svg}" alt="e-mail"></a>
+        </div>
     </footer>
 
 </body>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head th:include="fragments/base-head :: baseHead(~{::title}, ~{::script})">
+<head th:include="fragments/head :: baseHead(~{::title}, ~{::script})">
 
     <script type="text/javascript" th:src="@{/js/user-panel.js}"></script>
     <script type="text/javascript" th:src="@{/js/diary-page.js}"></script>
@@ -13,48 +13,58 @@
 
 <body>
 
-    <div th:replace="fragments/menu :: user"></div>
+    <div th:replace="fragments/header :: user"></div>
 
     <main>
 
-        <h1>Diary Page</h1>
+        <div class="navi">
+            <div class="back">
+                <span><img class="navi-img" th:src="@{/images/arrow-left-solid.svg}">Back</span>
+                <a th:href="${diaryPage.getLink('Get all profile diary pages').get().getHref()}"
+                    id="diaryPagesLink"><button><img class="navi-img" th:src="@{/images/calendar-alt-solid.svg}">Diary
+                        pages</button></a>
+                <a th:href="${diaryPage.getLink('Go to profile food diary').get().getHref()}"><button>
+                        <img class="navi-img" th:src="@{/images/book-solid.svg}">Food diary</button></a>
+                <a th:href="${diaryPage.getLink('Back to profile').get().getHref()}"><button>
+                        <img class="navi-img" th:src="@{/images/user-solid.svg}">Profile</button></a>
+            </div>
+            <div class="go-to">
+                <span>Go to<img class="navi-img" th:src="@{/images/arrow-right-solid.svg}"></span>
+                <a th:href="${diaryPage.getLink('Get all meals in the diary page').get().getHref()}"><button>
+                    <img class="navi-img" th:src="@{/images/utensils-solid.svg}">Meals</button></a>
+            </div>
+        </div>
 
-        <button type="button" class="btn btn-default btn-lg confirm" id="delete">
-            <i class="fas fa-trash-alt" aria-hidden="true"></i>
-        </button>
+        <div class="page-title removable">
+            <h1>Diary Page</h1>
+            <button type="button" class="btn btn-default btn-lg confirm" id="delete">
+                <img th:src="@{/images/trash-alt-solid.svg}">
+            </button>
+        </div>
 
         <p>Date: <span th:text="${diaryPage.id.date}"></span></p>
         <p><b>Caloric intake goal:</b> <span th:text="${diaryPage.caloricIntakeGoal}"></span></p>
         <p><b>Calories left:</b> <span th:text="${diaryPage.kcalLeft}"></span></p>
 
         <h3 class="table-tittle">Consumption summary:</h2>
-        <table class="table">
-            <tr>
-                <td>Kcal:</td>
-                <td th:text="${diaryPage.actualKcalIntake}"></td>
-            </tr>
-            <tr>
-                <td>Proteins:</td>
-                <td th:text="${diaryPage.actualProteinIntake}"></td>
-            </tr>
-            <tr>
-                <td>Carbohydrates:</td>
-                <td th:text="${diaryPage.actualCarbsIntake}"></td>
-            </tr>
-            <tr>
-                <td>Fats:</td>
-                <td th:text="${diaryPage.actualFatIntake}"></td>
-            </tr>
-        </table>
-
-        <a th:href="${diaryPage.getLink('Get all profile diary pages').get().getHref()}" id="diaryPagesLink"><button>Get
-                all diary
-                pages</button></a>
-        <a th:href="${diaryPage.getLink('Get all meals in the diary page').get().getHref()}"><button>Get page's
-                meals</button></a>
-        <a th:href="${diaryPage.getLink('Go to profile food diary').get().getHref()}"><button>Back to profile's food
-                diary</button></a>
-        <a th:href="${diaryPage.getLink('Back to profile').get().getHref()}"><button>Back to profile</button></a>
+            <table class="table summary-table">
+                <tr>
+                    <td>Kcal:</td>
+                    <td th:text="${diaryPage.actualKcalIntake}"></td>
+                </tr>
+                <tr>
+                    <td>Proteins:</td>
+                    <td th:text="${diaryPage.actualProteinIntake}"></td>
+                </tr>
+                <tr>
+                    <td>Carbs:</td>
+                    <td th:text="${diaryPage.actualCarbsIntake}"></td>
+                </tr>
+                <tr>
+                    <td>Fats:</td>
+                    <td th:text="${diaryPage.actualFatIntake}"></td>
+                </tr>
+            </table>
 
     </main>
 
